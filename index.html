@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NameDrop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        #logo {
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        #google-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            color: black;
+            border: 2px solid #333;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #google-login img {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+        #game-area {
+            margin-top: 30px;
+        }
+
+        #name-input input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #name-input button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+            margin-top: 20px;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="assets/NameDrop.png" alt="NameDrop Logo" id="logo">
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 20px; margin-top: 10px;">Matching Names to Faces</p>
+    </header>
+
+    <main>
+        <!-- Login Section -->
+        <section id="login-section">
+            <button id="google-login">
+                <img src="assets/google_g_logo.png" alt="Google Logo" style="margin-right: 10px; width: 20px; height: 20px;">
+                Login with Google
+            </button>
+        </section>
+
+        <!-- Game Area -->
+        <section id="game-area" style="display: none;">
+            <div id="toggle-bar">
+                <label>
+                    <input type="radio" name="mode" value="first-name" checked>
+                    First Name Only
+                </label>
+                <label>
+                    <input type="radio" name="mode" value="full-name">
+                    First & Last Name
+                </label>
+            </div>
+
+            <div id="image-display">
+                <!-- Placeholder for dynamic image -->
+                <img id="person-image" src="" alt="Person to identify">
+            </div>
+
+            <div id="name-input">
+                <input type="text" id="name-guess" placeholder="Enter name here...">
+                <button id="submit-guess">Submit</button>
+            </div>
+
+            <div id="score-display">
+                <!-- Placeholder for score -->
+                <p>Score: <span id="score">0</span></p>
+            </div>
+        </section>
+
+        <!-- Leaderboard Link -->
+        <footer>
+            <a href="leaderboard.html">View Leaderboard</a>
+        </footer>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script src="js/firebase.js"></script>
+</body>
+</html>
