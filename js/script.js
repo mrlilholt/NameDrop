@@ -6,82 +6,84 @@ const mockData = [
 ];
 
 // Firebase imports
-import { auth, provider, signInWithPopup, signOut } from "js/firebase.js";
+import { auth, provider, signInWithPopup } from "./firebase.js";
 
-// Elements
-const gameArea = document.getElementById("game-area");
-const imageDisplay = document.getElementById("person-image");
-const nameInput = document.getElementById("name-guess");
-const submitGuessButton = document.getElementById("submit-guess");
-const toggleBar = document.getElementsByName("mode");
-const scoreDisplay = document.getElementById("score");
-const loginButton = document.getElementById("google-login");
+document.addEventListener("DOMContentLoaded", () => {
+    // Elements
+    const gameArea = document.getElementById("game-area");
+    const imageDisplay = document.getElementById("person-image");
+    const nameInput = document.getElementById("name-guess");
+    const submitGuessButton = document.getElementById("submit-guess");
+    const toggleBar = document.getElementsByName("mode");
+    const scoreDisplay = document.getElementById("score");
+    const loginButton = document.getElementById("google-login");
 
-let currentImage = null;
-let currentMode = "first-name";
-let score = 0;
+    let currentImage = null;
+    let currentMode = "first-name";
+    let score = 0;
 
-// Show a random image
-function showRandomImage() {
-    const randomIndex = Math.floor(Math.random() * mockData.length);
-    currentImage = mockData[randomIndex];
-    imageDisplay.src = currentImage.image;
-    nameInput.value = ""; // Clear input field
-}
-
-// Handle toggle change
-function updateMode() {
-    currentMode = [...toggleBar].find(radio => radio.checked).value;
-}
-
-// Handle guess submission
-function handleGuess() {
-    const userGuess = nameInput.value.trim();
-    let correctGuess = false;
-
-    if (currentMode === "first-name" && userGuess.toLowerCase() === currentImage.firstName.toLowerCase()) {
-        correctGuess = true;
-    } else if (
-        currentMode === "full-name" &&
-        userGuess.toLowerCase() === `${currentImage.firstName.toLowerCase()} ${currentImage.lastName.toLowerCase()}`
-    ) {
-        correctGuess = true;
+    // Show a random image
+    function showRandomImage() {
+        const randomIndex = Math.floor(Math.random() * mockData.length);
+        currentImage = mockData[randomIndex];
+        imageDisplay.src = currentImage.image;
+        nameInput.value = ""; // Clear input field
     }
 
-    if (correctGuess) {
-        score += currentMode === "first-name" ? 1 : 3; // First name: 1 point, Full name: 3 points
-        alert("Correct!");
-    } else {
-        score -= 1; // Deduct a point for wrong guess
-        alert("Incorrect. Try again!");
+    // Handle toggle change
+    function updateMode() {
+        currentMode = [...toggleBar].find(radio => radio.checked).value;
     }
 
-    scoreDisplay.textContent = score;
-    showRandomImage();
-}
+    // Handle guess submission
+    function handleGuess() {
+        const userGuess = nameInput.value.trim();
+        let correctGuess = false;
 
-// Handle Google Sign-In
-async function handleSignIn() {
-    try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        alert(`Welcome, ${user.displayName}!`);
-        initGame();
-    } catch (error) {
-        console.error("Error during sign-in:", error);
+        if (currentMode === "first-name" && userGuess.toLowerCase() === currentImage.firstName.toLowerCase()) {
+            correctGuess = true;
+        } else if (
+            currentMode === "full-name" &&
+            userGuess.toLowerCase() === `${currentImage.firstName.toLowerCase()} ${currentImage.lastName.toLowerCase()}`
+        ) {
+            correctGuess = true;
+        }
+
+        if (correctGuess) {
+            score += currentMode === "first-name" ? 1 : 3; // First name: 1 point, Full name: 3 points
+            alert("Correct!");
+        } else {
+            score -= 1; // Deduct a point for wrong guess
+            alert("Incorrect. Try again!");
+        }
+
+        scoreDisplay.textContent = score;
+        showRandomImage();
     }
-}
 
-// Event Listeners
-[...toggleBar].forEach(radio => radio.addEventListener("change", updateMode));
-submitGuessButton.addEventListener("click", handleGuess);
-loginButton.addEventListener("click", handleSignIn);
+    // Handle Google Sign-In
+    async function handleSignIn() {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            alert(`Welcome, ${user.displayName}!`);
+            initGame();
+        } catch (error) {
+            console.error("Error during sign-in:", error);
+        }
+    }
 
-// Initialize game
-function initGame() {
-    gameArea.style.display = "block";
-    showRandomImage();
-}
+    // Initialize game
+    function initGame() {
+        gameArea.style.display = "block";
+        showRandomImage();
+    }
 
-// For now, hide the game area until login
-gameArea.style.display = "none";
+    // Event Listeners
+    [...toggleBar].forEach(radio => radio.addEventListener("change", updateMode));
+    submitGuessButton.addEventListener("click", handleGuess);
+    loginButton.addEventListener("click", handleSignIn);
+
+    // Hide game area until login
+    gameArea.style.display = "none";
+});
