@@ -6,7 +6,7 @@ const mockData = [
 ];
 
 // Firebase imports
-import { auth, provider, signInWithPopup, signOut } from "./firebase.js";
+import { auth, provider, signInWithPopup, signOut } from "js/firebase.js";
 
 // Elements
 const gameArea = document.getElementById("game-area");
