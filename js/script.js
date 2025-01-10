@@ -3,6 +3,11 @@ import { initializeProfileModal } from "./userinfo.js";
 import { initializeSettingsModal } from "./settings.js";
 import { initializeUploadModal } from "./upload_images.js"; // Import the upload modal initializer
 
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("upload-images").addEventListener("click", () => {
+        initializeUploadModal();
+    });
+});
 // Mock dataset of images and names
 const mockData = [
     { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Alice", lastName: "Smith" },
