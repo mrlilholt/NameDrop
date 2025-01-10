@@ -55,8 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebar.innerHTML = `
     <h2 style="text-align: center;">Menu</h2>
     <ul style="list-style: none; padding: 0; text-align: center;">
-        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;">View Profile</li>
-        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;">Settings</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="view-profile">View Profile</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="settings">Settings</li>
         <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
     </ul>`;
     document.body.appendChild(sidebar);
@@ -72,6 +72,59 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Logged out successfully");
             location.reload();
         });
+    });
+
+    // View Profile functionality
+    document.getElementById("view-profile").addEventListener("click", () => {
+        const profileModal = document.createElement("div");
+        profileModal.id = "profile-modal";
+        profileModal.style.position = "fixed";
+        profileModal.style.top = "50%";
+        profileModal.style.left = "50%";
+        profileModal.style.transform = "translate(-50%, -50%)";
+        profileModal.style.width = "400px";
+        profileModal.style.padding = "20px";
+        profileModal.style.backgroundColor = "#fff";
+        profileModal.style.borderRadius = "10px";
+        profileModal.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.2)";
+        profileModal.style.zIndex = "1000";
+        profileModal.innerHTML = `
+            <h2 style="text-align: center;">Your Profile</h2>
+            <div style="text-align: center; margin: 20px 0;">
+                <div id="profile-picture" style="
+                    width: 100px;
+                    height: 100px;
+                    margin: 0 auto;
+                    border-radius: 50%;
+                    background-color: #ccc;
+                    background-size: cover;
+                    background-image: url(${auth.currentUser?.photoURL || ''});
+                "></div>
+                <p><strong>Name:</strong> ${auth.currentUser?.displayName || 'Unknown'}</p>
+                <p><strong>Email:</strong> ${auth.currentUser?.email || 'Unknown'}</p>
+            </div>
+            <button id="close-profile" style="
+                display: block;
+                margin: 0 auto;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            ">Close</button>
+        `;
+
+        document.body.appendChild(profileModal);
+
+        document.getElementById('close-profile').addEventListener('click', () => {
+            document.body.removeChild(profileModal);
+        });
+    });
+
+    // Settings functionality
+    document.getElementById("settings").addEventListener("click", () => {
+        alert("Settings Page: Coming Soon!");
     });
 
     // Show a random image
