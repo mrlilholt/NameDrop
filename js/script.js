@@ -3,12 +3,48 @@ import { initializeProfileModal } from "./userinfo.js";
 import { initializeSettingsModal } from "./settings.js";
 import { initializeUploadModal } from "./upload_images.js"; // Import the upload modal initializer
 
-// Mock dataset of images and names
-const mockData = [
-    { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Alice", lastName: "Smith" },
-    { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Bob", lastName: "Johnson" },
-    { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Carol", lastName: "Davis" }
-];
+let gameData = []; // Holds the fetched data dynamically
+
+async function initializeGameData() {
+    gameData = await fetchImageData();
+    console.log("Game data initialized:", gameData);
+    showRandomImage(); // Fetch data from Firestore
+    if (gameData.length === 0) {
+        console.warn("No game data available. Using default mock data.");
+        gameData = [
+            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Alice", lastName: "Smith" },
+            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Bob", lastName: "Johnson" },
+            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Carol", lastName: "Davis" }
+        ];
+    }
+    console.log("Game data initialized:", gameData);
+    showRandomImage();
+}
+
+import { getFirestore, collection, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
+
+const db = getFirestore();
+
+// Fetch data from Firestore
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
+import { db } from "./firebase.js";
+
+async function fetchImageData() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "images"));
+        const imageData = [];
+        querySnapshot.forEach((doc) => {
+            imageData.push(doc.data());
+        });
+        console.log("Fetched Firestore data:", imageData);
+        return imageData;
+    } catch (error) {
+        console.error("Error fetching data from Firestore:", error);
+        return [];
+    }
+}
+
+export default fetchImageData;
 
 // Firebase imports
 import { auth, provider, signInWithPopup } from "./firebase.js";
@@ -93,11 +129,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Show a random image
     function showRandomImage() {
-        const randomIndex = Math.floor(Math.random() * mockData.length);
-        currentImage = mockData[randomIndex];
-        imageDisplay.src = currentImage.image;
+        if (gameData.length === 0) {
+            console.warn("No game data available to display.");
+            return;
+        }
+    
+        const randomIndex = Math.floor(Math.random() * gameData.length);
+        const selectedPerson = gameData[randomIndex];
+    
+        // Update the UI with the selected person's image and reset input
+        imageDisplay.src = selectedPerson.image;
+        currentImage = selectedPerson; // Track the current person for guesses
         nameInput.value = ""; // Clear input field
     }
+    
 
     // Handle toggle change
     function updateMode() {
