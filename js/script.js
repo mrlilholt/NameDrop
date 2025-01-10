@@ -124,7 +124,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Settings functionality
     document.getElementById("settings").addEventListener("click", () => {
-        alert("Settings Page: Coming Soon!");
+        const settingsModal = document.createElement("div");
+        settingsModal.id = "settings-modal";
+        settingsModal.style.position = "fixed";
+        settingsModal.style.top = "50%";
+        settingsModal.style.left = "50%";
+        settingsModal.style.transform = "translate(-50%, -50%)";
+        settingsModal.style.width = "400px";
+        settingsModal.style.padding = "20px";
+        settingsModal.style.backgroundColor = "#fff";
+        settingsModal.style.borderRadius = "10px";
+        settingsModal.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.2)";
+        settingsModal.style.zIndex = "1000";
+        settingsModal.innerHTML = `
+            <h2 style="text-align: center;">Settings</h2>
+            <div style="margin: 20px 0;">
+                <label for="nickname" style="display: block; font-weight: bold;">Nickname:</label>
+                <input type="text" id="nickname" placeholder="Enter your nickname..." style="
+                    width: calc(100% - 20px);
+                    padding: 10px;
+                    margin-top: 5px;
+                    font-size: 16px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                ">
+            </div>
+            <button id="save-settings" style="
+                display: block;
+                margin: 10px auto;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            ">Save</button>
+            <button id="close-settings" style="
+                display: block;
+                margin: 10px auto;
+                padding: 10px 20px;
+                background-color: #ccc;
+                color: black;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            ">Close</button>
+        `;
+
+        document.body.appendChild(settingsModal);
+
+        // Save nickname functionality
+        document.getElementById("save-settings").addEventListener("click", () => {
+            const nicknameInput = document.getElementById("nickname").value.trim();
+            if (nicknameInput) {
+                alert(`Nickname saved: ${nicknameInput}`);
+                // Future implementation: Save the nickname to Firestore or localStorage
+            } else {
+                alert("Please enter a valid nickname.");
+            }
+        });
+
+        // Close settings modal
+        document.getElementById("close-settings").addEventListener("click", () => {
+            document.body.removeChild(settingsModal);
+        });
     });
 
     // Show a random image
