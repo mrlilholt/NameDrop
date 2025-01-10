@@ -1,4 +1,6 @@
 // userinfo.js
+import { auth } from "./firebase.js"; // Import auth directly
+
 export function initializeProfileModal() {
     const profileModal = document.createElement("div");
     profileModal.id = "profile-modal";
@@ -27,6 +29,7 @@ export function initializeProfileModal() {
             "></div>
             <p id="profile-name"><strong>Name:</strong> Loading...</p>
             <p id="profile-email"><strong>Email:</strong> Loading...</p>
+            <p id="profile-nickname"><strong>Nickname:</strong> Not set</p>
         </div>
         <button id="close-profile" style="
             display: block;
@@ -48,17 +51,24 @@ export function initializeProfileModal() {
         document.body.removeChild(profileModal);
     });
 
-    // Fetch and display user info if available (this assumes auth is globally accessible)
-    if (window.auth && window.auth.currentUser) {
-        const user = window.auth.currentUser;
+    // Fetch and display user info from auth
+    const user = auth.currentUser;
+    if (user) {
         const profilePicture = document.getElementById("profile-picture");
         const profileName = document.getElementById("profile-name");
         const profileEmail = document.getElementById("profile-email");
+        const profileNickname = document.getElementById("profile-nickname");
 
         if (user.photoURL) {
             profilePicture.style.backgroundImage = `url(${user.photoURL})`;
         }
         profileName.innerHTML = `<strong>Name:</strong> ${user.displayName || "Unknown"}`;
         profileEmail.innerHTML = `<strong>Email:</strong> ${user.email || "Unknown"}`;
+
+        // Fetch nickname from localStorage (or another storage system if implemented)
+        const nickname = localStorage.getItem("nickname");
+        profileNickname.innerHTML = `<strong>Nickname:</strong> ${nickname || "Not set"}`;
+    } else {
+        console.error("No user is currently signed in.");
     }
 }
