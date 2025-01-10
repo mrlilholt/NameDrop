@@ -156,26 +156,42 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Handle Google Sign-In
-    async function handleSignIn() {
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-            alert(`Welcome, ${user.displayName}!`);
-
-            // Update user icon
-            userIcon.style.display = "flex";
-            userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
-            userIcon.style.backgroundSize = "cover";
-            userIcon.textContent = user.photoURL ? "" : user.displayName[0];
-
-            // Hide login button
-            loginButton.style.display = "none";
-
-            initGame();
-        } catch (error) {
-            console.error("Error during sign-in:", error);
+    document.addEventListener("DOMContentLoaded", () => {
+        const loginButton = document.getElementById("google-login");
+    
+        // Handle Google Sign-In
+        async function handleSignIn() {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+    
+                alert(`Welcome, ${user.displayName}!`);
+    
+                // Update user icon
+                userIcon.style.display = "flex";
+                userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
+                userIcon.style.backgroundSize = "cover";
+                userIcon.textContent = user.photoURL ? "" : user.displayName[0];
+    
+                // Hide login button
+                loginButton.style.display = "none";
+    
+                // Start game
+                initGame();
+            } catch (error) {
+                console.error("Error during sign-in:", error);
+                alert("Login failed. Please check your configuration and try again.");
+            }
         }
-    }
+    
+        // Attach event listener if login button exists
+        if (loginButton) {
+            loginButton.addEventListener("click", handleSignIn);
+        } else {
+            console.error("Login button not found in the DOM");
+        }
+    });
+    
 
     // Initialize game
     function initGame() {
