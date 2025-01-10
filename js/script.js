@@ -1,3 +1,7 @@
+// Main script.js
+import { initializeProfileModal } from "./js/userinfo.js";
+import { initializeSettingsModal } from "./js/settings.js";
+
 // Mock dataset of images and names
 const mockData = [
     { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Alice", lastName: "Smith" },
@@ -19,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginButton = document.getElementById("google-login");
     const userIcon = document.createElement("div");
     const sidebar = document.createElement("div");
+    const skipButton = document.createElement("button");
 
     let currentImage = null;
     let currentMode = "first-name";
@@ -75,120 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // View Profile functionality
-    document.getElementById("view-profile").addEventListener("click", () => {
-        const profileModal = document.createElement("div");
-        profileModal.id = "profile-modal";
-        profileModal.style.position = "fixed";
-        profileModal.style.top = "50%";
-        profileModal.style.left = "50%";
-        profileModal.style.transform = "translate(-50%, -50%)";
-        profileModal.style.width = "400px";
-        profileModal.style.padding = "20px";
-        profileModal.style.backgroundColor = "#fff";
-        profileModal.style.borderRadius = "10px";
-        profileModal.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.2)";
-        profileModal.style.zIndex = "1000";
-        profileModal.innerHTML = `
-            <h2 style="text-align: center;">Your Profile</h2>
-            <div style="text-align: center; margin: 20px 0;">
-                <div id="profile-picture" style="
-                    width: 100px;
-                    height: 100px;
-                    margin: 0 auto;
-                    border-radius: 50%;
-                    background-color: #ccc;
-                    background-size: cover;
-                    background-image: url(${auth.currentUser?.photoURL || ''});
-                "></div>
-                <p><strong>Name:</strong> ${auth.currentUser?.displayName || 'Unknown'}</p>
-                <p><strong>Email:</strong> ${auth.currentUser?.email || 'Unknown'}</p>
-            </div>
-            <button id="close-profile" style="
-                display: block;
-                margin: 0 auto;
-                padding: 10px 20px;
-                background-color: #007bff;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            ">Close</button>
-        `;
-
-        document.body.appendChild(profileModal);
-
-        document.getElementById('close-profile').addEventListener('click', () => {
-            document.body.removeChild(profileModal);
-        });
-    });
+    document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
 
     // Settings functionality
-    document.getElementById("settings").addEventListener("click", () => {
-        const settingsModal = document.createElement("div");
-        settingsModal.id = "settings-modal";
-        settingsModal.style.position = "fixed";
-        settingsModal.style.top = "50%";
-        settingsModal.style.left = "50%";
-        settingsModal.style.transform = "translate(-50%, -50%)";
-        settingsModal.style.width = "400px";
-        settingsModal.style.padding = "20px";
-        settingsModal.style.backgroundColor = "#fff";
-        settingsModal.style.borderRadius = "10px";
-        settingsModal.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.2)";
-        settingsModal.style.zIndex = "1000";
-        settingsModal.innerHTML = `
-            <h2 style="text-align: center;">Settings</h2>
-            <div style="margin: 20px 0;">
-                <label for="nickname" style="display: block; font-weight: bold;">Nickname:</label>
-                <input type="text" id="nickname" placeholder="Enter your nickname..." style="
-                    width: calc(100% - 20px);
-                    padding: 10px;
-                    margin-top: 5px;
-                    font-size: 16px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                ">
-            </div>
-            <button id="save-settings" style="
-                display: block;
-                margin: 10px auto;
-                padding: 10px 20px;
-                background-color: #007bff;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            ">Save</button>
-            <button id="close-settings" style="
-                display: block;
-                margin: 10px auto;
-                padding: 10px 20px;
-                background-color: #ccc;
-                color: black;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            ">Close</button>
-        `;
-
-        document.body.appendChild(settingsModal);
-
-        // Save nickname functionality
-        document.getElementById("save-settings").addEventListener("click", () => {
-            const nicknameInput = document.getElementById("nickname").value.trim();
-            if (nicknameInput) {
-                alert(`Nickname saved: ${nicknameInput}`);
-                // Future implementation: Save the nickname to Firestore or localStorage
-            } else {
-                alert("Please enter a valid nickname.");
-            }
-        });
-
-        // Close settings modal
-        document.getElementById("close-settings").addEventListener("click", () => {
-            document.body.removeChild(settingsModal);
-        });
-    });
+    document.getElementById("settings").addEventListener("click", initializeSettingsModal);
 
     // Show a random image
     function showRandomImage() {
@@ -242,6 +137,23 @@ document.addEventListener("DOMContentLoaded", () => {
         scoreDisplay.innerHTML = `Score: ${score} <br> Streak: ${streak}`;
         showRandomImage();
     }
+
+    // Handle skip
+    skipButton.id = "skip-button";
+    skipButton.textContent = "We need to still introduce ourselves";
+    skipButton.style.marginTop = "10px";
+    skipButton.style.padding = "10px 20px";
+    skipButton.style.border = "none";
+    skipButton.style.borderRadius = "5px";
+    skipButton.style.backgroundColor = "#007bff";
+    skipButton.style.color = "white";
+    skipButton.style.cursor = "pointer";
+    gameArea.appendChild(skipButton);
+
+    skipButton.addEventListener("click", () => {
+        alert("Skipping this person. Time to introduce yourselves later!");
+        showRandomImage();
+    });
 
     // Handle Google Sign-In
     async function handleSignIn() {
