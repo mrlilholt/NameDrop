@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <h2 style="text-align: center;">Menu</h2>
     <ul style="list-style: none; padding: 0; text-align: center;">
         <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="view-profile">View Profile</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="upload-images">Upload Images</li>
         <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="settings">Settings</li>
         <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
     </ul>`;
