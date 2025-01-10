@@ -1,6 +1,6 @@
 // Main script.js
-import { initializeProfileModal } from "./js/userinfo.js";
-import { initializeSettingsModal } from "./js/settings.js";
+import { initializeProfileModal } from "./userinfo.js";
+import { initializeSettingsModal } from "./settings.js";
 
 // Mock dataset of images and names
 const mockData = [
