@@ -1,6 +1,7 @@
 // Main script.js
 import { initializeProfileModal } from "./userinfo.js";
 import { initializeSettingsModal } from "./settings.js";
+import { initializeUploadModal } from "./upload_images.js"; // Import the upload modal initializer
 
 // Mock dataset of images and names
 const mockData = [
