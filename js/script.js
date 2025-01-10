@@ -52,7 +52,13 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebar.style.color = "#fff";
     sidebar.style.padding = "20px";
     sidebar.style.transition = "left 0.3s";
-    sidebar.innerHTML = `<h2>Menu</h2><ul><li>View Profile</li><li>Settings</li><li id="logout">Logout</li></ul>`;
+    sidebar.innerHTML = `
+    <h2 style="text-align: center;">Menu</h2>
+    <ul style="list-style: none; padding: 0; text-align: center;">
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;">View Profile</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;">Settings</li>
+        <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
+    </ul>`;
     document.body.appendChild(sidebar);
 
     // Toggle sidebar
@@ -82,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentMode === "full-name") {
             const lastNameInput = document.createElement("input");
             lastNameInput.id = "last-name-guess";
-            lastNameInput.placeholder = "Enter last name here...";
+            lastNameInput.placeholder = "Last Name...";
             nameInput.parentNode.insertBefore(lastNameInput, nameInput.nextSibling);
         } else {
             const lastNameInput = document.getElementById("last-name-guess");
