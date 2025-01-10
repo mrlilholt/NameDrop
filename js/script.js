@@ -3,11 +3,6 @@ import { initializeProfileModal } from "./userinfo.js";
 import { initializeSettingsModal } from "./settings.js";
 import { initializeUploadModal } from "./upload_images.js"; // Import the upload modal initializer
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("upload-images").addEventListener("click", () => {
-        initializeUploadModal();
-    });
-});
 // Mock dataset of images and names
 const mockData = [
     { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Alice", lastName: "Smith" },
@@ -72,6 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
     </ul>`;
     document.body.appendChild(sidebar);
+    document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
+    document.getElementById("settings").addEventListener("click", initializeSettingsModal);
+    document.getElementById("upload-images").addEventListener("click", initializeUploadModal); // Correctly initialize the upload modal
+
 
     // Toggle sidebar
     userIcon.addEventListener("click", () => {

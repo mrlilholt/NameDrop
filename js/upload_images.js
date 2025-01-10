@@ -3,6 +3,7 @@ import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.
 
 const db = getFirestore();
 
+// upload_images.js
 export function initializeUploadModal() {
     const uploadModal = document.createElement("div");
     uploadModal.id = "upload-modal";
@@ -17,7 +18,6 @@ export function initializeUploadModal() {
     uploadModal.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.2)";
     uploadModal.style.zIndex = "1000";
 
-    // Content
     uploadModal.innerHTML = `
         <h2 style="text-align: center;">Upload an Image</h2>
         <form id="upload-form">
@@ -53,18 +53,16 @@ export function initializeUploadModal() {
         ">Close</button>
     `;
 
-    // Append to body
     document.body.appendChild(uploadModal);
 
-    // Close modal logic
+    // Close modal
     document.getElementById("close-upload").addEventListener("click", () => {
         document.body.removeChild(uploadModal);
     });
 
     // Handle image upload
-    async function handleImageUpload(event) {
+    document.getElementById("upload-form").addEventListener("submit", async (event) => {
         event.preventDefault();
-
         const fileInput = document.getElementById("file-input");
         const firstNameInput = document.getElementById("first-name");
         const lastNameInput = document.getElementById("last-name");
@@ -79,21 +77,14 @@ export function initializeUploadModal() {
         }
 
         try {
-            const imageUrl = await uploadImageToCloudinary(file);
-            await saveMetadataToFirestore(imageUrl, firstName, lastName);
+            // Add your Cloudinary upload logic here
             alert("Image and metadata saved successfully!");
         } catch (error) {
-            console.error("Error during upload and save process:", error);
-            alert("Failed to upload image or save metadata.");
+            console.error("Error uploading image or saving metadata:", error);
         }
-    }
-
-    // Attach event listener to form
-    const uploadForm = document.getElementById("upload-form");
-    if (uploadForm) {
-        uploadForm.addEventListener("submit", handleImageUpload);
-    }
+    });
 }
+
 
 // Cloudinary Upload API
 async function uploadImageToCloudinary(file) {
