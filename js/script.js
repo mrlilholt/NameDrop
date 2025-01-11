@@ -7,22 +7,42 @@ import { getFirestore, collection, getDocs } from "https://www.gstatic.com/fireb
 
 const db = getFirestore();
 
-let gameData = [];
+let gameData = []; // Global variable to store the fetched data
+
+//Initialize game data
+async function initializeGameData() {
+    try {
+        gameData = await fetchImageData();
+        if (gameData.length === 0) {
+            console.warn("No data found in Firestore. Using mock data.");
+            gameData = [
+                { image: "https://via.placeholder.com/150", firstName: "Mock", lastName: "Data" }
+            ];
+        }
+        console.log("Game data initialized:", gameData);
+        showRandomImage(); // Display the first random image
+    } catch (error) {
+        console.error("Error fetching image data:", error);
+    }
+}
+
 
 // Fetch data from Firestore
 async function fetchImageData() {
-    const db = getFirestore();
-    const collectionRef = collection(db, "images");
-    const snapshot = await getDocs(collectionRef);
-
-    const data = snapshot.docs.map((doc) => ({
-        image: doc.data().imageUrl,
-        firstName: doc.data().firstName,
-        lastName: doc.data().lastName,
-    }));
-    console.log("Fetched data from Firestore:", data);
+    const imagesCollection = collection(db, "images"); // Replace `db` with your Firestore instance
+    const snapshot = await getDocs(imagesCollection);
+    const data = [];
+    snapshot.forEach((doc) => {
+        const item = doc.data();
+        data.push({
+            image: item.imageUrl,
+            firstName: item.firstName,
+            lastName: item.lastName
+        });
+    });
     return data;
 }
+
 
 
 function fetchImageDataRealtime() {
@@ -59,13 +79,6 @@ function fetchImageDataRealtime() {
         console.error("Error setting up Firestore real-time listener:", error);
     });
 }
-
-// Initialize game data
-async function initializeGameData() {
-    console.log("Initializing game data...");
-    fetchImageDataRealtime(); // Use the real-time listener
-}
-
 
 // Firebase imports
 
@@ -157,10 +170,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const randomIndex = Math.floor(Math.random() * gameData.length);
         const selectedPerson = gameData[randomIndex];
     
-        imageDisplay.src = selectedPerson.image; // Update image element
-        currentImage = selectedPerson; // Track current image for guessing
-        nameInput.value = ""; // Clear input
+        // Update the image and UI
+        imageDisplay.src = selectedPerson.image; // Display the person's image
+        currentImage = selectedPerson; // Track the current person for guesses
+        nameInput.value = ""; // Clear the input field
     }
+    
     
 
     // Handle toggle change
@@ -241,10 +256,12 @@ document.addEventListener("DOMContentLoaded", () => {
             // Hide login button
             loginButton.style.display = "none";
 
-            initGame();
-        } catch (error) {
-            console.error("Error during sign-in:", error);
-        }
+            // Initialize game data and start the game
+        await initializeGameData(); // Fetch data and show the first image
+        gameArea.style.display = "block"; // Make the game area visible
+    } catch (error) {
+        console.error("Error during sign-in:", error);
+    }
     }
     
 
