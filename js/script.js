@@ -8,6 +8,8 @@ import { getFirestore, collection, getDocs } from "https://www.gstatic.com/fireb
 const db = getFirestore();
 
 let gameData = []; // Global variable to store the fetched data
+let imageDisplay; // Declare imageDisplay here
+let nameInput; // Declare nameInput for later use
 
 // Show a random image
 function showRandomImage() {
