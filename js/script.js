@@ -14,10 +14,7 @@ let nameInput = null; // Global variable for name input
 let gameArea = null; // Global variable for the game area
 let submitGuessButton = null; // Global variable for the guess button
 let userScore = 0; // Initialize score
-let currentImage = null; // Move this outside of the DOMContentLoaded block
-let currentMode = "first-name"; // Default to "first-name" mode
-let score = 0;
-let streak = 0;
+
 
 
 // Show a random image
@@ -31,17 +28,9 @@ function showRandomImage() {
     const selectedPerson = gameData[randomIndex];
 
     // Update the image display
-    if (selectedPerson.image) {
-        imageDisplay.src = selectedPerson.image;
-    } else {
-        console.error("Image URL is missing for the selected person:", selectedPerson);
-    }
-
-    // Set currentImage globally for guess handling
-    currentImage = selectedPerson;
-
-    // Clear the input field
-    nameInput.value = "";
+    imageDisplay.src = selectedPerson.image;
+    currentImage = selectedPerson; // Track the current person for guesses
+    nameInput.value = ""; // Clear the input field
 }
 
 //Initialize game data
@@ -113,7 +102,6 @@ async function fetchUserScore(userId) {
 // Handle guess submission
 async function handleGuess() {
     if (!currentImage) {
-        console.warn("No image loaded to guess.");
         alert("No image loaded to guess. Try again!");
         return;
     }
@@ -144,11 +132,10 @@ async function handleGuess() {
         alert("Incorrect. Try again!");
     }
 
-    await saveScore(auth.currentUser.uid, userScore);
+    await saveScore(auth.currentUser.uid, userScore); // Save updated score
     scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
-    showRandomImage();
+    showRandomImage(); // Load the next image
 }
-
 
 
 function fetchImageDataRealtime() {
@@ -201,6 +188,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const userIcon = document.createElement("div");
     const sidebar = document.createElement("div");
     const skipButton = document.createElement("button");
+
+    let currentImage = null;
+    let currentMode = "first-name";
+    let score = 0;
+    let streak = 0;
 
     // Setup user icon
     userIcon.id = "user-icon";
@@ -264,10 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Handle toggle change
     function updateMode() {
-        const selectedMode = [...toggleBar].find(radio => radio.checked)?.value;
-        currentMode = selectedMode || "first-name"; // Update the global currentMode variable
-    
-        // Handle UI changes for "full-name" mode
+        currentMode = [...toggleBar].find(radio => radio.checked).value;
         if (currentMode === "full-name") {
             const lastNameInput = document.createElement("input");
             lastNameInput.id = "last-name-guess";
@@ -277,8 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const lastNameInput = document.getElementById("last-name-guess");
             if (lastNameInput) lastNameInput.remove();
         }
-    }
-    
+    }    
     
     // Handle skip
     skipButton.id = "skip-button";
