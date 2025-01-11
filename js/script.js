@@ -10,18 +10,35 @@ const db = getFirestore();
 let gameData = [];
 
 // Fetch data from Firestore
+
 async function fetchImageData() {
     try {
-        const querySnapshot = await getDocs(collection(db, "images"));
+        console.log("Fetching image data from Firestore...");
+        const imagesCollection = collection(db, "images");
+        const querySnapshot = await getDocs(imagesCollection);
+
         const imageData = [];
         querySnapshot.forEach((doc) => {
-            imageData.push(doc.data()); // Each document's data
+            const data = doc.data();
+            console.log("Document fetched:", data);
+
+            // Ensure the document has the required fields
+            if (data.imageUrl && data.firstName && data.lastName) {
+                imageData.push({
+                    image: data.imageUrl,
+                    firstName: data.firstName,
+                    lastName: data.lastName
+                });
+            } else {
+                console.warn("Document missing required fields:", doc.id, data);
+            }
         });
+
         console.log("Fetched image data:", imageData);
         return imageData;
     } catch (error) {
-        console.error("Error fetching image data:", error);
-        return [];
+        console.error("Error fetching image data from Firestore:", error);
+        return []; // Return an empty array to prevent breaking the game
     }
 }
 
