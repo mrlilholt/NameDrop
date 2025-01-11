@@ -10,6 +10,19 @@ const db = getFirestore();
 let gameData = [];
 
 // Fetch data from Firestore
+async function fetchImageData() {
+    const db = getFirestore();
+    const collectionRef = collection(db, "images");
+    const snapshot = await getDocs(collectionRef);
+
+    const data = snapshot.docs.map((doc) => ({
+        image: doc.data().imageUrl,
+        firstName: doc.data().firstName,
+        lastName: doc.data().lastName,
+    }));
+    console.log("Fetched data from Firestore:", data);
+    return data;
+}
 
 
 function fetchImageDataRealtime() {
@@ -144,17 +157,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const randomIndex = Math.floor(Math.random() * gameData.length);
         const selectedPerson = gameData[randomIndex];
     
-        console.log("Selected person:", selectedPerson);
-    
-        if (selectedPerson.image) {
-            imageDisplay.src = selectedPerson.image;
-        } else {
-            console.warn("No image URL found for the selected person. Using a placeholder.");
-            imageDisplay.src = "path_to_placeholder_image.png"; // Optional placeholder
-        }
-    
-        currentImage = selectedPerson; // Track current person for guesses
-        nameInput.value = ""; // Clear input field
+        imageDisplay.src = selectedPerson.image; // Update image element
+        currentImage = selectedPerson; // Track current image for guessing
+        nameInput.value = ""; // Clear input
     }
     
 
