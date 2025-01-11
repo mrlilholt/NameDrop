@@ -105,9 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Elements
     imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
     nameInput = document.getElementById("name-guess"); // Assign nameInput
-
-    const nameInput = document.getElementById("name-guess"); // Ensure this ID matches your input
-    const submitGuessButton = document.getElementById("submit-guess");
     const toggleBar = document.getElementsByName("mode");
     const scoreDisplay = document.getElementById("score");
     const loginButton = document.getElementById("google-login");
