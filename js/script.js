@@ -18,6 +18,7 @@ let userScore = 0; // Initialize score
 
 
 // Show a random image
+// Show a random image
 function showRandomImage() {
     if (!gameData || gameData.length === 0) {
         console.warn("No game data available to display.");
@@ -27,11 +28,19 @@ function showRandomImage() {
     const randomIndex = Math.floor(Math.random() * gameData.length);
     const selectedPerson = gameData[randomIndex];
 
+    // Update the global currentImage variable
+    currentImage = selectedPerson;
+
     // Update the image display
-    imageDisplay.src = selectedPerson.image;
-    currentImage = selectedPerson; // Track the current person for guesses
+    if (imageDisplay) {
+        imageDisplay.src = selectedPerson.image;
+    } else {
+        console.error("Image display element not found.");
+    }
+
     nameInput.value = ""; // Clear the input field
 }
+
 
 //Initialize game data
 async function initializeGameData() {
@@ -132,10 +141,17 @@ async function handleGuess() {
         alert("Incorrect. Try again!");
     }
 
-    await saveScore(auth.currentUser.uid, userScore); // Save updated score
+    // Save the score
+    try {
+        await saveScore(auth.currentUser.uid, userScore);
+    } catch (error) {
+        console.error("Error saving score:", error);
+    }
+
     scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
     showRandomImage(); // Load the next image
 }
+
 
 
 function fetchImageDataRealtime() {
