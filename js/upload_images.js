@@ -88,8 +88,8 @@ export function initializeUploadModal() {
 
 // Cloudinary Upload API
 async function uploadImageToCloudinary(file) {
-    const cloudinaryUrl = "https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload";
-    const uploadPreset = "YOUR_UPLOAD_PRESET";
+    const cloudinaryUrl = "https://api.cloudinary.com/v1_1/mrlilholt/image/upload";
+    const uploadPreset = "NameDrop";
 
     const formData = new FormData();
     formData.append("file", file);
