@@ -28,9 +28,17 @@ function showRandomImage() {
     const selectedPerson = gameData[randomIndex];
 
     // Update the image display
-    imageDisplay.src = selectedPerson.image;
-    currentImage = selectedPerson; // Track the current person for guesses
-    nameInput.value = ""; // Clear the input field
+    if (selectedPerson.image) {
+        imageDisplay.src = selectedPerson.image;
+    } else {
+        console.error("Image URL is missing for the selected person:", selectedPerson);
+    }
+
+    // Set currentImage globally for guess handling
+    currentImage = selectedPerson;
+
+    // Clear the input field
+    nameInput.value = "";
 }
 
 //Initialize game data
@@ -132,9 +140,18 @@ async function handleGuess() {
         alert("Incorrect. Try again!");
     }
 
-    await saveScore(auth.currentUser.uid, userScore); // Save updated score
+    // Save updated score to Firestore
+    try {
+        await saveScore(auth.currentUser.uid, userScore);
+    } catch (error) {
+        console.error("Error saving score:", error);
+    }
+
+    // Update the score display
     scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
-    showRandomImage(); // Load the next image
+
+    // Load the next random image
+    showRandomImage();
 }
 
 
