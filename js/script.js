@@ -7,10 +7,11 @@ import { getFirestore, collection, getDocs } from "https://www.gstatic.com/fireb
 
 const db = getFirestore();
 
-let gameData = []; // Global variable to store the fetched data
-let imageDisplay = null;
-let nameInput = null;
+let gameData = []; // Global variable to store fetched data
+let imageDisplay = null; // Global variable for the image display
+let nameInput = null; // Global variable for name input
 let gameArea = null; // Global variable for the game area
+let submitGuessButton = null; // Global variable for the guess button
 
 
 
@@ -108,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
     nameInput = document.getElementById("name-guess"); // Assign nameInput
     gameArea = document.getElementById("game-area");
+    submitGuessButton = document.getElementById("submit-guess");
 
     const toggleBar = document.getElementsByName("mode");
     const scoreDisplay = document.getElementById("score");
