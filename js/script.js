@@ -3,7 +3,7 @@ import { initializeProfileModal } from "./userinfo.js";
 import { initializeSettingsModal } from "./settings.js";
 import { initializeUploadModal } from "./upload_images.js";
 import { auth, provider, signInWithPopup } from "./firebase.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
+import { getFirestore, collection, doc, getDocs, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 
 const db = getFirestore();
 
@@ -12,6 +12,7 @@ let imageDisplay = null; // Global variable for the image display
 let nameInput = null; // Global variable for name input
 let gameArea = null; // Global variable for the game area
 let submitGuessButton = null; // Global variable for the guess button
+let userScore = 0; // Initialize score
 
 
 
@@ -65,6 +66,37 @@ async function fetchImageData() {
     return data;
 }
 
+//Save score to Firestore
+async function saveScoreToFirestore(userId, score) {
+    try {
+        const userRef = doc(db, "users", userId);
+        await updateDoc(userRef, { score });
+        console.log("Score updated successfully:", score);
+    } catch (error) {
+        console.error("Error updating score:", error);
+    }
+}
+
+// Fetch user score from Firestore
+async function fetchUserScore(userId) {
+    try {
+        const userRef = doc(db, "users", userId);
+        const userDoc = await getDoc(userRef);
+
+        if (userDoc.exists()) {
+            const data = userDoc.data();
+            userScore = data.score || 0; // Default to 0 if no score exists
+            scoreDisplay.textContent = `Score: ${userScore}`;
+        } else {
+            // Create user document if it doesn't exist
+            await setDoc(userRef, { score: 0 });
+            userScore = 0;
+            scoreDisplay.textContent = `Score: ${userScore}`;
+        }
+    } catch (error) {
+        console.error("Error fetching user score:", error);
+    }
+}
 
 
 function fetchImageDataRealtime() {
@@ -203,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const lastNameInput = document.getElementById("last-name-guess");
         const lastNameGuess = lastNameInput ? lastNameInput.value.trim() : "";
         let correctGuess = false;
-
+    
         if (currentMode === "first-name" && userGuess.toLowerCase() === currentImage.firstName.toLowerCase()) {
             correctGuess = true;
         } else if (
@@ -213,21 +245,23 @@ document.addEventListener("DOMContentLoaded", () => {
         ) {
             correctGuess = true;
         }
-
+    
         if (correctGuess) {
             streak += 1;
-            score += currentMode === "first-name" ? 1 : 3; // First name: 1 point, Full name: 3 points
+            userScore += currentMode === "first-name" ? 1 : 3; // First name: 1 point, Full name: 3 points
             alert("Correct!");
+            saveScoreToFirestore(auth.currentUser.uid, userScore); // Save updated score
         } else {
             streak = 0;
-            score -= 1; // Deduct a point for wrong guess
+            userScore -= 1; // Deduct a point for wrong guess
             alert("Incorrect. Try again!");
+            saveScoreToFirestore(auth.currentUser.uid, userScore); // Save updated score
         }
-
-        scoreDisplay.innerHTML = `Score: ${score} <br> Streak: ${streak}`;
+    
+        scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
         showRandomImage();
     }
-
+    
     // Handle skip
     skipButton.id = "skip-button";
     skipButton.textContent = "We need to still introduce ourselves";
@@ -251,6 +285,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
             alert(`Welcome, ${user.displayName}!`);
+
+            // Fetch user score
+        await fetchUserScore(user.uid);
 
             // Update user icon
             userIcon.style.display = "flex";
