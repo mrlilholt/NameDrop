@@ -1,0 +1,19 @@
+.image-container {
+    width: 150px; /* Adjust size as needed */
+    height: 150px; /* Ensure square dimensions */
+    border-radius: 15px; /* For rounded corners */
+    overflow: hidden; /* Ensure image doesn't exceed container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* Center the image container */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+    border: 2px solid #ccc; /* Optional: Add border */
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image fits and scales properly */
+    border-radius: 15px; /* Match the container's radius */
+}
