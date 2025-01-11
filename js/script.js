@@ -25,8 +25,22 @@ async function fetchImageData() {
     }
 }
 
+// Initialize game data
+async function initializeGameData() {
+    gameData = await fetchImageData();
+    if (gameData.length === 0) {
+        console.warn("No data found in Firestore. Using mock data.");
+        gameData = [
+            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Alice", lastName: "Smith" },
+            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Bob", lastName: "Johnson" },
+            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Carol", lastName: "Davis" }
+        ];
+    }
+    console.log("Game data initialized:", gameData);
+    showRandomImage();
+}
+
 // Firebase imports
-import { auth, provider, signInWithPopup } from "./firebase.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     // Elements
