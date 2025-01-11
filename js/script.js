@@ -10,6 +10,8 @@ const db = getFirestore();
 let gameData = []; // Global variable to store the fetched data
 let imageDisplay = null;
 let nameInput = null;
+let gameArea = null; // Global variable for the game area
+
 
 
 // Show a random image
@@ -105,6 +107,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Elements
     imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
     nameInput = document.getElementById("name-guess"); // Assign nameInput
+    gameArea = document.getElementById("game-area");
+
     const toggleBar = document.getElementsByName("mode");
     const scoreDisplay = document.getElementById("score");
     const loginButton = document.getElementById("google-login");
