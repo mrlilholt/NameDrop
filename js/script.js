@@ -16,7 +16,8 @@ let submitGuessButton = null; // Global variable for the guess button
 let userScore = 0; // Initialize score
 let currentImage = null; // Move this outside of the DOMContentLoaded block
 let currentMode = "first-name"; // Default to "first-name" mode
-
+let score = 0;
+let streak = 0;
 
 
 // Show a random image
@@ -200,9 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const userIcon = document.createElement("div");
     const sidebar = document.createElement("div");
     const skipButton = document.createElement("button");
-
-    let score = 0;
-    let streak = 0;
 
     // Setup user icon
     userIcon.id = "user-icon";
