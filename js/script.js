@@ -85,8 +85,8 @@ function fetchImageDataRealtime() {
 document.addEventListener("DOMContentLoaded", () => {
     // Elements
     const gameArea = document.getElementById("game-area");
-    const imageDisplay = document.getElementById("person-image");
-    const nameInput = document.getElementById("name-guess");
+    const imageDisplay = document.getElementById("person-image"); // Should match your HTML ID
+    const nameInput = document.getElementById("name-guess"); // Ensure this ID matches your input
     const submitGuessButton = document.getElementById("submit-guess");
     const toggleBar = document.getElementsByName("mode");
     const scoreDisplay = document.getElementById("score");
@@ -161,20 +161,21 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("settings").addEventListener("click", initializeSettingsModal);
 
     // Show a random image
-    function showRandomImage() {
-        if (!gameData || gameData.length === 0) {
-            console.warn("No game data available to display.");
-            return;
-        }
-    
-        const randomIndex = Math.floor(Math.random() * gameData.length);
-        const selectedPerson = gameData[randomIndex];
-    
-        // Update the image and UI
-        imageDisplay.src = selectedPerson.image; // Display the person's image
-        currentImage = selectedPerson; // Track the current person for guesses
-        nameInput.value = ""; // Clear the input field
+function showRandomImage() {
+    if (!gameData || gameData.length === 0) {
+        console.warn("No game data available to display.");
+        return;
     }
+
+    const randomIndex = Math.floor(Math.random() * gameData.length);
+    const selectedPerson = gameData[randomIndex];
+
+    // Update the image display
+    imageDisplay.src = selectedPerson.image;
+    currentImage = selectedPerson; // Track the current person for guesses
+    nameInput.value = ""; // Clear the input field
+}
+
     
     
 
