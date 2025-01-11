@@ -14,7 +14,10 @@ let nameInput = null; // Global variable for name input
 let gameArea = null; // Global variable for the game area
 let submitGuessButton = null; // Global variable for the guess button
 let userScore = 0; // Initialize score
-
+let score = 0;
+let streak = 0;
+let currentMode = "first-name";
+let currentScore = 0;
 
 
 // Show a random image
@@ -133,7 +136,7 @@ async function handleGuess() {
     }
 
     await saveScore(auth.currentUser.uid, userScore); // Save updated score
-    scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
+    scoreDisplay.textContent = `Score: ${userScore}`; // Update the score display
     showRandomImage(); // Load the next image
 }
 
@@ -190,9 +193,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const skipButton = document.createElement("button");
 
     let currentImage = null;
-    let currentMode = "first-name";
-    let score = 0;
-    let streak = 0;
 
     // Setup user icon
     userIcon.id = "user-icon";
