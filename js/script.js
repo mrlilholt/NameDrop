@@ -1,17 +1,13 @@
 // Main script.js
 import { initializeProfileModal } from "./userinfo.js";
 import { initializeSettingsModal } from "./settings.js";
-import { initializeUploadModal } from "./upload_images.js"; // Import the upload modal initializer
-
-// Mock dataset of images and names
-//const mockData = [
-//    { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Alice", lastName: "Smith" },
-//    { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Bob", lastName: "Johnson" },
-//    { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Carol", lastName: "Davis" }
-//];
+import { initializeUploadModal } from "./upload_images.js";
+import { auth, provider, signInWithPopup } from "./firebase.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 
 const db = getFirestore();
+
+let gameData = [];
 
 // Fetch data from Firestore
 async function fetchImageData() {
@@ -19,14 +15,28 @@ async function fetchImageData() {
         const querySnapshot = await getDocs(collection(db, "images"));
         const imageData = [];
         querySnapshot.forEach((doc) => {
-            imageData.push(doc.data()); // Each document's data
+            imageData.push(doc.data());
         });
-        console.log("Fetched image data:", imageData);
         return imageData;
     } catch (error) {
-        console.error("Error fetching image data:", error);
+        console.error("Error fetching data from Firestore:", error);
         return [];
     }
+}
+
+// Initialize game data
+async function initializeGameData() {
+    gameData = await fetchImageData();
+    if (gameData.length === 0) {
+        console.warn("No data found in Firestore. Using mock data.");
+        gameData = [
+            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Alice", lastName: "Smith" },
+            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Bob", lastName: "Johnson" },
+            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Carol", lastName: "Davis" }
+        ];
+    }
+    console.log("Game data initialized:", gameData);
+    showRandomImage();
 }
 
 // Firebase imports
@@ -112,10 +122,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Show a random image
     function showRandomImage() {
-        const randomIndex = Math.floor(Math.random() * mockData.length);
-        currentImage = mockData[randomIndex];
-        imageDisplay.src = currentImage.image;
-        nameInput.value = ""; // Clear input field
+        if (gameData.length === 0) {
+            console.warn("No game data available to display.");
+            return;
+        }
+
+        const randomIndex = Math.floor(Math.random() * gameData.length);
+        const selectedPerson = gameData[randomIndex];
+
+        imageDisplay.src = selectedPerson.image;
+        currentImage = selectedPerson;
+        nameInput.value = "";
     }
 
     // Handle toggle change
