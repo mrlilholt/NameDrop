@@ -1,13 +1,17 @@
 // Main script.js
 import { initializeProfileModal } from "./userinfo.js";
 import { initializeSettingsModal } from "./settings.js";
-import { initializeUploadModal } from "./upload_images.js";
-import { auth, provider, signInWithPopup } from "./firebase.js";
+import { initializeUploadModal } from "./upload_images.js"; // Import the upload modal initializer
+
+// Mock dataset of images and names
+//const mockData = [
+//    { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Alice", lastName: "Smith" },
+//    { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Bob", lastName: "Johnson" },
+//    { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Carol", lastName: "Davis" }
+//];
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 
 const db = getFirestore();
-
-let gameData = [];
 
 // Fetch data from Firestore
 async function fetchImageData() {
@@ -15,16 +19,15 @@ async function fetchImageData() {
         const querySnapshot = await getDocs(collection(db, "images"));
         const imageData = [];
         querySnapshot.forEach((doc) => {
-            imageData.push(doc.data());
+            imageData.push(doc.data()); // Each document's data
         });
+        console.log("Fetched image data:", imageData);
         return imageData;
     } catch (error) {
-        console.error("Error fetching data from Firestore:", error);
+        console.error("Error fetching image data:", error);
         return [];
     }
 }
-
-export default fetchImageData;
 
 // Firebase imports
 import { auth, provider, signInWithPopup } from "./firebase.js";
@@ -109,20 +112,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Show a random image
     function showRandomImage() {
-        if (gameData.length === 0) {
-            console.warn("No game data available to display.");
-            return;
-        }
-    
-        const randomIndex = Math.floor(Math.random() * gameData.length);
-        const selectedPerson = gameData[randomIndex];
-    
-        // Update the UI with the selected person's image and reset input
-        imageDisplay.src = selectedPerson.image;
-        currentImage = selectedPerson; // Track the current person for guesses
+        const randomIndex = Math.floor(Math.random() * mockData.length);
+        currentImage = mockData[randomIndex];
+        imageDisplay.src = currentImage.image;
         nameInput.value = ""; // Clear input field
     }
-    
 
     // Handle toggle change
     function updateMode() {
@@ -186,22 +180,27 @@ document.addEventListener("DOMContentLoaded", () => {
         showRandomImage();
     });
 
-     // Google Sign-In
-    loginButton.addEventListener("click", async () => {
+     // Handle Google Sign-In
+     async function handleSignIn() {
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
             alert(`Welcome, ${user.displayName}!`);
-            loginButton.style.display = "none";
+
+            // Update user icon
             userIcon.style.display = "flex";
             userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
             userIcon.style.backgroundSize = "cover";
             userIcon.textContent = user.photoURL ? "" : user.displayName[0];
-            initializeGameData();
+
+            // Hide login button
+            loginButton.style.display = "none";
+
+            initGame();
         } catch (error) {
             console.error("Error during sign-in:", error);
         }
-    });
+    }
     
 
     // Initialize game
