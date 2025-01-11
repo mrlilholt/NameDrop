@@ -14,6 +14,7 @@ let nameInput = null; // Global variable for name input
 let gameArea = null; // Global variable for the game area
 let submitGuessButton = null; // Global variable for the guess button
 let userScore = 0; // Initialize score
+let currentImage = null; // Move this outside of the DOMContentLoaded block
 
 
 
@@ -206,7 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.createElement("div");
     const skipButton = document.createElement("button");
 
-    let currentImage = null;
     let currentMode = "first-name";
     let score = 0;
     let streak = 0;
