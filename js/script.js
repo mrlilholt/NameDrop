@@ -3,7 +3,7 @@ import { initializeProfileModal } from "./userinfo.js";
 import { initializeSettingsModal } from "./settings.js";
 import { initializeUploadModal } from "./upload_images.js";
 import { auth, provider, signInWithPopup } from "./firebase.js";
-import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
+import { getFirestore, collection, doc, getDocs, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 import { saveScore, fetchScore, incrementScore, decrementScore } from "./scoring.js";
 
 const db = getFirestore();
@@ -97,6 +97,44 @@ async function fetchUserScore(userId) {
     } catch (error) {
         console.error("Error fetching user score:", error);
     }
+}
+
+// Handle guess submission
+async function handleGuess() {
+    if (!currentImage) {
+        alert("No image loaded to guess. Try again!");
+        return;
+    }
+
+    const userGuess = nameInput.value.trim();
+    const lastNameInput = document.getElementById("last-name-guess");
+    const lastNameGuess = lastNameInput ? lastNameInput.value.trim() : "";
+
+    let correctGuess = false;
+
+    if (currentMode === "first-name" && userGuess.toLowerCase() === currentImage.firstName.toLowerCase()) {
+        correctGuess = true;
+    } else if (
+        currentMode === "full-name" &&
+        userGuess.toLowerCase() === currentImage.firstName.toLowerCase() &&
+        lastNameGuess.toLowerCase() === currentImage.lastName.toLowerCase()
+    ) {
+        correctGuess = true;
+    }
+
+    if (correctGuess) {
+        streak += 1;
+        userScore = incrementScore(userScore, currentMode === "first-name" ? 1 : 3);
+        alert("Correct!");
+    } else {
+        streak = 0;
+        userScore = decrementScore(userScore, 1);
+        alert("Incorrect. Try again!");
+    }
+
+    await saveScore(auth.currentUser.uid, userScore); // Save updated score
+    scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
+    showRandomImage(); // Load the next image
 }
 
 
@@ -228,46 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const lastNameInput = document.getElementById("last-name-guess");
             if (lastNameInput) lastNameInput.remove();
         }
-    }
-
-    // Handle guess submission
-    async function handleGuess() {
-        if (!currentImage) {
-            alert("No image loaded to guess. Try again!");
-            return;
-        }
-    
-        const userGuess = nameInput.value.trim();
-        const lastNameInput = document.getElementById("last-name-guess");
-        const lastNameGuess = lastNameInput ? lastNameInput.value.trim() : "";
-    
-        let correctGuess = false;
-    
-        if (currentMode === "first-name" && userGuess.toLowerCase() === currentImage.firstName.toLowerCase()) {
-            correctGuess = true;
-        } else if (
-            currentMode === "full-name" &&
-            userGuess.toLowerCase() === currentImage.firstName.toLowerCase() &&
-            lastNameGuess.toLowerCase() === currentImage.lastName.toLowerCase()
-        ) {
-            correctGuess = true;
-        }
-    
-        if (correctGuess) {
-            streak += 1;
-            userScore = incrementScore(userScore, currentMode === "first-name" ? 1 : 3);
-            alert("Correct!");
-        } else {
-            streak = 0;
-            userScore = decrementScore(userScore, 1);
-            alert("Incorrect. Try again!");
-        }
-    
-        await saveScore(auth.currentUser.uid, userScore); // Save updated score
-        scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
-        showRandomImage(); // Load the next image
-    }
-    
+    }    
     
     // Handle skip
     skipButton.id = "skip-button";
