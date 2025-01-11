@@ -3,7 +3,6 @@ import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.
 
 const db = getFirestore();
 
-// upload_images.js
 export function initializeUploadModal() {
     const uploadModal = document.createElement("div");
     uploadModal.id = "upload-modal";
@@ -77,14 +76,19 @@ export function initializeUploadModal() {
         }
 
         try {
-            // Add your Cloudinary upload logic here
+            // Upload image to Cloudinary
+            const imageUrl = await uploadImageToCloudinary(file);
+
+            // Save metadata to Firestore
+            await saveMetadataToFirestore(imageUrl, firstName, lastName);
+
             alert("Image and metadata saved successfully!");
         } catch (error) {
             console.error("Error uploading image or saving metadata:", error);
+            alert("Failed to upload image or save metadata.");
         }
     });
 }
-
 
 // Cloudinary Upload API
 async function uploadImageToCloudinary(file) {
@@ -100,6 +104,11 @@ async function uploadImageToCloudinary(file) {
             method: "POST",
             body: formData,
         });
+
+        if (!response.ok) {
+            throw new Error(`Cloudinary upload failed with status ${response.status}`);
+        }
+
         const data = await response.json();
         return data.secure_url; // Cloudinary URL
     } catch (error) {
