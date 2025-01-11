@@ -15,28 +15,14 @@ async function fetchImageData() {
         const querySnapshot = await getDocs(collection(db, "images"));
         const imageData = [];
         querySnapshot.forEach((doc) => {
-            imageData.push(doc.data());
+            imageData.push(doc.data()); // Each document's data
         });
+        console.log("Fetched image data:", imageData);
         return imageData;
     } catch (error) {
-        console.error("Error fetching data from Firestore:", error);
+        console.error("Error fetching image data:", error);
         return [];
     }
-}
-
-// Initialize game data
-async function initializeGameData() {
-    gameData = await fetchImageData();
-    if (gameData.length === 0) {
-        console.warn("No data found in Firestore. Using mock data.");
-        gameData = [
-            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Alice", lastName: "Smith" },
-            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Bob", lastName: "Johnson" },
-            { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Carol", lastName: "Davis" }
-        ];
-    }
-    console.log("Game data initialized:", gameData);
-    showRandomImage();
 }
 
 // Firebase imports
