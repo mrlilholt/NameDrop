@@ -18,7 +18,7 @@ let userScore = 0; // Initialize score
 
 // Show a random image
 function showRandomImage() {
-    if (gameData.length === 0) {
+    if (!gameData || gameData.length === 0) {
         console.warn("No game data available to display.");
         return;
     }
@@ -26,27 +26,28 @@ function showRandomImage() {
     const randomIndex = Math.floor(Math.random() * gameData.length);
     const selectedPerson = gameData[randomIndex];
 
+    // Update the image display
     imageDisplay.src = selectedPerson.image;
-    currentImage = selectedPerson; // Ensure this is properly set
-    nameInput.value = ""; // Clear input field
+    currentImage = selectedPerson; // Track the current person for guesses
+    nameInput.value = ""; // Clear the input field
 }
-
 
 //Initialize game data
 async function initializeGameData() {
-    gameData = await fetchImageData();
-    if (gameData.length === 0) {
-        console.warn("No data found in Firestore. Using mock data.");
-        gameData = [
-            { image: "https://example.com/mock1.jpg", firstName: "Alice", lastName: "Smith" },
-            { image: "https://example.com/mock2.jpg", firstName: "Bob", lastName: "Johnson" },
-            { image: "https://example.com/mock3.jpg", firstName: "Carol", lastName: "Davis" }
-        ];
+    try {
+        gameData = await fetchImageData();
+        if (gameData.length === 0) {
+            console.warn("No data found in Firestore. Using mock data.");
+            gameData = [
+                { image: "https://via.placeholder.com/150", firstName: "Mock", lastName: "Data" }
+            ];
+        }
+        console.log("Game data initialized:", gameData);
+        showRandomImage(); // Display the first random image
+    } catch (error) {
+        console.error("Error fetching image data:", error);
     }
-    console.log("Game data initialized:", gameData);
-    showRandomImage(); // Ensure this is called after data is initialized
 }
-
 
 
 // Fetch data from Firestore
@@ -230,11 +231,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Handle guess submission
     function handleGuess() {
-        if (!currentImage) {
-            alert("No image loaded to guess. Try again!");
-            return;
-        }
-    
         const userGuess = nameInput.value.trim();
         const lastNameInput = document.getElementById("last-name-guess");
         const lastNameGuess = lastNameInput ? lastNameInput.value.trim() : "";
@@ -252,16 +248,18 @@ document.addEventListener("DOMContentLoaded", () => {
     
         if (correctGuess) {
             streak += 1;
-            score += currentMode === "first-name" ? 1 : 3; // First name: 1 point, Full name: 3 points
+            userScore += currentMode === "first-name" ? 1 : 3; // First name: 1 point, Full name: 3 points
             alert("Correct!");
+            saveScoreToFirestore(auth.currentUser.uid, userScore); // Save updated score
         } else {
             streak = 0;
-            score -= 1; // Deduct a point for wrong guess
+            userScore -= 1; // Deduct a point for wrong guess
             alert("Incorrect. Try again!");
+            saveScoreToFirestore(auth.currentUser.uid, userScore); // Save updated score
         }
     
-        scoreDisplay.innerHTML = `Score: ${score} <br> Streak: ${streak}`;
-        showRandomImage(); // Load the next image
+        scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
+        showRandomImage();
     }
     
     // Handle skip
