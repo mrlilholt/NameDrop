@@ -20,9 +20,9 @@ async function fetchImageData() {
         const imageData = [];
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            console.log("Document fetched:", data);
+            console.log("Fetched document:", doc.id, data);
 
-            // Ensure the document has the required fields
+            // Validate document fields
             if (data.imageUrl && data.firstName && data.lastName) {
                 imageData.push({
                     image: data.imageUrl,
@@ -30,24 +30,24 @@ async function fetchImageData() {
                     lastName: data.lastName
                 });
             } else {
-                console.warn("Document missing required fields:", doc.id, data);
+                console.warn("Skipping document with missing fields:", doc.id, data);
             }
         });
 
-        console.log("Fetched image data:", imageData);
+        console.log("Final fetched image data:", imageData);
         return imageData;
     } catch (error) {
         console.error("Error fetching image data from Firestore:", error);
-        return []; // Return an empty array to prevent breaking the game
+        return [];
     }
 }
 
+
 // Initialize game data
 async function initializeGameData() {
+    console.log("Initializing game data...");
     try {
         gameData = await fetchImageData();
-        console.log("Fetched game data:", gameData);
-
         if (gameData.length === 0) {
             console.warn("No data found in Firestore. Using mock data.");
             gameData = [
@@ -56,9 +56,8 @@ async function initializeGameData() {
                 { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Carol", lastName: "Davis" }
             ];
         }
-
-        console.log("Final game data initialized:", gameData);
-        showRandomImage(); // Proceed to show the first random image
+        console.log("Game data initialized:", gameData);
+        showRandomImage();
     } catch (error) {
         console.error("Error initializing game data:", error);
     }
