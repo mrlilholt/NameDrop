@@ -12,6 +12,8 @@ let gameData = [];
 // Fetch data from Firestore
 
 async function fetchImageData() {
+    console.log("fetchImageData called");
+
     try {
         console.log("Fetching image data from Firestore...");
         const imagesCollection = collection(db, "images");
