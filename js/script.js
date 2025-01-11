@@ -9,6 +9,22 @@ const db = getFirestore();
 
 let gameData = []; // Global variable to store the fetched data
 
+// Show a random image
+function showRandomImage() {
+    if (!gameData || gameData.length === 0) {
+        console.warn("No game data available to display.");
+        return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * gameData.length);
+    const selectedPerson = gameData[randomIndex];
+
+    // Update the image display
+    imageDisplay.src = selectedPerson.image;
+    currentImage = selectedPerson; // Track the current person for guesses
+    nameInput.value = ""; // Clear the input field
+}
+
 //Initialize game data
 async function initializeGameData() {
     try {
@@ -159,25 +175,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Settings functionality
     document.getElementById("settings").addEventListener("click", initializeSettingsModal);
-
-    // Show a random image
-function showRandomImage() {
-    if (!gameData || gameData.length === 0) {
-        console.warn("No game data available to display.");
-        return;
-    }
-
-    const randomIndex = Math.floor(Math.random() * gameData.length);
-    const selectedPerson = gameData[randomIndex];
-
-    // Update the image display
-    imageDisplay.src = selectedPerson.image;
-    currentImage = selectedPerson; // Track the current person for guesses
-    nameInput.value = ""; // Clear the input field
-}
-
-    
-    
 
     // Handle toggle change
     function updateMode() {
