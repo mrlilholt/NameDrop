@@ -3,7 +3,7 @@ import { initializeProfileModal } from "./userinfo.js";
 import { initializeSettingsModal } from "./settings.js";
 import { initializeUploadModal } from "./upload_images.js";
 import { auth, provider, signInWithPopup } from "./firebase.js";
-import { getFirestore, collection, doc, getDocs, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 
 const db = getFirestore();
 
