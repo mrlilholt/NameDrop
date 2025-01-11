@@ -17,8 +17,9 @@ let userScore = 0; // Initialize score
 let score = 0;
 let streak = 0;
 let currentMode = "first-name";
-let currentScore = 0;
-
+let currentScore = null;
+let currentImage = null;
+let scoreDisplay = null;
 
 // Show a random image
 function showRandomImage() {
@@ -191,8 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const userIcon = document.createElement("div");
     const sidebar = document.createElement("div");
     const skipButton = document.createElement("button");
-
-    let currentImage = null;
 
     // Setup user icon
     userIcon.id = "user-icon";
