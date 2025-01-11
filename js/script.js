@@ -20,6 +20,9 @@ function fetchImageDataRealtime() {
         gameData = []; // Clear existing data to avoid duplicates
         snapshot.forEach((doc) => {
             const data = doc.data();
+            console.log("Fetched document:", doc.id, data);
+
+            // Validate and push only complete data
             if (data.imageUrl && data.firstName && data.lastName) {
                 gameData.push({
                     image: data.imageUrl,
@@ -27,14 +30,14 @@ function fetchImageDataRealtime() {
                     lastName: data.lastName,
                 });
             } else {
-                console.warn("Document skipped due to missing fields:", doc.id);
+                console.warn("Document skipped due to missing fields:", doc.id, data);
             }
         });
 
-        console.log("Real-time game data updated:", gameData);
+        console.log("Updated game data:", gameData);
 
-        // Trigger a new random image display when data updates
         if (gameData.length > 0) {
+            console.log("Displaying random image...");
             showRandomImage();
         } else {
             console.warn("No valid game data found in Firestore.");
@@ -44,15 +47,10 @@ function fetchImageDataRealtime() {
     });
 }
 
-
 // Initialize game data
 async function initializeGameData() {
     console.log("Initializing game data...");
-    try {
-        fetchImageDataRealtime(); // Use real-time listener instead of static fetch
-    } catch (error) {
-        console.error("Error initializing game data:", error);
-    }
+    fetchImageDataRealtime(); // Use the real-time listener
 }
 
 
@@ -138,18 +136,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Show a random image
     function showRandomImage() {
-        if (gameData.length === 0) {
+        if (!gameData || gameData.length === 0) {
             console.warn("No game data available to display.");
             return;
         }
-
+    
         const randomIndex = Math.floor(Math.random() * gameData.length);
         const selectedPerson = gameData[randomIndex];
-
-        imageDisplay.src = selectedPerson.image;
-        currentImage = selectedPerson;
-        nameInput.value = "";
+    
+        console.log("Selected person:", selectedPerson);
+    
+        if (selectedPerson.image) {
+            imageDisplay.src = selectedPerson.image;
+        } else {
+            console.warn("No image URL found for the selected person. Using a placeholder.");
+            imageDisplay.src = "path_to_placeholder_image.png"; // Optional placeholder
+        }
+    
+        currentImage = selectedPerson; // Track current person for guesses
+        nameInput.value = ""; // Clear input field
     }
+    
 
     // Handle toggle change
     function updateMode() {
