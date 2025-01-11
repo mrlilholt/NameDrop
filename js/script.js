@@ -11,37 +11,37 @@ let gameData = [];
 
 // Fetch data from Firestore
 
-async function fetchImageData() {
-    console.log("fetchImageData called");
 
-    try {
-        console.log("Fetching image data from Firestore...");
-        const imagesCollection = collection(db, "images");
-        const querySnapshot = await getDocs(imagesCollection);
+function fetchImageDataRealtime() {
+    console.log("Setting up Firestore real-time listener...");
+    const imagesCollection = collection(db, "images");
 
-        const imageData = [];
-        querySnapshot.forEach((doc) => {
+    onSnapshot(imagesCollection, (snapshot) => {
+        gameData = []; // Clear existing data to avoid duplicates
+        snapshot.forEach((doc) => {
             const data = doc.data();
-            console.log("Fetched document:", doc.id, data);
-
-            // Validate document fields
             if (data.imageUrl && data.firstName && data.lastName) {
-                imageData.push({
+                gameData.push({
                     image: data.imageUrl,
                     firstName: data.firstName,
-                    lastName: data.lastName
+                    lastName: data.lastName,
                 });
             } else {
-                console.warn("Skipping document with missing fields:", doc.id, data);
+                console.warn("Document skipped due to missing fields:", doc.id);
             }
         });
 
-        console.log("Final fetched image data:", imageData);
-        return imageData;
-    } catch (error) {
-        console.error("Error fetching image data from Firestore:", error);
-        return [];
-    }
+        console.log("Real-time game data updated:", gameData);
+
+        // Trigger a new random image display when data updates
+        if (gameData.length > 0) {
+            showRandomImage();
+        } else {
+            console.warn("No valid game data found in Firestore.");
+        }
+    }, (error) => {
+        console.error("Error setting up Firestore real-time listener:", error);
+    });
 }
 
 
@@ -49,17 +49,7 @@ async function fetchImageData() {
 async function initializeGameData() {
     console.log("Initializing game data...");
     try {
-        gameData = await fetchImageData();
-        if (gameData.length === 0) {
-            console.warn("No data found in Firestore. Using mock data.");
-            gameData = [
-                { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Alice", lastName: "Smith" },
-                { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Bob", lastName: "Johnson" },
-                { image: "https://fonts.gstatic.com/s/i/materialicons/person/v14/24px.svg", firstName: "Carol", lastName: "Davis" }
-            ];
-        }
-        console.log("Game data initialized:", gameData);
-        showRandomImage();
+        fetchImageDataRealtime(); // Use real-time listener instead of static fetch
     } catch (error) {
         console.error("Error initializing game data:", error);
     }
