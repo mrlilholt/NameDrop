@@ -16,6 +16,7 @@ let submitGuessButton = null; // Global variable for the guess button
 let userScore = 0; // Initialize score
 let currentImage = null; // Move this outside of the DOMContentLoaded block
 let currentMode = "first-name"; // Default to "first-name" mode
+let scoreDisplay = 0;
 let score = 0;
 let streak = 0;
 
@@ -113,7 +114,6 @@ async function fetchUserScore(userId) {
 // Handle guess submission
 async function handleGuess() {
     if (!currentImage) {
-        console.warn("No image loaded to guess.");
         alert("No image loaded to guess. Try again!");
         return;
     }
@@ -144,10 +144,11 @@ async function handleGuess() {
         alert("Incorrect. Try again!");
     }
 
-    await saveScore(auth.currentUser.uid, userScore);
-    scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
-    showRandomImage();
+    await saveScore(auth.currentUser.uid, userScore); // Save updated score
+    scoreDisplay.textContent = `Score: ${userScore}`; // Update the score display
+    showRandomImage(); // Load the next image
 }
+
 
 
 
