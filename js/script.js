@@ -8,8 +8,9 @@ import { getFirestore, collection, getDocs } from "https://www.gstatic.com/fireb
 const db = getFirestore();
 
 let gameData = []; // Global variable to store the fetched data
-let imageDisplay; // Declare imageDisplay here
-let nameInput; // Declare nameInput for later use
+let imageDisplay = null;
+let nameInput = null;
+
 
 // Show a random image
 function showRandomImage() {
@@ -102,6 +103,9 @@ function fetchImageDataRealtime() {
 
 document.addEventListener("DOMContentLoaded", () => {
     // Elements
+    imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
+    nameInput = document.getElementById("name-guess"); // Assign nameInput
+
     const gameArea = document.getElementById("game-area");
     const imageDisplay = document.getElementById("person-image"); // Should match your HTML ID
     const nameInput = document.getElementById("name-guess"); // Ensure this ID matches your input
