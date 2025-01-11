@@ -4,6 +4,7 @@ import { initializeSettingsModal } from "./settings.js";
 import { initializeUploadModal } from "./upload_images.js";
 import { auth, provider, signInWithPopup } from "./firebase.js";
 import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
+import { saveScore, fetchScore, incrementScore, decrementScore } from "./scoring.js";
 
 const db = getFirestore();
 
@@ -230,10 +231,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Handle guess submission
-    function handleGuess() {
+    async function handleGuess() {
+        if (!currentImage) {
+            alert("No image loaded to guess. Try again!");
+            return;
+        }
+    
         const userGuess = nameInput.value.trim();
         const lastNameInput = document.getElementById("last-name-guess");
         const lastNameGuess = lastNameInput ? lastNameInput.value.trim() : "";
+    
         let correctGuess = false;
     
         if (currentMode === "first-name" && userGuess.toLowerCase() === currentImage.firstName.toLowerCase()) {
@@ -248,19 +255,19 @@ document.addEventListener("DOMContentLoaded", () => {
     
         if (correctGuess) {
             streak += 1;
-            userScore += currentMode === "first-name" ? 1 : 3; // First name: 1 point, Full name: 3 points
+            userScore = incrementScore(userScore, currentMode === "first-name" ? 1 : 3);
             alert("Correct!");
-            saveScoreToFirestore(auth.currentUser.uid, userScore); // Save updated score
         } else {
             streak = 0;
-            userScore -= 1; // Deduct a point for wrong guess
+            userScore = decrementScore(userScore, 1);
             alert("Incorrect. Try again!");
-            saveScoreToFirestore(auth.currentUser.uid, userScore); // Save updated score
         }
     
+        await saveScore(auth.currentUser.uid, userScore); // Save updated score
         scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
-        showRandomImage();
+        showRandomImage(); // Load the next image
     }
+    
     
     // Handle skip
     skipButton.id = "skip-button";
@@ -288,6 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Fetch user score
         await fetchUserScore(user.uid);
+        scoreDisplay.innerHTML = `Score: ${userScore}`;
 
             // Update user icon
             userIcon.style.display = "flex";
