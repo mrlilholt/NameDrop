@@ -14,12 +14,8 @@ let nameInput = null; // Global variable for name input
 let gameArea = null; // Global variable for the game area
 let submitGuessButton = null; // Global variable for the guess button
 let userScore = 0; // Initialize score
-let score = 0;
-let streak = 0;
-let currentMode = "first-name";
-let currentScore = null;
-let currentImage = null;
-let scoreDisplay = null; // Declare it globally
+
+
 
 // Show a random image
 function showRandomImage() {
@@ -136,26 +132,10 @@ async function handleGuess() {
         alert("Incorrect. Try again!");
     }
 
-    try {
-        // Ensure scoreDisplay is referencing the DOM element correctly
-        if (!scoreDisplay || !(scoreDisplay instanceof HTMLElement)) {
-            console.error("scoreDisplay is not a valid DOM element:", scoreDisplay);
-            return;
-        }
-
-        // Save the updated score to Firestore
-        await saveScore(auth.currentUser.uid, userScore);
-
-        // Update score display
-        scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
-    } catch (error) {
-        console.error("Error saving score:", error);
-    }
-
-    // Load the next image
-    showRandomImage();
+    await saveScore(auth.currentUser.uid, userScore); // Save updated score
+    scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
+    showRandomImage(); // Load the next image
 }
-
 
 
 function fetchImageDataRealtime() {
@@ -197,21 +177,22 @@ function fetchImageDataRealtime() {
 
 document.addEventListener("DOMContentLoaded", () => {
     // Elements
-    scoreDisplay = document.getElementById("score");
-    if (!scoreDisplay) {
-        console.error('Could not find the "score" element in the DOM.');
-    }
-
     imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
     nameInput = document.getElementById("name-guess"); // Assign nameInput
     gameArea = document.getElementById("game-area");
     submitGuessButton = document.getElementById("submit-guess");
 
     const toggleBar = document.getElementsByName("mode");
+    const scoreDisplay = document.getElementById("score");
     const loginButton = document.getElementById("google-login");
     const userIcon = document.createElement("div");
     const sidebar = document.createElement("div");
     const skipButton = document.createElement("button");
+
+    let currentImage = null;
+    let currentMode = "first-name";
+    let score = 0;
+    let streak = 0;
 
     // Setup user icon
     userIcon.id = "user-icon";
@@ -303,7 +284,6 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Skipping this person. Time to introduce yourselves later!");
         showRandomImage();
     });
-    
 
      // Handle Google Sign-In
      async function handleSignIn() {
@@ -314,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Fetch user score
         await fetchUserScore(user.uid);
-        scoreDisplay.innerHTML = `${userScore}`;
+        scoreDisplay.innerHTML = `Score: ${userScore}`;
 
             // Update user icon
             userIcon.style.display = "flex";
