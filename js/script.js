@@ -32,30 +32,34 @@ let sidebar = null; // Global variable for the sidebar
 // ---------------------------------------
 function setupTopBar() {
     const topBar = document.getElementById("top-bar");
+    if (!topBar) {
+        console.error("Top bar element not found. Make sure it exists in the HTML.");
+        return;
+    }
+
     topBar.innerHTML = `
         <div id="logo-section">
-            <img src="./assets/NameDrop.png" alt="Logo" style="height: 50px;">
+            <img src="./assets/NameDrop.png" alt="Logo">
         </div>
         <div id="text-section">
+            <div id="flame-score">
+                <img src="./assets/streak-icon.png" alt="Streak">
+                <span>0</span>
+            </div>
             <h2>Matching Names to Faces</h2>
-            <div style="display: flex; gap: 20px;">
-                <div id="flame-score">
-                    <img src="./assets/streak-icon.png" alt="Streak">
-                    <span>0</span>
-                </div>
-                <div id="coin-score">
-                    <img src="./assets/score-icon.png" alt="Score">
-                    <span>0</span>
-                </div>
+            <div id="coin-score">
+                <img src="./assets/score-icon.png" alt="Score">
+                <span>0</span>
             </div>
         </div>
         <div id="user-info-section">
-            <button id="menu-button">☰</button>
             <div id="user-icon"></div>
+            <button id="menu-button">☰</button>
         </div>
     `;
+    menuButton = document.getElementById("menu-button");
+    sidebar = document.getElementById("sidebar");
 }
-
 
 
 
