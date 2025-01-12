@@ -248,7 +248,9 @@ document.addEventListener("DOMContentLoaded", () => {
     nameInput = document.getElementById("name-guess");
     gameArea = document.getElementById("game-area");
     submitGuessButton = document.getElementById("submit-guess");
-
+    // Initialize top bar
+    setupTopBar();
+    
     const loginButton = document.getElementById("google-login");
             //const topBar = document.getElementById("top-bar");
     const userIcon = document.createElement("div");
@@ -259,8 +261,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Initialize top bar
-    setupTopBar();
     // Setup user icon (initially hidden)
     userIcon.id = "user-icon";
     userIcon.style.display = "none";
