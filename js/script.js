@@ -202,6 +202,21 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error('Could not find the "score" element in the DOM.');
     }
 
+    const topBar = document.getElementById("top-bar");
+
+    // Hide the top bar initially
+    topBar.style.display = "none";
+
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            // User is logged in
+            topBar.style.display = "flex"; // Show the top bar
+        } else {
+            // User is not logged in
+            topBar.style.display = "none"; // Hide the top bar
+        }
+    });
+
     imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
     nameInput = document.getElementById("name-guess"); // Assign nameInput
     gameArea = document.getElementById("game-area");
