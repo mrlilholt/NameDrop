@@ -38,25 +38,29 @@ function setupTopBar() {
     }
 
     topBar.innerHTML = `
-        <div id="logo-section" style="flex: 1; display: flex; align-items: center;">
-            <img src="./assets/NameDrop.png" alt="Logo" style="height: 100px;">
+        <div id="logo-section">
+            <img src="./assets/NameDrop.png" alt="Logo">
         </div>
-        <div id="user-info-section" style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
-            <div id="flame-score" style="margin-right: 10px;">
-            <img src="./assets/streak-icon.png" alt="Streak" style="height: 20px; vertical-align: middle;"> <span>0</span>
+        <div id="text-section">
+            <div id="flame-score">
+                <img src="./assets/streak-icon.png" alt="Streak">
+                <span>0</span>
+            </div>
+            <h2>Matching Names to Faces</h2>
+            <div id="coin-score">
+                <img src="./assets/score-icon.png" alt="Score">
+                <span>0</span>
+            </div>
         </div>
-        <div id="text-section" style="flex: 2; text-align: center;">
-            <h1>Matching Names to Faces</h1>
-        </div>
-        <div id="coin-score" style="margin-right: 10px;">
-            <img src="./assets/score-icon.png" alt="Score" style="height: 20px; vertical-align: middle;"> <span>0</span>
-        </div>
-            <button id="menu-button" style="margin-left: 10px;">☰</button>
+        <div id="user-info-section">
+            <div id="user-icon"></div>
+            <button id="menu-button">☰</button>
         </div>
     `;
     menuButton = document.getElementById("menu-button");
     sidebar = document.getElementById("sidebar");
 }
+
 
 
 // Update the top bar with scores and user icon
