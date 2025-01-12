@@ -22,6 +22,17 @@
     text-align: center;
     margin-top: 20px;
 }
+/* Apply Lexend font to the entire menu */
+#sidebar {
+    font-family: 'Lexend', sans-serif;
+}
+
+/* Apply Lexend to individual menu items for consistency */
+#sidebar h2,
+#sidebar ul li {
+    font-family: 'Lexend', sans-serif;
+}
+
 
 /* Styles for the top bar */
 /* Top bar styles */
