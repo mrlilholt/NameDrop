@@ -94,7 +94,6 @@ function updateTopBar() {
         userIcon.style.backgroundImage = auth.currentUser.photoURL
             ? `url(${auth.currentUser.photoURL})`
             : "none";
-        userIcon.style.backgroundSize = "cover";
         userIcon.textContent = auth.currentUser.photoURL ? "" : auth.currentUser.displayName[0];
     } else if (userIcon) {
         userIcon.style.display = "none"; // Hide if no user is logged in
