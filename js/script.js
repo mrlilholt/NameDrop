@@ -217,6 +217,63 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    const streakValue = document.getElementById("streak-value"); // Top-bar streak value
+    const scoreValue = document.getElementById("score-value");   // Top-bar score value
+
+    // Function to update the top-bar values
+    function updateTopBar() {
+        streakValue.textContent = streak;   // Update the streak number
+        scoreValue.textContent = userScore; // Update the score number
+    }
+
+    // Adjust the handleGuess function to include top-bar updates
+    async function handleGuess() {
+        if (!currentImage) {
+            alert("No image loaded to guess. Try again!");
+            return;
+        }
+
+        const userGuess = nameInput.value.trim();
+        const lastNameInput = document.getElementById("last-name-guess");
+        const lastNameGuess = lastNameInput ? lastNameInput.value.trim() : "";
+
+        let correctGuess = false;
+
+        if (currentMode === "first-name" && userGuess.toLowerCase() === currentImage.firstName.toLowerCase()) {
+            correctGuess = true;
+        } else if (
+            currentMode === "full-name" &&
+            userGuess.toLowerCase() === currentImage.firstName.toLowerCase() &&
+            lastNameGuess.toLowerCase() === currentImage.lastName.toLowerCase()
+        ) {
+            correctGuess = true;
+        }
+
+        if (correctGuess) {
+            streak += 1;
+            userScore = incrementScore(userScore, currentMode === "first-name" ? 1 : 3);
+            alert("Correct!");
+        } else {
+            streak = 0;
+            userScore = decrementScore(userScore, 1);
+            alert("Incorrect. Try again!");
+        }
+
+        await saveScore(auth.currentUser.uid, userScore); // Save updated score
+
+        // Update both the score section and the top-bar
+        scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
+        updateTopBar(); // Call this to sync values in the top-bar
+        showRandomImage(); // Load the next image
+    }
+
+    // Initialize game logic and listen for events
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            fetchUserScore(user.uid); // Ensure scores are fetched on login
+        }
+    });
+
     imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
     nameInput = document.getElementById("name-guess"); // Assign nameInput
     gameArea = document.getElementById("game-area");
