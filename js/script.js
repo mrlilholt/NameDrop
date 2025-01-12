@@ -136,10 +136,16 @@ async function handleGuess() {
         alert("Incorrect. Try again!");
     }
 
-    await saveScore(auth.currentUser.uid, userScore); // Save updated score
-    scoreDisplay.textContent = `Score: ${userScore}`; // Update the score display
-    showRandomImage(); // Load the next image
+    // Update score display immediately
+    scoreDisplay.textContent = `Score: ${userScore} | Streak: ${streak}`;
+
+    // Save the updated score to Firestore
+    await saveScore(auth.currentUser.uid, userScore);
+
+    // Load the next image
+    showRandomImage();
 }
+
 
 
 function fetchImageDataRealtime() {
