@@ -23,10 +23,33 @@ let currentMode = "first-name";
 let currentScore = null;
 let currentImage = null;
 let scoreDisplay = null; // Declare it globally
+let menuButton = null; // Global variable for the menu button
+let sidebar = null; // Global variable for the sidebar
+
 
 // ---------------------------------------
 // 2. Utility Functions
 // ---------------------------------------
+function setupTopBar() {
+    const topBar = document.getElementById("top-bar");
+    topBar.innerHTML = `
+        <div id="logo-section" style="flex: 1; display: flex; align-items: center;">
+            <img src="logo.png" alt="Logo" style="height: 40px;">
+        </div>
+        <div id="text-section" style="flex: 2; text-align: center;">
+            <h2>Matching Names to Faces</h2>
+        </div>
+        <div id="user-info-section" style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
+            <div id="flame-score" style="margin-right: 10px;">🔥 0</div>
+            <div id="coin-score" style="margin-right: 10px;">💰 0</div>
+            <div id="user-icon" style="width: 40px; height: 40px; border-radius: 50%; background-color: #ccc; border: 2px solid #333; display: none; background-size: cover;"></div>
+            <button id="menu-button" style="margin-left: 10px;">☰</button>
+        </div>
+    `;
+    menuButton = document.getElementById("menu-button");
+    sidebar = document.getElementById("sidebar");
+}
+
 // Update the top bar with scores and user icon
 function updateTopBar() {
     const topBar = document.getElementById("top-bar");
@@ -189,9 +212,10 @@ document.addEventListener("DOMContentLoaded", () => {
     submitGuessButton = document.getElementById("submit-guess");
 
     const loginButton = document.getElementById("google-login");
-    const topBar = document.getElementById("top-bar");
+            //const topBar = document.getElementById("top-bar");
     const userIcon = document.createElement("div");
-
+    // Initialize top bar
+    setupTopBar();
     // Setup user icon (initially hidden)
     userIcon.id = "user-icon";
     userIcon.style.display = "none";
@@ -208,6 +232,9 @@ document.addEventListener("DOMContentLoaded", () => {
     topBar.appendChild(userIcon);
     //Sidebar Menu
     const sidebar = document.createElement("div");
+
+// Setup sidebar
+sidebar = document.createElement("div");
 
 // Setup sidebar
 sidebar.id = "sidebar";
@@ -229,6 +256,11 @@ sidebar.innerHTML = `
         <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
     </ul>`;
 document.body.appendChild(sidebar);
+
+// Sidebar toggle functionality
+menuButton.addEventListener("click", () => {
+    sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
+});
 
 // Event listeners for sidebar
 document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
@@ -261,6 +293,7 @@ document.getElementById("logout").addEventListener("click", () => {
             // Update UI after login
             gameArea.style.display = "block";
             loginButton.style.display = "none"; // Hide login button
+            const userIcon = document.getElementById("user-icon");
             userIcon.style.display = "flex"; // Show user icon
             userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
             userIcon.style.backgroundSize = "cover";
