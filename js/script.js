@@ -19,6 +19,7 @@ let streak = 0;
 let currentMode = "first-name";
 let currentScore = null;
 let currentImage = null;
+let scoreDisplay = null; // Declare it globally
 
 // Show a random image
 function showRandomImage() {
@@ -196,13 +197,17 @@ function fetchImageDataRealtime() {
 
 document.addEventListener("DOMContentLoaded", () => {
     // Elements
+    scoreDisplay = document.getElementById("score");
+    if (!scoreDisplay) {
+        console.error('Could not find the "score" element in the DOM.');
+    }
+    
     imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
     nameInput = document.getElementById("name-guess"); // Assign nameInput
     gameArea = document.getElementById("game-area");
     submitGuessButton = document.getElementById("submit-guess");
 
     const toggleBar = document.getElementsByName("mode");
-    const scoreDisplay = document.getElementById("score");
     const loginButton = document.getElementById("google-login");
     const userIcon = document.createElement("div");
     const sidebar = document.createElement("div");
