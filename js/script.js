@@ -38,29 +38,30 @@ function setupTopBar() {
     }
 
     topBar.innerHTML = `
-        <div id="logo-section">
-            <img src="./assets/NameDrop.png" alt="Logo" style="height: 80px;">
-        </div>
-        <div id="text-section">
-            <div id="flame-score">
+    <div id="logo-section">
+        <img src="./assets/NameDrop.png" alt="Logo" style="height: 60px;">
+    </div>
+    <div id="text-section">
+        <div id="scores-container" style="display: flex; align-items: center; gap: 20px;">
+            <div id="flame-score" class="score-section">
                 <img src="./assets/streak-icon.png" alt="Streak">
                 <span>0</span>
             </div>
             <h2>Matching Names to Faces</h2>
-            <div id="coin-score">
+            <div id="coin-score" class="score-section">
                 <img src="./assets/score-icon.png" alt="Score">
                 <span>0</span>
             </div>
         </div>
-        <div id="user-info-section">
-            <button id="menu-button">☰</button>
-            <div id="user-icon"></div>
-        </div>
-    `;
-    menuButton = document.getElementById("menu-button");
-    sidebar = document.getElementById("sidebar");
+    </div>
+    <div id="user-info-section">
+        <button id="menu-button">☰</button>
+        <div id="user-icon"></div>
+    </div>
+`;
+menuButton = document.getElementById("menu-button");
+sidebar = document.getElementById("sidebar");
 }
-
 
 
 // Update the top bar with scores and user icon
