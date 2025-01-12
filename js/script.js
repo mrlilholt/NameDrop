@@ -19,6 +19,7 @@ let userScore = 0;
 let streak = 0;
 let currentMode = "first-name";
 let scoreDisplay = null;
+let imageDisplay = null; // Ensures imageDisplay is declared globally
 
 // ---------------------------------------
 // 2. Utility Functions
@@ -34,9 +35,9 @@ function showRandomImage() {
     const randomIndex = Math.floor(Math.random() * gameData.length);
     const selectedPerson = gameData[randomIndex];
 
-    imageDisplay.src = selectedPerson.image;
+    imageDisplay.src = selectedPerson.image; // Update the image
     currentImage = selectedPerson;
-    nameInput.value = ""; // Clear input field
+    nameInput.value = ""; // Clear the input field
 }
 
 // Fetch data from Firestore
@@ -49,7 +50,7 @@ async function fetchImageData() {
         data.push({
             image: item.imageUrl,
             firstName: item.firstName,
-            lastName: item.lastName
+            lastName: item.lastName,
         });
     });
     return data;
@@ -124,7 +125,7 @@ async function handleGuess() {
     }
 
     try {
-        await saveScore(auth.currentUser.uid, userScore);
+        await saveScoreToFirestore(auth.currentUser.uid, userScore);
         scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
     } catch (error) {
         console.error("Error saving score:", error);
@@ -166,8 +167,12 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
+
+            // Fetch user score and initialize game data
             await fetchUserScore(user.uid);
             await initializeGameData();
+
+            // Make game area visible
             gameArea.style.display = "block";
         } catch (error) {
             console.error("Error during login:", error);
