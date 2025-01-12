@@ -105,36 +105,26 @@
                 <img src="assets/google_g_logo.png" alt="Google Logo" style="margin-right: 10px; width: 20px; height: 20px;">
                 Login with Google
             </button>
-        </section>
-
-        <!--Logo and topbar Section-->
-        <div id="logo-container">
-            <img src="assets/NameDrop.png" alt="NameDrop Logo" id="logo">
-        </div>
-        <div id="top-bar">
-            <div class="score-section">
-                <img src="./assets/streak-icon.png" alt="Streak Icon">
-                <span id="streak-value">0</span>
-            </div>
-            <div class="score-section">
-                <img src="./assets/score-icon.png" alt="Score Icon">
-                <span id="score-value">0</span>
-            </div>
-        </div>
+        </section>    
         
         <div id="game-container">
 
         <!-- Game Area -->
         <section id="game-area" style="display: none;">
-            <div id="toggle-bar">
-                <label>
-                    <input type="radio" name="mode" value="first-name" checked>
-                    First Name Only
-                </label>
-                <label>
-                    <input type="radio" name="mode" value="full-name">
-                    First & Last Name
-                </label>
+        <!--Logo and topbar Section-->
+
+            <div id="top-bar">
+                <div class="score-section">
+                    <img src="./assets/streak-icon.png" alt="Streak Icon">
+                    <span id="streak-value">0</span>
+                </div>
+                <div id="logo-container">
+                    <img src="assets/NameDrop.png" alt="NameDrop Logo" id="logo">
+                </div>
+                <div class="score-section">
+                    <img src="./assets/score-icon.png" alt="Score Icon">
+                    <span id="score-value">0</span>
+                </div>
             </div>
 
             <div id="image-display" class="image-container">
@@ -145,6 +135,16 @@
             <div id="name-input">
                 <input type="text" id="name-guess" placeholder="Enter First Name...">
                 <button id="submit-guess">Submit</button>
+            </div>
+            <div id="toggle-bar">
+                <label>
+                    <input type="radio" name="mode" value="first-name" checked>
+                    First Name Only
+                </label>
+                <label>
+                    <input type="radio" name="mode" value="full-name">
+                    First & Last Name
+                </label>
             </div>
 
             <div id="score-display">
