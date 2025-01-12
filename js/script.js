@@ -383,20 +383,9 @@ async function handleGuess() {
         alert("Skipping this person. Time to introduce yourselves later!");
         showRandomImage();
     });
-
-    // Update streak and total score values
-function updateTopBar(streak, score) {
-    const streakValue = document.getElementById("streak-value");
-    const totalScoreValue = document.getElementById("total-score-value");
-
-    if (streakValue && totalScoreValue) {
-        streakValue.textContent = streak;
-        totalScoreValue.textContent = score;
-    }
-}
-
-// Example usage (call this after updating the streak or score):
+    // Example usage (call this after updating the streak or score):
 updateTopBar(streak, userScore);
+
 
      // Handle Google Sign-In
      async function handleSignIn() {
