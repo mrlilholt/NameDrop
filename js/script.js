@@ -51,8 +51,6 @@ function setupTopBar() {
 <div id="coin-score" style="margin-right: 10px;">
     <img src="./assets/score-icon.png" alt="Score" style="height: 20px; vertical-align: middle;"> <span>0</span>
 </div>
-
-            <div id="user-icon" style="width: 40px; height: 40px; border-radius: 50%; background-color: #ccc; border: 2px solid #333; display: none; background-size: cover;"></div>
             <button id="menu-button" style="margin-left: 10px;">☰</button>
         </div>
     `;
