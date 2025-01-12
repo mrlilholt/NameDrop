@@ -161,6 +161,64 @@ document.addEventListener("DOMContentLoaded", () => {
     submitGuessButton = document.getElementById("submit-guess");
 
     const loginButton = document.getElementById("google-login");
+    const topBar = document.getElementById("top-bar");
+    const userIcon = document.createElement("div");
+
+    // Setup user icon (initially hidden)
+    userIcon.id = "user-icon";
+    userIcon.style.display = "none";
+    userIcon.style.width = "40px";
+    userIcon.style.height = "40px";
+    userIcon.style.borderRadius = "50%";
+    userIcon.style.backgroundColor = "#ccc";
+    userIcon.style.display = "flex";
+    userIcon.style.justifyContent = "center";
+    userIcon.style.alignItems = "center";
+    userIcon.style.cursor = "pointer";
+    userIcon.style.margin = "0 auto";
+    userIcon.style.border = "2px solid #333";
+    topBar.appendChild(userIcon);
+    //Sidebar Menu
+    const sidebar = document.createElement("div");
+
+// Setup sidebar
+sidebar.id = "sidebar";
+sidebar.style.position = "fixed";
+sidebar.style.top = "0";
+sidebar.style.left = "-250px";
+sidebar.style.width = "250px";
+sidebar.style.height = "100%";
+sidebar.style.backgroundColor = "#333";
+sidebar.style.color = "#fff";
+sidebar.style.padding = "20px";
+sidebar.style.transition = "left 0.3s";
+sidebar.innerHTML = `
+    <h2 style="text-align: center;">Menu</h2>
+    <ul style="list-style: none; padding: 0; text-align: center;">
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="view-profile">View Profile</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="upload-images">Upload Images</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="settings">Settings</li>
+        <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
+    </ul>`;
+document.body.appendChild(sidebar);
+
+// Event listeners for sidebar
+document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
+document.getElementById("settings").addEventListener("click", initializeSettingsModal);
+document.getElementById("upload-images").addEventListener("click", initializeUploadModal);
+
+// Toggle sidebar visibility
+userIcon.addEventListener("click", () => {
+    sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
+});
+
+// Logout functionality
+document.getElementById("logout").addEventListener("click", () => {
+    auth.signOut().then(() => {
+        alert("Logged out successfully");
+        location.reload();
+    });
+});
 
     // Login event
     loginButton.addEventListener("click", async () => {
@@ -172,8 +230,13 @@ document.addEventListener("DOMContentLoaded", () => {
             await fetchUserScore(user.uid);
             await initializeGameData();
 
-            // Make game area visible
+            // Update UI after login
             gameArea.style.display = "block";
+            loginButton.style.display = "none"; // Hide login button
+            userIcon.style.display = "flex"; // Show user icon
+            userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
+            userIcon.style.backgroundSize = "cover";
+            userIcon.textContent = user.photoURL ? "" : user.displayName[0]; // Fallback to initials if no photo
         } catch (error) {
             console.error("Error during login:", error);
         }
@@ -181,4 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Guess submission event
     submitGuessButton.addEventListener("click", handleGuess);
+
+    // Hide game area until login
+    gameArea.style.display = "none";
 });
