@@ -129,8 +129,6 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #ccc;
-    border: 2px solid #333;
     display: block; /* Ensure visible when logged in */
     background-size: cover;
     background-position: center;
