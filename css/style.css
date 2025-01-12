@@ -50,6 +50,6 @@
 }
 
 /* Streak and score values */
-#streak-value, #total-score-value {
+#streak-value, #score-value {
     font-weight: bold;
 }
