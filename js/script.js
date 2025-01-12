@@ -317,7 +317,22 @@ document.addEventListener("DOMContentLoaded", () => {
 userIcon.addEventListener("click", () => {
     sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
 });
+// First/last name toggle
+const firstNameInput = document.getElementById("first-name-input");
+    const lastNameInput = document.getElementById("last-name-input");
+    const nameModeRadios = document.querySelectorAll('input[name="name-mode"]');
 
+    // Listen for changes in the radio buttons
+    nameModeRadios.forEach((radio) => {
+        radio.addEventListener("change", () => {
+            if (radio.value === "full-name") {
+                lastNameInput.style.display = "block"; // Show last name input
+            } else {
+                lastNameInput.style.display = "none"; // Hide last name input
+                lastNameInput.value = ""; // Clear last name input
+            }
+        });
+    });
 // Logout functionality
 document.getElementById("logout").addEventListener("click", () => {
     auth.signOut().then(() => {
