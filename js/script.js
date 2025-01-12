@@ -244,10 +244,8 @@ document.addEventListener("DOMContentLoaded", () => {
     userIcon.style.border = "2px solid #333";
     topBar.appendChild(userIcon);
     //Sidebar Menu
-    const sidebar = document.createElement("div");
-
-// Setup sidebar
-sidebar = document.createElement("div");
+    
+let sidebar = document.createElement("div");
 
 // Setup sidebar
 sidebar.id = "sidebar";
