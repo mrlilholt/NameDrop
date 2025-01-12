@@ -39,14 +39,19 @@ function setupTopBar() {
 
     topBar.innerHTML = `
         <div id="logo-section" style="flex: 1; display: flex; align-items: center;">
-            <img src="logo.png" alt="Logo" style="height: 40px;">
+            <img src="./assets/NameDrop.png" alt="Logo" style="height: 40px;">
         </div>
         <div id="text-section" style="flex: 2; text-align: center;">
             <h2>Matching Names to Faces</h2>
         </div>
         <div id="user-info-section" style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
-            <div id="flame-score" style="margin-right: 10px;">🔥 0</div>
-            <div id="coin-score" style="margin-right: 10px;">💰 0</div>
+            <div id="flame-score" style="margin-right: 10px;">
+    <img src="./assets/streak-icon.png" alt="Streak" style="height: 20px; vertical-align: middle;"> <span>0</span>
+</div>
+<div id="coin-score" style="margin-right: 10px;">
+    <img src="./assets/score-icon.png" alt="Score" style="height: 20px; vertical-align: middle;"> <span>0</span>
+</div>
+
             <div id="user-icon" style="width: 40px; height: 40px; border-radius: 50%; background-color: #ccc; border: 2px solid #333; display: none; background-size: cover;"></div>
             <button id="menu-button" style="margin-left: 10px;">☰</button>
         </div>
