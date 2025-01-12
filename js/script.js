@@ -136,11 +136,21 @@ async function handleGuess() {
         alert("Incorrect. Try again!");
     }
 
-    // Update score display immediately
-    scoreDisplay.textContent = `Score: ${userScore} | Streak: ${streak}`;
+    try {
+        // Ensure scoreDisplay is referencing the DOM element correctly
+        if (!scoreDisplay || !(scoreDisplay instanceof HTMLElement)) {
+            console.error("scoreDisplay is not a valid DOM element:", scoreDisplay);
+            return;
+        }
 
-    // Save the updated score to Firestore
-    await saveScore(auth.currentUser.uid, userScore);
+        // Save the updated score to Firestore
+        await saveScore(auth.currentUser.uid, userScore);
+
+        // Update score display
+        scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
+    } catch (error) {
+        console.error("Error saving score:", error);
+    }
 
     // Load the next image
     showRandomImage();
@@ -299,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Fetch user score
         await fetchUserScore(user.uid);
-        scoreDisplay.innerHTML = `Score: ${userScore}`;
+        scoreDisplay.innerHTML = `${userScore}`;
 
             // Update user icon
             userIcon.style.display = "flex";
