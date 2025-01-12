@@ -191,9 +191,18 @@ button {
 }
 #name-inputs {
     display: flex;
-    gap: 10px;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically if needed */
+    gap: 10px; /* Space between the inputs */
     margin-bottom: 10px;
 }
+
+#name-inputs input {
+    flex: 1 1 auto; /* Allow inputs to resize dynamically */
+    max-width: 200px; /* Prevent them from growing too wide */
+    text-align: center; /* Align text to center in inputs */
+}
+
 
 #last-name-input {
     display: none; /* Initially hidden */
