@@ -5,7 +5,6 @@ import { initializeUploadModal } from "./upload_images.js";
 import { auth, provider, signInWithPopup } from "./firebase.js";
 import { getFirestore, collection, doc, getDocs, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 import { saveScore, fetchScore, incrementScore, decrementScore } from "./scoring.js";
-import { initializeTopBar } from "./topbar.js";
 import { updateTopBar } from "./topbar.js";
 
 const db = getFirestore();
