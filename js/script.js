@@ -61,6 +61,8 @@ function setupTopBar() {
 `;
 menuButton = document.getElementById("menu-button");
 sidebar = document.getElementById("sidebar");
+userIcon = document.getElementById("user-icon"); // Add this line to ensure the variable references the user icon
+
 }
 
 
