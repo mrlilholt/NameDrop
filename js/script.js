@@ -5,7 +5,6 @@ import { initializeUploadModal } from "./upload_images.js";
 import { auth, provider, signInWithPopup } from "./firebase.js";
 import { getFirestore, collection, doc, getDocs, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 import { saveScore, fetchScore, incrementScore, decrementScore } from "./scoring.js";
-import { initializeTopBar, updateTopBar } from './topbar.js';
 
 const db = getFirestore();
 
@@ -138,30 +137,24 @@ async function handleGuess() {
     }
 
     try {
-        // Update Firestore
-        await saveScore(auth.currentUser.uid, userScore);
-
-        // Update score/streak display (both below and in top bar)
-        if (scoreDisplay) {
-            scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
+        // Ensure scoreDisplay is referencing the DOM element correctly
+        if (!scoreDisplay || !(scoreDisplay instanceof HTMLElement)) {
+            console.error("scoreDisplay is not a valid DOM element:", scoreDisplay);
+            return;
         }
 
-        // Update the top bar values
-        const topScoreElement = document.getElementById("score-value");
-        const topStreakElement = document.getElementById("streak-value");
+        // Save the updated score to Firestore
+        await saveScore(auth.currentUser.uid, userScore);
 
-        if (topScoreElement) topScoreElement.textContent = userScore;
-        if (topStreakElement) topStreakElement.textContent = streak;
+        // Update score display
+        scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
     } catch (error) {
         console.error("Error saving score:", error);
     }
 
     // Load the next image
     showRandomImage();
-    updateTopBar(userScore, streak);
-
 }
-
 
 
 
@@ -204,15 +197,11 @@ function fetchImageDataRealtime() {
 
 document.addEventListener("DOMContentLoaded", () => {
     // Elements
-    const topScoreElement = document.getElementById("score-value");
-    const topStreakElement = document.getElementById("streak-value");
-    const { updateTopBar } = initializeTopBar("score-value", "streak-value");
-
     scoreDisplay = document.getElementById("score");
     if (!scoreDisplay) {
         console.error('Could not find the "score" element in the DOM.');
     }
-    
+
     imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
     nameInput = document.getElementById("name-guess"); // Assign nameInput
     gameArea = document.getElementById("game-area");
@@ -314,6 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Skipping this person. Time to introduce yourselves later!");
         showRandomImage();
     });
+    
 
      // Handle Google Sign-In
      async function handleSignIn() {
