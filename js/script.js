@@ -161,17 +161,32 @@ async function fetchUserScore(userId) {
         if (userDoc.exists()) {
             const data = userDoc.data();
             userScore = data.score || 0; // Default to 0 if no score exists
-            scoreDisplay.textContent = `Score: ${userScore}`;
+
+            // Update the top bar score display
+            const topScoreDisplay = document.querySelector("#coin-score span");
+            if (topScoreDisplay) topScoreDisplay.textContent = userScore;
+
+            // Update the bottom score display
+            const bottomScoreDisplay = document.querySelector("#score");
+            if (bottomScoreDisplay) bottomScoreDisplay.textContent = userScore;
         } else {
             // Create user document if it doesn't exist
             await setDoc(userRef, { score: 0 });
             userScore = 0;
-            scoreDisplay.textContent = `Score: ${userScore}`;
+
+            // Update the top bar score display
+            const topScoreDisplay = document.querySelector("#coin-score span");
+            if (topScoreDisplay) topScoreDisplay.textContent = userScore;
+
+            // Update the bottom score display
+            const bottomScoreDisplay = document.querySelector("#score");
+            if (bottomScoreDisplay) bottomScoreDisplay.textContent = userScore;
         }
     } catch (error) {
         console.error("Error fetching user score:", error);
     }
 }
+
 
 // ---------------------------------------
 // 3. Core Game Logic
