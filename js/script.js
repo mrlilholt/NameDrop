@@ -225,6 +225,14 @@ async function handleGuess() {
         alert("Incorrect. Try again!");
     }
 
+    // Update the top bar score display
+    const topScoreDisplay = document.querySelector("#coin-score span");
+    if (topScoreDisplay) topScoreDisplay.textContent = userScore;
+
+    // Update the bottom score display
+    const bottomScoreDisplay = document.querySelector("#score");
+    if (bottomScoreDisplay) bottomScoreDisplay.textContent = userScore;
+
     try {
         // Save the updated score to Firestore
         await saveScore(auth.currentUser.uid, userScore);
@@ -236,6 +244,7 @@ async function handleGuess() {
     // Load the next image
     showRandomImage();
 }
+
 
 // Initialize game data
 async function initializeGameData() {
