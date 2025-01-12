@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
             //const topBar = document.getElementById("top-bar");
     const userIcon = document.createElement("div");
     // Initialize top bar
-    const topBar = document.getElementById("top-bar");
+    //const topBar = document.getElementById("top-bar");
     if (!topBar) {
         console.error("Top bar not found in DOM. Ensure it exists in the HTML file.");
         return;
