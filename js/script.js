@@ -213,21 +213,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    const streakValue = document.getElementById("streak-value"); // Top-bar streak value
-    const scoreValue = document.getElementById("score-value");   // Top-bar score value
+    //const streakValue = document.getElementById("streak-value"); // Top-bar streak value
+    //const scoreValue = document.getElementById("score-value");   // Top-bar score value
 
     // Function to update the top-bar values
-    function updateTopBar() {
+    function updateTopBar(streak, score) {
         const streakValue = document.getElementById("streak-value");
-        const scoreValue = document.getElementById("score-value");
+        const totalScoreValue = document.getElementById("total-score-value");
     
-        if (streakValue && scoreValue) {
-            streakValue.textContent = streak; // Update the streak dynamically
-            scoreValue.textContent = userScore; // Update the score dynamically
+        if (streakValue && totalScoreValue) {
+            streakValue.textContent = streak;
+            totalScoreValue.textContent = score;
         } else {
             console.error("Top-bar elements not found!");
         }
     }
+    
     
 
    // Handle guess submission
@@ -266,8 +267,11 @@ async function handleGuess() {
     await saveScore(auth.currentUser.uid, userScore); // Save updated score
     scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`; // Update below
 
-    updateTopBar(); // Update the top-bar dynamically
-    showRandomImage(); // Load the next image
+     // Update top bar values
+     updateTopBar(streak, userScore);
+
+     // Load next image
+     showRandomImage();
 }
 
 
