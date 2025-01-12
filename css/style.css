@@ -148,3 +148,11 @@
     justify-content: center;
     background-color: #ccc; /* Fallback grey background */
 }
+#score-display {
+    text-align: center;
+    margin-top: 10px;
+}
+#score-display img {
+    max-width: 200px; /* Adjust as needed */
+    height: auto;
+}
