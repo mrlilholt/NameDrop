@@ -80,14 +80,20 @@
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* Add some depth */
 }
 .score-section img {
-    width: 30px; /* Scale down icon size */
-    height: 30px; /* Keep it proportional */
-    margin-right: 5px; /* Space between the icon and the number */
+    width: 25px; /* Icon size */
+    height: 25px;
+    margin-right: 5px; /* Space between icon and number */
 }
 .score-section span {
-    font-size: 16px; /* Adjust text size */
+    font-size: 16px;
     font-weight: bold;
-    color: #333; /* Neutral text color */
+    color: #333;
+}
+/* Centered Scores and Text */
+#scores-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between scores and text */
 }
 #user-icon {
     margin: 0 auto;
@@ -125,6 +131,7 @@
     border-radius: 50%;
     background-color: #ccc;
     border: 2px solid #333;
-    display: none; /* Initially hidden until user logs in */
+    display: block; /* Ensure visible when logged in */
     background-size: cover;
+    background-position: center;
 }
