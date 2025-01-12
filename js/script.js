@@ -37,54 +37,45 @@ function setupTopBar() {
         return;
     }
 
-    topBar.innerHTML = `
-    <div id="logo-section">
-        <img src="./assets/NameDrop.png" alt="Logo" style="height: 60px;">
-    </div>
-    <div id="text-section">
-        <div id="scores-container" style="display: flex; align-items: center; gap: 20px;">
-            <div id="flame-score" class="score-section">
-                <img src="./assets/streak-icon.png" alt="Streak">
-                <span>0</span>
-            </div>
-            <h2>Matching Names to Faces</h2>
-            <div id="coin-score" class="score-section">
-                <img src="./assets/score-icon.png" alt="Score">
-                <span>0</span>
-            </div>
-        </div>
-    </div>
-    <div id="user-info-section">
-        <button id="menu-button">☰</button>
-        <div id="user-icon"></div>
-    </div>
-`;
-menuButton = document.getElementById("menu-button");
-sidebar = document.getElementById("sidebar");
-userIcon = document.getElementById("user-icon"); // Add this line to ensure the variable references the user icon
+    // Ensure logo section exists
+    if (!document.getElementById("logo-section")) {
+        const logoSection = document.createElement("div");
+        logoSection.id = "logo-section";
+        logoSection.innerHTML = `<img src="./assets/NameDrop.png" alt="Logo" style="height: 60px;">`;
+        topBar.appendChild(logoSection);
+    }
 
-}
+    // Ensure text section exists
+    if (!document.getElementById("text-section")) {
+        const textSection = document.createElement("div");
+        textSection.id = "text-section";
+        textSection.innerHTML = `
+            <div id="scores-container" style="display: flex; align-items: center; gap: 20px;">
+                <div id="flame-score" class="score-section">
+                    <img src="./assets/streak-icon.png" alt="Streak">
+                    <span>0</span>
+                </div>
+                <h2>Matching Names to Faces</h2>
+                <div id="coin-score" class="score-section">
+                    <img src="./assets/score-icon.png" alt="Score">
+                    <span>0</span>
+                </div>
+            </div>`;
+        topBar.appendChild(textSection);
+    }
 
+    // Ensure user info section exists
+    if (!document.getElementById("user-info-section")) {
+        const userInfoSection = document.createElement("div");
+        userInfoSection.id = "user-info-section";
+        userInfoSection.innerHTML = `
+            <button id="menu-button">☰</button>
+            <div id="user-icon"></div>`;
+        topBar.appendChild(userInfoSection);
 
-// Update the top bar with scores and user icon
-function updateTopBar() {
-    //const topBar = document.getElementById("top-bar");
-    const flameScore = document.querySelector("#flame-score span");
-    const coinScore = document.querySelector("#coin-score span");
-    const userIcon = document.getElementById("user-icon");
-
-    // Update score and streak values without removing the icons
-    if (flameScore) flameScore.textContent = streak;
-    if (coinScore) coinScore.textContent = userScore;
-
-    // Update user icon
-    if (auth.currentUser && userIcon) {
-        userIcon.style.display = "block";
-        userIcon.style.backgroundImage = auth.currentUser.photoURL
-            ? `url(${auth.currentUser.photoURL})`
-            : "none";
-        userIcon.style.backgroundSize = "cover";
-        userIcon.textContent = auth.currentUser.photoURL ? "" : auth.currentUser.displayName[0];
+        // Assign global variables after elements are appended
+        menuButton = document.getElementById("menu-button");
+        sidebar = document.getElementById("sidebar");
     }
 }
 
