@@ -39,10 +39,10 @@ function setupTopBar() {
 
     topBar.innerHTML = `
         <div id="logo-section" style="flex: 1; display: flex; align-items: center;">
-            <img src="./assets/NameDrop.png" alt="Logo" style="height: 40px;">
+            <img src="./assets/NameDrop.png" alt="Logo" style="height: 100px;">
         </div>
         <div id="text-section" style="flex: 2; text-align: center;">
-            <h2>Matching Names to Faces</h2>
+            <h1>Matching Names to Faces</h1>
         </div>
         <div id="user-info-section" style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
             <div id="flame-score" style="margin-right: 10px;">
@@ -301,23 +301,32 @@ document.getElementById("logout").addEventListener("click", () => {
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
-
+    
             // Fetch user score and initialize game data
             await fetchUserScore(user.uid);
             await initializeGameData();
-
+    
             // Update UI after login
             gameArea.style.display = "block";
             loginButton.style.display = "none"; // Hide login button
+    
             const userIcon = document.getElementById("user-icon");
             userIcon.style.display = "flex"; // Show user icon
             userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
             userIcon.style.backgroundSize = "cover";
             userIcon.textContent = user.photoURL ? "" : user.displayName[0]; // Fallback to initials if no photo
+    
+            // Hide or remove the header content after login
+            const logoContainer = document.getElementById("logo-container");
+            const headerText = document.querySelector("header p");
+    
+            if (logoContainer) logoContainer.style.display = "none"; // Hide the logo container
+            if (headerText) headerText.style.display = "none"; // Hide the header text
         } catch (error) {
             console.error("Error during login:", error);
         }
     });
+    
 
     // Guess submission event
     submitGuessButton.addEventListener("click", handleGuess);
