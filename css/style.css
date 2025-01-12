@@ -153,6 +153,28 @@
     margin-top: 10px;
 }
 #score-display img {
-    max-width: 120px; /* Adjust as needed */
+    max-width: 200px; /* Adjust as needed */
     height: auto;
+}
+/* Apply Lexend font to all form elements */
+input,
+button,
+label,
+select {
+    font-family: 'Lexend', sans-serif;
+}
+
+/* Specifically target the radio button labels */
+input[type="radio"] + label {
+    font-family: 'Lexend', sans-serif;
+}
+
+/* Target the placeholder text in the input field */
+input::placeholder {
+    font-family: 'Lexend', sans-serif;
+}
+
+/* Ensure the Submit button uses Lexend font */
+button {
+    font-family: 'Lexend', sans-serif;
 }
