@@ -5,6 +5,8 @@ import { initializeUploadModal } from "./upload_images.js";
 import { auth, provider, signInWithPopup } from "./firebase.js";
 import { getFirestore, collection, doc, getDocs, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 import { saveScore, fetchScore, incrementScore, decrementScore } from "./scoring.js";
+import { initializeTopBar } from "./topbar.js";
+import { updateTopBar } from "./topbar.js";
 
 const db = getFirestore();
 
@@ -137,18 +139,28 @@ async function handleGuess() {
     }
 
     try {
-        // Save score to Firestore
+        // Update Firestore
         await saveScore(auth.currentUser.uid, userScore);
 
-        // Update top-bar and below
-        updateTopBar(); // This updates the top-bar values dynamically
-        scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`; // Update below
+        // Update score/streak display (both below and in top bar)
+        if (scoreDisplay) {
+            scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
+        }
+
+        // Update the top bar values
+        const topScoreElement = document.getElementById("score-value");
+        const topStreakElement = document.getElementById("streak-value");
+
+        if (topScoreElement) topScoreElement.textContent = userScore;
+        if (topStreakElement) topStreakElement.textContent = streak;
     } catch (error) {
         console.error("Error saving score:", error);
     }
 
     // Load the next image
     showRandomImage();
+    updateTopBar(userScore, streak);
+
 }
 
 
@@ -193,95 +205,15 @@ function fetchImageDataRealtime() {
 
 document.addEventListener("DOMContentLoaded", () => {
     // Elements
+    const topScoreElement = document.getElementById("score-value");
+    const topStreakElement = document.getElementById("streak-value");
+    const { updateTopBar } = initializeTopBar("score-value", "streak-value");
+
     scoreDisplay = document.getElementById("score");
     if (!scoreDisplay) {
         console.error('Could not find the "score" element in the DOM.');
     }
-
-    const topBar = document.getElementById("top-bar");
-
-    // Hide the top bar initially
-    topBar.style.display = "none";
-
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            // User is logged in
-            topBar.style.display = "flex"; // Show the top bar
-        } else {
-            // User is not logged in
-            topBar.style.display = "none"; // Hide the top bar
-        }
-    });
-
-    //const streakValue = document.getElementById("streak-value"); // Top-bar streak value
-    //const scoreValue = document.getElementById("score-value");   // Top-bar score value
-
-    // Function to update the top-bar values
-    function updateTopBar(streak, score) {
-        const streakValue = document.getElementById("streak-value");
-        const totalScoreValue = document.getElementById("total-score-value");
     
-        if (streakValue && totalScoreValue) {
-            streakValue.textContent = streak;
-            totalScoreValue.textContent = score;
-        } else {
-            console.error("Top-bar elements not found!");
-        }
-    }
-    
-    
-
-   // Handle guess submission
-async function handleGuess() {
-    if (!currentImage) {
-        alert("No image loaded to guess. Try again!");
-        return;
-    }
-
-    const userGuess = nameInput.value.trim();
-    const lastNameInput = document.getElementById("last-name-guess");
-    const lastNameGuess = lastNameInput ? lastNameInput.value.trim() : "";
-
-    let correctGuess = false;
-
-    if (currentMode === "first-name" && userGuess.toLowerCase() === currentImage.firstName.toLowerCase()) {
-        correctGuess = true;
-    } else if (
-        currentMode === "full-name" &&
-        userGuess.toLowerCase() === currentImage.firstName.toLowerCase() &&
-        lastNameGuess.toLowerCase() === currentImage.lastName.toLowerCase()
-    ) {
-        correctGuess = true;
-    }
-
-    if (correctGuess) {
-        streak += 1;
-        userScore = incrementScore(userScore, currentMode === "first-name" ? 1 : 3);
-        alert("Correct!");
-    } else {
-        streak = 0;
-        userScore = decrementScore(userScore, 1);
-        alert("Incorrect. Try again!");
-    }
-
-    await saveScore(auth.currentUser.uid, userScore); // Save updated score
-    scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`; // Update below
-
-     // Update top bar values
-     updateTopBar(streak, userScore);
-
-     // Load next image
-     showRandomImage();
-}
-
-
-    // Initialize game logic and listen for events
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            fetchUserScore(user.uid); // Ensure scores are fetched on login
-        }
-    });
-
     imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
     nameInput = document.getElementById("name-guess"); // Assign nameInput
     gameArea = document.getElementById("game-area");
@@ -383,9 +315,6 @@ async function handleGuess() {
         alert("Skipping this person. Time to introduce yourselves later!");
         showRandomImage();
     });
-    // Example usage (call this after updating the streak or score):
-updateTopBar(streak, userScore);
-
 
      // Handle Google Sign-In
      async function handleSignIn() {
