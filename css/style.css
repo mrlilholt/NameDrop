@@ -23,18 +23,39 @@
     margin-top: 20px;
 }
 
+/* Styles for the top bar */
 #top-bar {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px auto;
+    justify-content: center; /* Center the items horizontally */
+    align-items: center; /* Center the items vertically */
+    gap: 15px; /* Space between the icons */
     padding: 10px;
-    background-color: #f9f9f9;
+    background-color: #f4f4f4; /* Subtle background for the top bar */
     border-radius: 10px;
-    width: 90%;
+    margin: 10px auto;
+    width: fit-content;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
-
+/* Styles for individual score sections */
+.score-section {
+    display: flex;
+    align-items: center; /* Vertically align the icon and text */
+    padding: 5px 10px; /* Adjust padding to reduce size */
+    border: 2px solid #007bff; /* Border color */
+    border-radius: 15px; /* Rounded rectangle */
+    background-color: #fff; /* White background */
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* Add some depth */
+}
+.score-section img {
+    width: 30px; /* Scale down icon size */
+    height: 30px; /* Keep it proportional */
+    margin-right: 5px; /* Space between the icon and the number */
+}
+.score-section span {
+    font-size: 16px; /* Adjust text size */
+    font-weight: bold;
+    color: #333; /* Neutral text color */
+}
 #user-icon {
     margin: 0 auto;
 }
