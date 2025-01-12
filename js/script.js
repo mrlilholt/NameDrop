@@ -302,21 +302,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
         </ul>`;
     document.body.appendChild(sidebar);
-
-    // Sidebar toggle functionality
-    document.getElementById("menu-button").addEventListener("click", () => {
-        sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
-    });
-
-    // Event listeners for sidebar
-    document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
-    document.getElementById("settings").addEventListener("click", initializeSettingsModal);
-    document.getElementById("upload-images").addEventListener("click", initializeUploadModal);
-
-// Toggle sidebar visibility
-userIcon.addEventListener("click", () => {
-    sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
-});
 // First/last name toggle
 const firstNameInput = document.getElementById("first-name-input");
     const lastNameInput = document.getElementById("last-name-input");
@@ -333,6 +318,21 @@ const firstNameInput = document.getElementById("first-name-input");
             }
         });
     });
+    // Sidebar toggle functionality
+    document.getElementById("menu-button").addEventListener("click", () => {
+        sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
+    });
+
+    // Event listeners for sidebar
+    document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
+    document.getElementById("settings").addEventListener("click", initializeSettingsModal);
+    document.getElementById("upload-images").addEventListener("click", initializeUploadModal);
+
+// Toggle sidebar visibility
+userIcon.addEventListener("click", () => {
+    sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
+});
+
 // Logout functionality
 document.getElementById("logout").addEventListener("click", () => {
     auth.signOut().then(() => {
