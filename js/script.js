@@ -39,7 +39,7 @@ function setupTopBar() {
 
     topBar.innerHTML = `
         <div id="logo-section">
-            <img src="./assets/NameDrop.png" alt="Logo">
+            <img src="./assets/NameDrop.png" alt="Logo" style="height: 80px;">
         </div>
         <div id="text-section">
             <div id="flame-score">
@@ -53,8 +53,8 @@ function setupTopBar() {
             </div>
         </div>
         <div id="user-info-section">
-            <div id="user-icon"></div>
             <button id="menu-button">☰</button>
+            <div id="user-icon"></div>
         </div>
     `;
     menuButton = document.getElementById("menu-button");
