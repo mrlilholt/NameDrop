@@ -137,17 +137,12 @@ async function handleGuess() {
     }
 
     try {
-        // Ensure scoreDisplay is referencing the DOM element correctly
-        if (!scoreDisplay || !(scoreDisplay instanceof HTMLElement)) {
-            console.error("scoreDisplay is not a valid DOM element:", scoreDisplay);
-            return;
-        }
-
-        // Save the updated score to Firestore
+        // Save score to Firestore
         await saveScore(auth.currentUser.uid, userScore);
 
-        // Update score display
-        scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
+        // Update top-bar and below
+        updateTopBar(); // This updates the top-bar values dynamically
+        scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`; // Update below
     } catch (error) {
         console.error("Error saving score:", error);
     }
@@ -155,6 +150,7 @@ async function handleGuess() {
     // Load the next image
     showRandomImage();
 }
+
 
 
 
@@ -226,8 +222,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const scoreValue = document.getElementById("score-value");
     
         if (streakValue && scoreValue) {
-            streakValue.textContent = streak; // Update the streak in the top-bar
-            scoreValue.textContent = userScore; // Update the score in the top-bar
+            streakValue.textContent = streak; // Update the streak dynamically
+            scoreValue.textContent = userScore; // Update the score dynamically
         } else {
             console.error("Top-bar elements not found!");
         }
