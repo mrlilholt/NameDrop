@@ -248,67 +248,46 @@ document.addEventListener("DOMContentLoaded", () => {
     nameInput = document.getElementById("name-guess");
     gameArea = document.getElementById("game-area");
     submitGuessButton = document.getElementById("submit-guess");
-    // Initialize top bar
+
+    // Initialize top bar (handles user-icon creation)
     setupTopBar();
 
     const loginButton = document.getElementById("google-login");
-            //const topBar = document.getElementById("top-bar");
-    const userIcon = document.createElement("div");
-    // Initialize top bar
-    const topBar = document.getElementById("top-bar");
-    if (!topBar) {
-        console.error("Top bar not found in DOM. Ensure it exists in the HTML file.");
-        return;
-    }
+    const userIcon = document.getElementById("user-icon"); // Reference the existing user icon
 
-    // Setup user icon (initially hidden)
-    userIcon.id = "user-icon";
-    userIcon.style.display = "none";
-    userIcon.style.width = "40px";
-    userIcon.style.height = "40px";
-    userIcon.style.borderRadius = "50%";
-    userIcon.style.backgroundColor = "#ccc";
-    userIcon.style.display = "flex";
-    userIcon.style.justifyContent = "center";
-    userIcon.style.alignItems = "center";
-    userIcon.style.cursor = "pointer";
-    userIcon.style.margin = "0 auto";
-    userIcon.style.border = "2px solid #333";
-    topBar.appendChild(userIcon);
-    //Sidebar Menu
-    
-let sidebar = document.createElement("div");
+    // Sidebar Menu
+    let sidebar = document.createElement("div");
+    sidebar.id = "sidebar";
+    sidebar.style = `
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100%;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        transition: left 0.3s;
+    `;
+    sidebar.innerHTML = `
+        <h2 style="text-align: center;">Menu</h2>
+        <ul style="list-style: none; padding: 0; text-align: center;">
+            <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="view-profile">View Profile</li>
+            <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="upload-images">Upload Images</li>
+            <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="settings">Settings</li>
+            <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
+        </ul>`;
+    document.body.appendChild(sidebar);
 
-// Setup sidebar
-sidebar.id = "sidebar";
-sidebar.style.position = "fixed";
-sidebar.style.top = "0";
-sidebar.style.left = "-250px";
-sidebar.style.width = "250px";
-sidebar.style.height = "100%";
-sidebar.style.backgroundColor = "#333";
-sidebar.style.color = "#fff";
-sidebar.style.padding = "20px";
-sidebar.style.transition = "left 0.3s";
-sidebar.innerHTML = `
-    <h2 style="text-align: center;">Menu</h2>
-    <ul style="list-style: none; padding: 0; text-align: center;">
-        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="view-profile">View Profile</li>
-        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="upload-images">Upload Images</li>
-        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="settings">Settings</li>
-        <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
-    </ul>`;
-document.body.appendChild(sidebar);
+    // Sidebar toggle functionality
+    document.getElementById("menu-button").addEventListener("click", () => {
+        sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
+    });
 
-// Sidebar toggle functionality
-menuButton.addEventListener("click", () => {
-    sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
-});
-
-// Event listeners for sidebar
-document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
-document.getElementById("settings").addEventListener("click", initializeSettingsModal);
-document.getElementById("upload-images").addEventListener("click", initializeUploadModal);
+    // Event listeners for sidebar
+    document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
+    document.getElementById("settings").addEventListener("click", initializeSettingsModal);
+    document.getElementById("upload-images").addEventListener("click", initializeUploadModal);
 
 // Toggle sidebar visibility
 userIcon.addEventListener("click", () => {
