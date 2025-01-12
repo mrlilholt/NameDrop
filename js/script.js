@@ -19,7 +19,6 @@ let streak = 0;
 let currentMode = "first-name";
 let currentScore = null;
 let currentImage = null;
-let scoreDisplay = 0;
 
 // Show a random image
 function showRandomImage() {
