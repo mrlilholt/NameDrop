@@ -63,18 +63,17 @@ function setupTopBar() {
         </div>`;
     topBar.appendChild(textSection);
 
-   // Add user info section
-const userInfoSection = document.createElement("div");
-userInfoSection.id = "user-info-section";
-userInfoSection.innerHTML = `
-    <button id="menu-button">☰</button>
-    <div id="user-icon" style="width: 40px; height: 40px; border-radius: 50%; display: none; background-size: cover;"></div>`;
-topBar.appendChild(userInfoSection);
+    // Add user info section
+    const userInfoSection = document.createElement("div");
+    userInfoSection.id = "user-info-section";
+    userInfoSection.innerHTML = `
+        <button id="menu-button">☰</button>
+        <div id="user-icon" style="width: 40px; height: 40px; display: none;"></div>`;
+    topBar.appendChild(userInfoSection);
 
-// Assign global variables
-menuButton = document.getElementById("menu-button");
-sidebar = document.getElementById("sidebar");
-
+    // Assign global variables
+    menuButton = document.getElementById("menu-button");
+    sidebar = document.getElementById("sidebar");
 }
 
 
@@ -85,20 +84,24 @@ function updateTopBar() {
     const coinScore = document.querySelector("#coin-score span");
     const userIcon = document.getElementById("user-icon");
 
-    // Update score and streak values without removing the icons
+    // Update score and streak values
     if (flameScore) flameScore.textContent = streak;
     if (coinScore) coinScore.textContent = userScore;
 
-    // Update user icon
+    // Update user icon dynamically
     if (auth.currentUser && userIcon) {
-        userIcon.style.display = "block";
-        userIcon.style.backgroundImage = auth.currentUser.photoURL
-            ? `url(${auth.currentUser.photoURL})`
-            : "none";
-        userIcon.style.backgroundSize = "cover";
-        userIcon.textContent = auth.currentUser.photoURL ? "" : auth.currentUser.displayName[0];
+        userIcon.style.display = "block"; // Ensure it is visible
+        if (auth.currentUser.photoURL) {
+            userIcon.style.backgroundImage = `url(${auth.currentUser.photoURL})`;
+            userIcon.style.backgroundColor = "transparent"; // Remove grey fallback
+            userIcon.textContent = ""; // No text needed if photo is present
+        } else {
+            userIcon.style.backgroundImage = "none";
+            userIcon.style.backgroundColor = "#ccc"; // Default grey
+            userIcon.textContent = auth.currentUser.displayName ? auth.currentUser.displayName[0] : "?"; // Initials fallback
+        }
     } else if (userIcon) {
-        userIcon.style.display = "none"; // Hide if no user is logged in
+        userIcon.style.display = "none"; // Hide icon if no user is logged in
     }
 }
 
