@@ -61,17 +61,21 @@ function setupTopBar() {
 
 // Update the top bar with scores and user icon
 function updateTopBar() {
-    const topBar = document.getElementById("top-bar");
-    const flameScore = document.getElementById("flame-score");
-    const coinScore = document.getElementById("coin-score");
+    //const topBar = document.getElementById("top-bar");
+    const flameScore = document.querySelector("#flame-score span");
+    const coinScore = document.querySelector("#coin-score span");
     const userIcon = document.getElementById("user-icon");
 
+    // Update score and streak values without removing the icons
     if (flameScore) flameScore.textContent = streak;
     if (coinScore) coinScore.textContent = userScore;
 
+    // Update user icon
     if (auth.currentUser && userIcon) {
         userIcon.style.display = "block";
-        userIcon.style.backgroundImage = auth.currentUser.photoURL ? `url(${auth.currentUser.photoURL})` : "none";
+        userIcon.style.backgroundImage = auth.currentUser.photoURL
+            ? `url(${auth.currentUser.photoURL})`
+            : "none";
         userIcon.style.backgroundSize = "cover";
         userIcon.textContent = auth.currentUser.photoURL ? "" : auth.currentUser.displayName[0];
     }
