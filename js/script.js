@@ -32,6 +32,11 @@ let sidebar = null; // Global variable for the sidebar
 // ---------------------------------------
 function setupTopBar() {
     const topBar = document.getElementById("top-bar");
+    if (!topBar) {
+        console.error("Top bar element not found. Make sure it exists in the HTML.");
+        return;
+    }
+
     topBar.innerHTML = `
         <div id="logo-section" style="flex: 1; display: flex; align-items: center;">
             <img src="logo.png" alt="Logo" style="height: 40px;">
@@ -49,6 +54,7 @@ function setupTopBar() {
     menuButton = document.getElementById("menu-button");
     sidebar = document.getElementById("sidebar");
 }
+
 
 // Update the top bar with scores and user icon
 function updateTopBar() {
@@ -214,6 +220,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginButton = document.getElementById("google-login");
             //const topBar = document.getElementById("top-bar");
     const userIcon = document.createElement("div");
+    // Initialize top bar
+    const topBar = document.getElementById("top-bar");
+    if (!topBar) {
+        console.error("Top bar not found in DOM. Ensure it exists in the HTML file.");
+        return;
+    }
+
     // Initialize top bar
     setupTopBar();
     // Setup user icon (initially hidden)
