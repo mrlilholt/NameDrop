@@ -189,3 +189,12 @@ input::placeholder {
 button {
     font-family: 'Lexend', sans-serif;
 }
+#name-inputs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#last-name-input {
+    display: none; /* Initially hidden */
+}
