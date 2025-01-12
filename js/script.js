@@ -199,9 +199,8 @@ async function handleGuess() {
         return;
     }
 
-    const userGuess = nameInput.value.trim();
-    const lastNameInput = document.getElementById("last-name-guess");
-    const lastNameGuess = lastNameInput ? lastNameInput.value.trim() : "";
+    const userGuess = document.getElementById("first-name-input").value.trim();
+    const lastNameGuess = document.getElementById("last-name-input").value.trim();
 
     let correctGuess = false;
 
