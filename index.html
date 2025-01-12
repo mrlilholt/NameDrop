@@ -132,8 +132,19 @@
             </div>
         </div>  
 
-            <div id="name-input">
-                <input type="text" id="name-guess" placeholder="Enter First Name...">
+        <div id="name-inputs">
+            <input type="text" id="first-name-input" placeholder="Enter First Name...">
+            <input type="text" id="last-name-input" placeholder="Enter Last Name..." style="display: none;">
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="name-mode" value="first-name" checked> First Name Only
+            </label>
+            <label>
+                <input type="radio" name="name-mode" value="full-name"> First & Last Name
+            </label>
+        </div>
+        
                 <button id="submit-guess">Submit</button>
             </div>
             <div id="toggle-bar">
