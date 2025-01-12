@@ -68,7 +68,7 @@ function setupTopBar() {
     userInfoSection.id = "user-info-section";
     userInfoSection.innerHTML = `
         <button id="menu-button">☰</button>
-        <div id="user-icon" style="width: 40px; height: 40px; border-radius: 50%; background-color: #ccc; display: none; background-size: cover;"></div>`;
+        <div id="user-icon" style="width: 40px; height: 40px; display: none;"></div>`;
     topBar.appendChild(userInfoSection);
 
     // Assign global variables
