@@ -181,65 +181,98 @@ async function initializeGameData() {
 // 4. DOM Setup and Event Listeners
 // ---------------------------------------
 
-// Firebase imports
 document.addEventListener("DOMContentLoaded", () => {
-    // Elements
     scoreDisplay = document.getElementById("score");
-    if (!scoreDisplay) {
-        console.error('Could not find the "score" element in the DOM.');
-    }
-
-    imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
-    nameInput = document.getElementById("name-guess"); // Assign nameInput
+    imageDisplay = document.getElementById("person-image");
+    nameInput = document.getElementById("name-guess");
     gameArea = document.getElementById("game-area");
     submitGuessButton = document.getElementById("submit-guess");
 
-    const toggleBar = document.getElementsByName("mode");
     const loginButton = document.getElementById("google-login");
-    const userIcon = document.getElementById("user-icon");
-    const sidebar = document.getElementById("sidebar");
+    const topBar = document.getElementById("top-bar");
+    const userIcon = document.createElement("div");
 
-    // Setup sidebar toggle
-    userIcon.addEventListener("click", () => {
-        sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
+    // Setup user icon (initially hidden)
+    userIcon.id = "user-icon";
+    userIcon.style.display = "none";
+    userIcon.style.width = "40px";
+    userIcon.style.height = "40px";
+    userIcon.style.borderRadius = "50%";
+    userIcon.style.backgroundColor = "#ccc";
+    userIcon.style.display = "flex";
+    userIcon.style.justifyContent = "center";
+    userIcon.style.alignItems = "center";
+    userIcon.style.cursor = "pointer";
+    userIcon.style.margin = "0 auto";
+    userIcon.style.border = "2px solid #333";
+    topBar.appendChild(userIcon);
+    //Sidebar Menu
+    const sidebar = document.createElement("div");
+
+// Setup sidebar
+sidebar.id = "sidebar";
+sidebar.style.position = "fixed";
+sidebar.style.top = "0";
+sidebar.style.left = "-250px";
+sidebar.style.width = "250px";
+sidebar.style.height = "100%";
+sidebar.style.backgroundColor = "#333";
+sidebar.style.color = "#fff";
+sidebar.style.padding = "20px";
+sidebar.style.transition = "left 0.3s";
+sidebar.innerHTML = `
+    <h2 style="text-align: center;">Menu</h2>
+    <ul style="list-style: none; padding: 0; text-align: center;">
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="view-profile">View Profile</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="upload-images">Upload Images</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="settings">Settings</li>
+        <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
+    </ul>`;
+document.body.appendChild(sidebar);
+
+// Event listeners for sidebar
+document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
+document.getElementById("settings").addEventListener("click", initializeSettingsModal);
+document.getElementById("upload-images").addEventListener("click", initializeUploadModal);
+
+// Toggle sidebar visibility
+userIcon.addEventListener("click", () => {
+    sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
+});
+
+// Logout functionality
+document.getElementById("logout").addEventListener("click", () => {
+    auth.signOut().then(() => {
+        alert("Logged out successfully");
+        location.reload();
     });
+});
 
-    // Handle Google Sign-In
-    async function handleSignIn() {
+    // Login event
+    loginButton.addEventListener("click", async () => {
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
-            alert(`Welcome, ${user.displayName}!`);
 
-            // Fetch user score
+            // Fetch user score and initialize game data
             await fetchUserScore(user.uid);
+            await initializeGameData();
 
-            // Update user icon and top bar
-            updateTopBar();
-
-            // Hide login button
-            loginButton.style.display = "none";
-
-            // Initialize game data and start the game
-            await initializeGameData(); // Fetch data and show the first image
-            gameArea.style.display = "block"; // Make the game area visible
+            // Update UI after login
+            gameArea.style.display = "block";
+            loginButton.style.display = "none"; // Hide login button
+            userIcon.style.display = "flex"; // Show user icon
+            userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
+            userIcon.style.backgroundSize = "cover";
+            userIcon.textContent = user.photoURL ? "" : user.displayName[0]; // Fallback to initials if no photo
         } catch (error) {
-            console.error("Error during sign-in:", error);
+            console.error("Error during login:", error);
         }
-    }
+    });
 
-    // Initialize game
-    function initGame() {
-        gameArea.style.display = "block";
-        showRandomImage();
-    }
-
-    // Event Listeners
-    [...toggleBar].forEach(radio => radio.addEventListener("change", updateMode));
+    // Guess submission event
     submitGuessButton.addEventListener("click", handleGuess);
-    loginButton.addEventListener("click", handleSignIn);
 
     // Hide game area until login
     gameArea.style.display = "none";
 });
-
