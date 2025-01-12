@@ -37,50 +37,45 @@ function setupTopBar() {
         return;
     }
 
-    // Ensure logo section exists
-    let logoSection = document.getElementById("logo-section");
-    if (!logoSection) {
-        logoSection = document.createElement("div");
-        logoSection.id = "logo-section";
-        logoSection.innerHTML = `<img src="./assets/NameDrop.png" alt="Logo" style="height: 60px;">`;
-        topBar.appendChild(logoSection);
-    }
+    // Clear the topBar before adding elements to avoid duplicates
+    topBar.innerHTML = "";
 
-    // Ensure text section exists
-    let textSection = document.getElementById("text-section");
-    if (!textSection) {
-        textSection = document.createElement("div");
-        textSection.id = "text-section";
-        textSection.innerHTML = `
-            <div id="scores-container" style="display: flex; align-items: center; gap: 20px;">
-                <div id="flame-score" class="score-section">
-                    <img src="./assets/streak-icon.png" alt="Streak">
-                    <span>0</span>
-                </div>
-                <h2>Matching Names to Faces</h2>
-                <div id="coin-score" class="score-section">
-                    <img src="./assets/score-icon.png" alt="Score">
-                    <span>0</span>
-                </div>
-            </div>`;
-        topBar.appendChild(textSection);
-    }
+    // Add logo section
+    const logoSection = document.createElement("div");
+    logoSection.id = "logo-section";
+    logoSection.innerHTML = `<img src="./assets/NameDrop.png" alt="Logo" style="height: 60px;">`;
+    topBar.appendChild(logoSection);
 
-    // Ensure user info section exists
-    let userInfoSection = document.getElementById("user-info-section");
-    if (!userInfoSection) {
-        userInfoSection = document.createElement("div");
-        userInfoSection.id = "user-info-section";
-        userInfoSection.innerHTML = `
-            <button id="menu-button">☰</button>
-            <div id="user-icon" style="width: 40px; height: 40px; border-radius: 50%; background-color: #ccc; display: none; background-size: cover;"></div>`;
-        topBar.appendChild(userInfoSection);
+    // Add text section
+    const textSection = document.createElement("div");
+    textSection.id = "text-section";
+    textSection.innerHTML = `
+        <div id="scores-container" style="display: flex; align-items: center; gap: 20px;">
+            <div id="flame-score" class="score-section">
+                <img src="./assets/streak-icon.png" alt="Streak">
+                <span>0</span>
+            </div>
+            <h2>Matching Names to Faces</h2>
+            <div id="coin-score" class="score-section">
+                <img src="./assets/score-icon.png" alt="Score">
+                <span>0</span>
+            </div>
+        </div>`;
+    topBar.appendChild(textSection);
 
-        // Assign global variables after elements are appended
-        menuButton = document.getElementById("menu-button");
-        sidebar = document.getElementById("sidebar");
-    }
+    // Add user info section
+    const userInfoSection = document.createElement("div");
+    userInfoSection.id = "user-info-section";
+    userInfoSection.innerHTML = `
+        <button id="menu-button">☰</button>
+        <div id="user-icon" style="width: 40px; height: 40px; border-radius: 50%; background-color: #ccc; display: none; background-size: cover;"></div>`;
+    topBar.appendChild(userInfoSection);
+
+    // Assign global variables
+    menuButton = document.getElementById("menu-button");
+    sidebar = document.getElementById("sidebar");
 }
+
 
 
 // Update the top bar with scores and user icon
@@ -250,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     submitGuessButton = document.getElementById("submit-guess");
     // Initialize top bar
     setupTopBar();
-    
+
     const loginButton = document.getElementById("google-login");
             //const topBar = document.getElementById("top-bar");
     const userIcon = document.createElement("div");
