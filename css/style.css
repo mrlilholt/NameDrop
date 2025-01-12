@@ -153,6 +153,6 @@
     margin-top: 10px;
 }
 #score-display img {
-    max-width: 40px; /* Adjust as needed */
+    max-width: 120px; /* Adjust as needed */
     height: auto;
 }
