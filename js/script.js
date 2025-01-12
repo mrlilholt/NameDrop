@@ -63,17 +63,18 @@ function setupTopBar() {
         </div>`;
     topBar.appendChild(textSection);
 
-    // Add user info section
-    const userInfoSection = document.createElement("div");
-    userInfoSection.id = "user-info-section";
-    userInfoSection.innerHTML = `
-        <button id="menu-button">☰</button>
-        <div id="user-icon" style="width: 40px; height: 40px; display: none;"></div>`;
-    topBar.appendChild(userInfoSection);
+   // Add user info section
+const userInfoSection = document.createElement("div");
+userInfoSection.id = "user-info-section";
+userInfoSection.innerHTML = `
+    <button id="menu-button">☰</button>
+    <div id="user-icon" style="width: 40px; height: 40px; border-radius: 50%; display: none; background-size: cover;"></div>`;
+topBar.appendChild(userInfoSection);
 
-    // Assign global variables
-    menuButton = document.getElementById("menu-button");
-    sidebar = document.getElementById("sidebar");
+// Assign global variables
+menuButton = document.getElementById("menu-button");
+sidebar = document.getElementById("sidebar");
+
 }
 
 
@@ -94,11 +95,13 @@ function updateTopBar() {
         userIcon.style.backgroundImage = auth.currentUser.photoURL
             ? `url(${auth.currentUser.photoURL})`
             : "none";
+        userIcon.style.backgroundSize = "cover";
         userIcon.textContent = auth.currentUser.photoURL ? "" : auth.currentUser.displayName[0];
     } else if (userIcon) {
         userIcon.style.display = "none"; // Hide if no user is logged in
     }
 }
+
 
 // Show a random image
 function showRandomImage() {
