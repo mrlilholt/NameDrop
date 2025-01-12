@@ -1,29 +1,49 @@
 // ---------------------------------------
 // 1. Imports and Global Variables
 // ---------------------------------------
+// Main script.js
 import { initializeProfileModal } from "./userinfo.js";
 import { initializeSettingsModal } from "./settings.js";
 import { initializeUploadModal } from "./upload_images.js";
 import { auth, provider, signInWithPopup } from "./firebase.js";
-import { getFirestore, collection, doc, getDocs, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
+import { getFirestore, collection, doc, getDocs, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js";
 import { saveScore, fetchScore, incrementScore, decrementScore } from "./scoring.js";
 
 const db = getFirestore();
 
-let gameData = [];
-let currentImage = null;
-let nameInput = null;
-let gameArea = null;
-let submitGuessButton = null;
-let userScore = 0;
+let gameData = []; // Global variable to store fetched data
+let imageDisplay = null; // Global variable for the image display
+let nameInput = null; // Global variable for name input
+let gameArea = null; // Global variable for the game area
+let submitGuessButton = null; // Global variable for the guess button
+let userScore = 0; // Initialize score
+let score = 0;
 let streak = 0;
 let currentMode = "first-name";
-let scoreDisplay = null;
-let imageDisplay = null; // Ensures imageDisplay is declared globally
+let currentScore = null;
+let currentImage = null;
+let scoreDisplay = null; // Declare it globally
 
 // ---------------------------------------
 // 2. Utility Functions
 // ---------------------------------------
+// Update the top bar with scores and user icon
+function updateTopBar() {
+    const topBar = document.getElementById("top-bar");
+    const flameScore = document.getElementById("flame-score");
+    const coinScore = document.getElementById("coin-score");
+    const userIcon = document.getElementById("user-icon");
+
+    if (flameScore) flameScore.textContent = streak;
+    if (coinScore) coinScore.textContent = userScore;
+
+    if (auth.currentUser && userIcon) {
+        userIcon.style.display = "block";
+        userIcon.style.backgroundImage = auth.currentUser.photoURL ? `url(${auth.currentUser.photoURL})` : "none";
+        userIcon.style.backgroundSize = "cover";
+        userIcon.textContent = auth.currentUser.photoURL ? "" : auth.currentUser.displayName[0];
+    }
+}
 
 // Show a random image
 function showRandomImage() {
@@ -35,14 +55,16 @@ function showRandomImage() {
     const randomIndex = Math.floor(Math.random() * gameData.length);
     const selectedPerson = gameData[randomIndex];
 
-    imageDisplay.src = selectedPerson.image; // Update the image
-    currentImage = selectedPerson;
+    // Update the image display
+    imageDisplay.src = selectedPerson.image;
+    currentImage = selectedPerson; // Track the current person for guesses
     nameInput.value = ""; // Clear the input field
 }
 
+
 // Fetch data from Firestore
 async function fetchImageData() {
-    const imagesCollection = collection(db, "images");
+    const imagesCollection = collection(db, "images"); // Replace `db` with your Firestore instance
     const snapshot = await getDocs(imagesCollection);
     const data = [];
     snapshot.forEach((doc) => {
@@ -50,7 +72,7 @@ async function fetchImageData() {
         data.push({
             image: item.imageUrl,
             firstName: item.firstName,
-            lastName: item.lastName,
+            lastName: item.lastName
         });
     });
     return data;
@@ -67,6 +89,8 @@ async function saveScoreToFirestore(userId, score) {
     }
 }
 
+
+
 // Fetch user score from Firestore
 async function fetchUserScore(userId) {
     try {
@@ -75,9 +99,10 @@ async function fetchUserScore(userId) {
 
         if (userDoc.exists()) {
             const data = userDoc.data();
-            userScore = data.score || 0;
+            userScore = data.score || 0; // Default to 0 if no score exists
             scoreDisplay.textContent = `Score: ${userScore}`;
         } else {
+            // Create user document if it doesn't exist
             await setDoc(userRef, { score: 0 });
             userScore = 0;
             scoreDisplay.textContent = `Score: ${userScore}`;
@@ -125,12 +150,14 @@ async function handleGuess() {
     }
 
     try {
-        await saveScoreToFirestore(auth.currentUser.uid, userScore);
-        scoreDisplay.innerHTML = `Score: ${userScore} <br> Streak: ${streak}`;
+        // Save the updated score to Firestore
+        await saveScore(auth.currentUser.uid, userScore);
+        updateTopBar();
     } catch (error) {
         console.error("Error saving score:", error);
     }
 
+    // Load the next image
     showRandomImage();
 }
 
@@ -140,111 +167,79 @@ async function initializeGameData() {
         gameData = await fetchImageData();
         if (gameData.length === 0) {
             console.warn("No data found in Firestore. Using mock data.");
-            gameData = [{ image: "https://via.placeholder.com/150", firstName: "Mock", lastName: "Data" }];
+            gameData = [
+                { image: "https://via.placeholder.com/150", firstName: "Mock", lastName: "Data" }
+            ];
         }
         console.log("Game data initialized:", gameData);
-        showRandomImage();
+        showRandomImage(); // Display the first random image
     } catch (error) {
-        console.error("Error fetching game data:", error);
+        console.error("Error fetching image data:", error);
     }
 }
-
 // ---------------------------------------
 // 4. DOM Setup and Event Listeners
 // ---------------------------------------
 
+// Firebase imports
 document.addEventListener("DOMContentLoaded", () => {
+    // Elements
     scoreDisplay = document.getElementById("score");
-    imageDisplay = document.getElementById("person-image");
-    nameInput = document.getElementById("name-guess");
+    if (!scoreDisplay) {
+        console.error('Could not find the "score" element in the DOM.');
+    }
+
+    imageDisplay = document.getElementById("person-image"); // Assign imageDisplay
+    nameInput = document.getElementById("name-guess"); // Assign nameInput
     gameArea = document.getElementById("game-area");
     submitGuessButton = document.getElementById("submit-guess");
 
+    const toggleBar = document.getElementsByName("mode");
     const loginButton = document.getElementById("google-login");
-    const topBar = document.getElementById("top-bar");
-    const userIcon = document.createElement("div");
+    const userIcon = document.getElementById("user-icon");
+    const sidebar = document.getElementById("sidebar");
 
-    // Setup user icon (initially hidden)
-    userIcon.id = "user-icon";
-    userIcon.style.display = "none";
-    userIcon.style.width = "40px";
-    userIcon.style.height = "40px";
-    userIcon.style.borderRadius = "50%";
-    userIcon.style.backgroundColor = "#ccc";
-    userIcon.style.display = "flex";
-    userIcon.style.justifyContent = "center";
-    userIcon.style.alignItems = "center";
-    userIcon.style.cursor = "pointer";
-    userIcon.style.margin = "0 auto";
-    userIcon.style.border = "2px solid #333";
-    topBar.appendChild(userIcon);
-    //Sidebar Menu
-    const sidebar = document.createElement("div");
-
-// Setup sidebar
-sidebar.id = "sidebar";
-sidebar.style.position = "fixed";
-sidebar.style.top = "0";
-sidebar.style.left = "-250px";
-sidebar.style.width = "250px";
-sidebar.style.height = "100%";
-sidebar.style.backgroundColor = "#333";
-sidebar.style.color = "#fff";
-sidebar.style.padding = "20px";
-sidebar.style.transition = "left 0.3s";
-sidebar.innerHTML = `
-    <h2 style="text-align: center;">Menu</h2>
-    <ul style="list-style: none; padding: 0; text-align: center;">
-        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="view-profile">View Profile</li>
-        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="upload-images">Upload Images</li>
-        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="settings">Settings</li>
-        <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
-    </ul>`;
-document.body.appendChild(sidebar);
-
-// Event listeners for sidebar
-document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
-document.getElementById("settings").addEventListener("click", initializeSettingsModal);
-document.getElementById("upload-images").addEventListener("click", initializeUploadModal);
-
-// Toggle sidebar visibility
-userIcon.addEventListener("click", () => {
-    sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
-});
-
-// Logout functionality
-document.getElementById("logout").addEventListener("click", () => {
-    auth.signOut().then(() => {
-        alert("Logged out successfully");
-        location.reload();
+    // Setup sidebar toggle
+    userIcon.addEventListener("click", () => {
+        sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
     });
-});
 
-    // Login event
-    loginButton.addEventListener("click", async () => {
+    // Handle Google Sign-In
+    async function handleSignIn() {
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
+            alert(`Welcome, ${user.displayName}!`);
 
-            // Fetch user score and initialize game data
+            // Fetch user score
             await fetchUserScore(user.uid);
-            await initializeGameData();
 
-            // Update UI after login
-            gameArea.style.display = "block";
-            loginButton.style.display = "none"; // Hide login button
-            userIcon.style.display = "flex"; // Show user icon
-            userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
-            userIcon.style.backgroundSize = "cover";
-            userIcon.textContent = user.photoURL ? "" : user.displayName[0]; // Fallback to initials if no photo
+            // Update user icon and top bar
+            updateTopBar();
+
+            // Hide login button
+            loginButton.style.display = "none";
+
+            // Initialize game data and start the game
+            await initializeGameData(); // Fetch data and show the first image
+            gameArea.style.display = "block"; // Make the game area visible
         } catch (error) {
-            console.error("Error during login:", error);
+            console.error("Error during sign-in:", error);
         }
-    });
+    }
 
-    // Guess submission event
+    // Initialize game
+    function initGame() {
+        gameArea.style.display = "block";
+        showRandomImage();
+    }
+
+    // Event Listeners
+    [...toggleBar].forEach(radio => radio.addEventListener("change", updateMode));
     submitGuessButton.addEventListener("click", handleGuess);
+    loginButton.addEventListener("click", handleSignIn);
 
     // Hide game area until login
     gameArea.style.display = "none";
 });
+
