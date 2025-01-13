@@ -133,8 +133,14 @@
         
 
         <div id="name-inputs">
-            <input type="text" id="first-name-input" placeholder="Enter First Name...">
-            <input type="text" id="last-name-input" placeholder="Enter Last Name..." style="display: none;">
+            <div class="material-textfield">
+                <input id="first-name-input" type="text" required>
+                <label for="first-name-input">Enter First Name</label>
+            </div>
+            <div class="material-textfield" id="last-name-container" style="display: none;">
+                <input id="last-name-input" type="text" required>
+                <label for="last-name-input">Enter Last Name</label>
+            </div>            
         </div>
         <div>
             <label>
@@ -145,8 +151,8 @@
             </label>
         </div>
         
-                <button id="submit-guess">Submit</button>
-            </div>
+        <button id="submit-guess" class="material-button">Submit</button>
+    </div>
 
             <div id="score-display" style="display: flex; align-items: center; justify-content: center; gap: 10px; text-align: center;">
                 <img src="./assets/allThePeopleYouKnow.png" alt="All The People You Know" style="max-height: 200px;">
