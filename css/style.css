@@ -190,14 +190,18 @@ button {
     font-family: 'Lexend', sans-serif;
 }
 /* Remove container background and shadow */
+/* Adjust spacing between the image and the inputs */
 #name-inputs {
+    margin-top: 20px; /* Add spacing above the input fields */
+    background-color: transparent; /* Ensure no background color */
+    box-shadow: none; /* Remove shadow */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px; /* Spacing between elements */
+    gap: 10px; /* Maintain spacing between inputs */
     width: 100%;
-    margin: 0 auto;
 }
+
 
 /* Styling for ALL inputs inside #name-inputs */
 #name-inputs input {
