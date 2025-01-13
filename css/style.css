@@ -189,37 +189,46 @@ input::placeholder {
 button {
     font-family: 'Lexend', sans-serif;
 }
+/* Remove background and shadow from the container */
 #name-inputs {
+    background-color: transparent; /* Remove the white background */
+    box-shadow: none; /* Remove the gray drop shadow */
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically if needed */
-    gap: 10px; /* Space between the inputs */
-    margin-bottom: 10px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Maintain spacing between inputs */
+    width: 100%;
+    margin: 0 auto;
 }
 
+/* Input fields styling */
 #name-inputs input {
     width: 100%;
-    max-width: 200px; /* Same for both inputs */
+    max-width: 200px;
     padding: 10px;
     border-radius: 5px;
     text-align: center;
     font-family: 'Lexend', sans-serif;
     font-size: 16px;
-    border: 2px solid transparent; /* Consistent border */
+    border: 2px solid transparent;
     outline: none;
-    box-shadow: 0 0 0 2px transparent; /* Default box-shadow */
     transition: border 0.3s ease, box-shadow 0.3s ease;
-}
-#name-inputs input:focus {
-    border: 2px solid #007bff; /* Blue border on focus */
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Soft blue glow on focus */
+    background-color: #f9f9f9; /* Keep input background light */
+    box-shadow: none; /* No inner shadow */
 }
 
-#last-name-input {
-    display: block; /* Always visible when enabled */
-    margin-top: 10px;
-    max-width: 200px; /* Same width as first name */
+#name-inputs input:focus {
+    border: 2px solid #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
+
+/* Last name input specific styling */
+#last-name-input {
+    display: block;
+    max-width: 200px;
+    margin-top: 10px;
+}
+
 
 .material-textfield {
     position: relative;
