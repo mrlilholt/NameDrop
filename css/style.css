@@ -191,13 +191,10 @@ button {
 }
 /* Remove background and shadow from the container */
 #name-inputs {
-    background-color: transparent; /* Remove the white background */
-    box-shadow: none; /* Remove the gray drop shadow */
     display: flex;
     flex-direction: column;
+    gap: 16px;
     align-items: center;
-    gap: 10px; /* Maintain spacing between inputs */
-    width: 100%;
     margin: 0 auto;
 }
 
@@ -221,13 +218,22 @@ button {
     border: 2px solid #007bff;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
+#name-inputs-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-/* Last name input specific styling */
+/* Last name input specific styling 
 #last-name-input {
     display: block;
     max-width: 200px;
     margin-top: 10px;
-}
+}*/
 
 
 .material-textfield {
@@ -305,4 +311,30 @@ button {
 .image-container, .material-textfield, .material-button {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+}
+input[type="text"] {
+    max-width: 400px;
+    width: 100%;
+    height: 48px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    font-family: Lexend, sans-serif;
+    outline: none;
+    box-shadow: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+label {
+    font-size: 14px;
+    color: #007bff;
+    margin-bottom: 4px;
+    font-family: Lexend, sans-serif;
+    display: block;
+    text-align: left;
 }
