@@ -205,8 +205,11 @@ button {
 
 
 #last-name-input {
-    display: none; /* Initially hidden */
+    display: none; /* Start hidden */
+    margin-top: 10px; /* Adjust as needed */
+    width: calc(50% - 10px); /* Optional for responsive width */
 }
+
 .material-textfield {
     position: relative;
     margin: 10px;
