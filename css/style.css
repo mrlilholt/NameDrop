@@ -209,6 +209,17 @@ button {
     margin-top: 10px; /* Adjust as needed */
     width: calc(50% - 10px); /* Optional for responsive width */
 }
+#last-name-container {
+    display: none; /* Hidden by default */
+    width: 100%;
+    text-align: center;
+}
+
+#last-name-input {
+    width: calc(100% - 20px); /* Adjust width dynamically */
+    margin: 0 auto;
+}
+
 
 .material-textfield {
     position: relative;
