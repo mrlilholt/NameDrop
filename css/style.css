@@ -189,19 +189,19 @@ input::placeholder {
 button {
     font-family: 'Lexend', sans-serif;
 }
-/* Remove background and shadow from the container */
+/* Remove container background and shadow */
 #name-inputs {
     display: flex;
     flex-direction: column;
-    gap: 16px;
     align-items: center;
+    gap: 15px; /* Spacing between elements */
+    width: 100%;
     margin: 0 auto;
 }
 
-/* Input fields styling */
+/* Styling for ALL inputs inside #name-inputs */
 #name-inputs input {
-    width: 100%;
-    max-width: 200px;
+    max-width: 300px;
     padding: 10px;
     border-radius: 5px;
     text-align: center;
@@ -209,53 +209,24 @@ button {
     font-size: 16px;
     border: 2px solid transparent;
     outline: none;
+    background-color: #f9f9f9; /* Neutral light background */
+    box-shadow: none; /* No shadow here */
     transition: border 0.3s ease, box-shadow 0.3s ease;
-    background-color: #f9f9f9; /* Keep input background light */
-    box-shadow: none; /* No inner shadow */
 }
 
-#name-inputs input:focus {
-    border: 2px solid #007bff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
-}
-#name-inputs-container {
-    width: 100%;
-    max-width: 450px;
-    margin: 0 auto;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Last name input specific styling 
-#last-name-input {
-    display: block;
-    max-width: 200px;
-    margin-top: 10px;
-}*/
-
-
-.material-textfield {
-    position: relative;
-    margin: 10px;
-    width: 200px;
-}
-
+/* Styling specifically for material-textfield */
 .material-textfield input {
-    font-family: 'Lexend', sans-serif;
-    font-size: 16px;
-    border: 2px solid transparent; /* Removes the default border */
-    border-radius: 5px;
-    padding: 10px;
-    width: 100%;
-    outline: none; /* Removes the gray outline */
-    background: transparent;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 0 2px transparent; /* Default box-shadow */
+    border: none; /* Ensure no border for material-textfield */
+    box-shadow: none; /* Remove default box shadow */
+    background-color: #f9f9f9; /* Match input background */
 }
 
-
+/* Input focus */
+#name-inputs input:focus,
+.material-textfield input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Shared focus style */
+}
 .material-textfield label {
     position: absolute;
     top: 10px;
@@ -263,78 +234,19 @@ button {
     font-size: 14px;
     color: #888;
     pointer-events: none;
-    transition: all 0.3s;
-}
-.material-textfield input:focus-visible {
-    outline: none; /* Removes any outline on keyboard navigation */
+    transition: all 0.3s ease;
 }
 
+/* Ensure labels shrink on focus or when value is present */
 .material-textfield input:focus + label,
 .material-textfield input:not(:placeholder-shown) + label {
     top: -10px;
     left: 5px;
     font-size: 12px;
-    color: #007bff;
+    color: #007bff; /* Blue accent for focused labels */
 }
-.material-button {
-    font-family: 'Lexend', sans-serif;
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-.material-button:hover {
-    background-color: #0056b3;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.material-button:active {
-    background-color: #004085;
-    transform: scale(0.98);
-}
-#name-inputs, #submit-guess {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-}
-
-#name-inputs {
-    gap: 15px;
-}
-.image-container, .material-textfield, .material-button {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-}
-input[type="text"] {
-    max-width: 400px;
-    width: 100%;
-    height: 48px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 16px;
-    font-family: Lexend, sans-serif;
-    outline: none;
-    box-shadow: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-input[type="text"]:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
-}
-label {
-    font-size: 14px;
-    color: #007bff;
-    margin-bottom: 4px;
-    font-family: Lexend, sans-serif;
-    display: block;
-    text-align: left;
+.image-container, .material-textfield {
+    box-shadow: none; /* Remove shadow from inputs */
+    border-radius: 5px; /* Keep rounded corners */
+    background-color: transparent; /* Match container background */
 }
