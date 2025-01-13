@@ -320,6 +320,18 @@ const firstNameInput = document.getElementById("first-name-input");
             }
         });
     });
+    document.querySelectorAll('input[name="name-mode"]').forEach((radio) => {
+        radio.addEventListener("change", () => {
+            const lastNameContainer = document.getElementById("last-name-container");
+            if (radio.value === "full-name") {
+                lastNameContainer.style.display = "block"; // Show the last name input
+            } else {
+                lastNameContainer.style.display = "none"; // Hide the last name input
+                document.getElementById("last-name-input").value = ""; // Clear last name value
+            }
+        });
+    });
+    
     // Sidebar toggle functionality
     document.getElementById("menu-button").addEventListener("click", () => {
         sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
