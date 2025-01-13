@@ -1,185 +1,292 @@
-/* General Styles */
-body {
-    font-family: 'Lexend', sans-serif;
-    margin: 0;
-    padding: 0;
+.image-container {
+    width: 150px; /* Adjust size as needed */
+    height: 150px; /* Ensure square dimensions */
+    border-radius: 15px; /* For rounded corners */
+    overflow: hidden; /* Ensure image doesn't exceed container */
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    background-color: #f9f9f9;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#game-area {
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 90%;
-    max-width: 600px;
+    margin: 0 auto; /* Center the image container */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+    border: 2px solid #ccc; /* Optional: Add border */
 }
 
-/* Top Bar */
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image fits and scales properly */
+    border-radius: 15px; /* Match the container's radius */
+}
+
+#logo-container {
+    text-align: center;
+    margin-top: 20px;
+}
+/* Apply Lexend font to the entire menu */
+#sidebar {
+    font-family: 'Lexend', sans-serif;
+}
+
+/* Apply Lexend to individual menu items for consistency */
+#sidebar h2,
+#sidebar ul li {
+    font-family: 'Lexend', sans-serif;
+}
+
+
+/* Styles for the top bar */
+/* Top bar styles */
 #top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     padding: 10px 20px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
+    font-family: 'Lexend', sans-serif;
+    background-color: #fff;
+    border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#scores-container {
+/* Logo Section */
+#logo-section {
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
-    gap: 15px;
 }
 
-.score-section {
+/* Centered Text Section */
+#text-section {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
+    text-align: center;
+}
+#text-section h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
-#menu-button {
+/* Streak and Score */
+#flame-score, #coin-score {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+#flame-score img, #coin-score img {
+    width: 25px;
+    height: 25px;
+}
+
+/* Styles for individual score sections */
+.score-section {
+    display: flex;
+    align-items: center; /* Vertically align the icon and text */
+    padding: 5px 10px; /* Adjust padding to reduce size */
+    border: 2px solid #007bff; /* Border color */
+    border-radius: 15px; /* Rounded rectangle */
+    background-color: #fff; /* White background */
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* Add some depth */
+}
+.score-section img {
+    width: 25px; /* Icon size */
+    height: 25px;
+    margin-right: 5px; /* Space between icon and number */
+}
+.score-section span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+/* Centered Scores and Text */
+#scores-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between scores and text */
+}
+#user-icon {
+    margin: 0 auto;
+}
+
+#game-container {
+    text-align: center;
+    margin-top: 20px;
+}
+#game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin-top: -50px; /* Adjust to account for the new top bar height */
+}
+/* User Info Section */
+#user-info-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#user-info-section #menu-button {
     background: none;
     border: none;
-    font-size: 24px;
     cursor: pointer;
+    font-size: 1.2rem;
 }
 
+#user-info-section #user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: block; /* Ensure visible when logged in */
+    background-size: cover;
+    background-position: center;
+}
 #user-icon {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #ccc;
     background-size: cover;
     background-position: center;
-    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: white; /* Fallback text color for initials */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ccc; /* Fallback grey background */
+}
+#score-display {
+    text-align: center;
+    margin-top: 10px;
+}
+#score-display img {
+    max-width: 200px; /* Adjust as needed */
+    height: auto;
+}
+/* Apply Lexend font to all form elements */
+input,
+button,
+label,
+select {
+    font-family: 'Lexend', sans-serif;
 }
 
-/* Input Fields */
+/* Specifically target the radio button labels */
+input[type="radio"] + label {
+    font-family: 'Lexend', sans-serif;
+}
+
+/* Target the placeholder text in the input field */
+input::placeholder {
+    font-family: 'Lexend', sans-serif;
+}
+
+/* Ensure the Submit button uses Lexend font */
+button {
+    font-family: 'Lexend', sans-serif;
+}
 #name-inputs {
     display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically if needed */
+    gap: 10px; /* Space between the inputs */
+    margin-bottom: 10px;
 }
 
 #name-inputs input {
-    width: 250px;
-    height: 40px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    font-size: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    outline: none;
-    transition: box-shadow 0.3s, border-color 0.3s;
+    flex: 1 1 auto; /* Allow inputs to resize dynamically */
+    max-width: 200px; /* Prevent them from growing too wide */
+    text-align: center; /* Align text to center in inputs */
 }
 
-#name-inputs input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+
+#last-name-input {
+   /* display: none; /* Start hidden */
+    margin-top: 10px; /* Adjust as needed */
+    width: calc(50% - 10px); /* Optional for responsive width */
 }
 
 .material-textfield {
     position: relative;
-    margin-top: 20px;
+    margin: 10px;
+    width: 200px;
 }
 
 .material-textfield input {
-    width: 250px;
-    padding: 10px;
+    font-family: 'Lexend', sans-serif;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    outline: none;
+    border: 2px solid transparent; /* Removes the default border */
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    outline: none; /* Removes the gray outline */
+    background: transparent;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 0 2px transparent; /* Default box-shadow */
 }
 
 .material-textfield input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    border: 2px solid #007bff; /* Blue border on focus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Soft blue glow on focus */
+}
+
+.material-textfield label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 14px;
+    color: #888;
+    pointer-events: none;
+    transition: all 0.3s;
+}
+.material-textfield input:focus-visible {
+    outline: none; /* Removes any outline on keyboard navigation */
 }
 
 .material-textfield input:focus + label,
 .material-textfield input:not(:placeholder-shown) + label {
     top: -10px;
+    left: 5px;
     font-size: 12px;
     color: #007bff;
 }
-
-/* Radio Buttons */
-#radio-options {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-#radio-options label {
-    margin: 0 10px;
-    font-size: 16px;
-}
-
-/* Submit Button */
-button#submit-guess {
-    width: 200px;
-    height: 50px;
-    font-size: 18px;
+.material-button {
+    font-family: 'Lexend', sans-serif;
     background-color: #007bff;
     color: white;
+    padding: 10px 20px;
     border: none;
-    border-radius: 25px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
-button#submit-guess:hover {
+.material-button:hover {
     background-color: #0056b3;
-    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Leaderboard Section */
-#leaderboard {
+.material-button:active {
+    background-color: #004085;
+    transform: scale(0.98);
+}
+#name-inputs, #submit-guess {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+    justify-content: center;
+    margin: 0 auto;
 }
 
-#leaderboard img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 10px;
+#name-inputs {
+    gap: 15px;
 }
-
-#leaderboard h3 {
-    margin: 5px 0;
-}
-
-#leaderboard p {
-    margin: 0;
-}
-
-/* Footer Section */
-footer {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 14px;
-    color: #777;
+.image-container, .material-textfield, .material-button {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
 }
