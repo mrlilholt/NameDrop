@@ -206,7 +206,7 @@ button {
 
 #last-name-input {
    /* display: none; /* Start hidden */
-    /*margin-top: 10px; /* Adjust as needed */
+    margin-top: 10px; /* Adjust as needed */
     width: calc(50% - 10px); /* Optional for responsive width */
 }
 
@@ -219,8 +219,8 @@ button {
 .material-textfield input {
     font-family: 'Lexend', sans-serif;
     font-size: 16px;
-    /*border: 2px solid transparent; /* Removes the default border */
-    /*border-radius: 5px;*/
+    border: 2px solid transparent; /* Removes the default border */
+    border-radius: 5px;
     padding: 10px;
     width: 100%;
     outline: none; /* Removes the gray outline */
