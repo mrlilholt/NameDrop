@@ -194,7 +194,7 @@ button {
 #name-inputs {
     margin-top: 20px; /* Add spacing above the input fields */
     background-color: transparent; /* Ensure no background color */
-    box-shadow: darkblue; /* Remove shadow */
+    box-shadow: darkblue; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -214,7 +214,7 @@ button {
     border: 2px solid transparent;
     outline: none;
     background-color: #f9f9f9; /* Neutral light background */
-    box-shadow: none; /* No shadow here */
+    box-shadow: darkblue; /* No shadow here */
     transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 /* Material text field container */
