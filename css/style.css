@@ -191,21 +191,17 @@ button {
 }
 /* Remove container background and shadow */
 /* Adjust spacing between the image and the inputs */
-/* Enhance visibility of input boxes */
-#name-inputs input {
+#name-inputs {
+    margin-top: 20px; /* Add spacing above the input fields */
+    background-color: transparent; /* Ensure no background color */
+    box-shadow: darkblue; /* Remove shadow */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Maintain spacing between inputs */
     width: 100%;
-    max-width: 200px;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-    font-family: 'Lexend', sans-serif;
-    font-size: 16px;
-    border: 2px solid #ccc; /* Subtle border for better visibility */
-    outline: none;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-    background-color: #f9f9f9; /* Light background for contrast */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
+
 
 /* Styling for ALL inputs inside #name-inputs */
 #name-inputs input {
