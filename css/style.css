@@ -192,19 +192,15 @@ button {
 #name-inputs {
     display: flex;
     justify-content: center; /* Center horizontally */
-    align-items: center; /* Align vertically */
-    gap: 15px; /* Space between inputs */
+    align-items: center; /* Center vertically if needed */
+    gap: 10px; /* Space between the inputs */
     margin-bottom: 10px;
 }
 
 #name-inputs input {
-    flex: 1 1 auto; /* Allow flexible resizing */
-    max-width: 300px; /* Ensure consistent width */
-    text-align: center; /* Center text */
-    height: 50px; /* Adjust height if needed */
-    border: 2px solid #ccc; /* Match styling */
-    border-radius: 5px;
-    padding: 10px;
+    flex: 1 1 auto; /* Allow inputs to resize dynamically */
+    max-width: 200px; /* Prevent them from growing too wide */
+    text-align: center; /* Align text to center in inputs */
 }
 
 
@@ -213,21 +209,11 @@ button {
     margin-top: 10px; /* Adjust as needed */
     width: calc(50% - 10px); /* Optional for responsive width */
 }
-#last-name-container {
-    display: none; /* Hidden by default */
-    width: 100%;
-    text-align: center;
-}
-
-#last-name-input {
-    width: calc(100% - 20px); /* Adjust width dynamically */
-    margin: 0 auto;
-}
-
 
 .material-textfield {
-    width: auto; /* Ensure both fields adapt dynamically */
-    margin: 0;
+    position: relative;
+    margin: 10px;
+    width: 200px;
 }
 
 .material-textfield input {
@@ -237,7 +223,6 @@ button {
     border-radius: 5px;
     padding: 10px;
     width: 100%;
-    height: 50px;
     outline: none; /* Removes the gray outline */
     background: transparent;
     transition: border 0.3s ease, box-shadow 0.3s ease;
