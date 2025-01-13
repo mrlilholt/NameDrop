@@ -216,17 +216,19 @@ button {
 .material-textfield input {
     font-family: 'Lexend', sans-serif;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 2px solid transparent; /* Removes the default border */
     border-radius: 5px;
     padding: 10px;
     width: 100%;
-    outline: none;
+    outline: none; /* Removes the gray outline */
     background: transparent;
-    transition: border 0.3s;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 0 2px transparent; /* Default box-shadow */
 }
 
 .material-textfield input:focus {
-    border-color: #007bff;
+    border: 2px solid #007bff; /* Blue border on focus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Soft blue glow on focus */
 }
 
 .material-textfield label {
@@ -237,6 +239,9 @@ button {
     color: #888;
     pointer-events: none;
     transition: all 0.3s;
+}
+.material-textfield input:focus-visible {
+    outline: none; /* Removes any outline on keyboard navigation */
 }
 
 .material-textfield input:focus + label,
