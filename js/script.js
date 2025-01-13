@@ -310,10 +310,13 @@ const firstNameInput = document.getElementById("first-name-input");
     nameModeRadios.forEach((radio) => {
         radio.addEventListener("change", () => {
             if (radio.value === "full-name") {
-                lastNameInput.style.display = "block"; // Show last name input
+                // Show last name input
+                lastNameInput.style.display = "block";
+                lastNameInput.classList.add("material-textfield"); // Optional for styling consistency
             } else {
-                lastNameInput.style.display = "none"; // Hide last name input
-                lastNameInput.value = ""; // Clear last name input
+                // Hide last name input
+                lastNameInput.style.display = "none";
+                lastNameInput.value = ""; // Clear the value to avoid issues
             }
         });
     });
