@@ -205,7 +205,7 @@ button {
 
 
 #last-name-input {
-    display: none; /* Start hidden */
+   /* display: none; /* Start hidden */
     margin-top: 10px; /* Adjust as needed */
     width: calc(50% - 10px); /* Optional for responsive width */
 }
