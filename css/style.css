@@ -198,16 +198,27 @@ button {
 }
 
 #name-inputs input {
-    flex: 1 1 auto; /* Allow inputs to resize dynamically */
-    max-width: 200px; /* Prevent them from growing too wide */
-    text-align: center; /* Align text to center in inputs */
+    width: 100%;
+    max-width: 200px; /* Same for both inputs */
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-family: 'Lexend', sans-serif;
+    font-size: 16px;
+    border: 2px solid transparent; /* Consistent border */
+    outline: none;
+    box-shadow: 0 0 0 2px transparent; /* Default box-shadow */
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+#name-inputs input:focus {
+    border: 2px solid #007bff; /* Blue border on focus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Soft blue glow on focus */
 }
 
-
 #last-name-input {
-   /* display: none; /* Start hidden */
-    margin-top: 10px; /* Adjust as needed */
-    width: calc(50% - 10px); /* Optional for responsive width */
+    display: block; /* Always visible when enabled */
+    margin-top: 10px;
+    max-width: 200px; /* Same width as first name */
 }
 
 .material-textfield {
@@ -229,10 +240,6 @@ button {
     box-shadow: 0 0 0 2px transparent; /* Default box-shadow */
 }
 
-.material-textfield input:focus {
-    border: 2px solid #007bff; /* Blue border on focus */
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Soft blue glow on focus */
-}
 
 .material-textfield label {
     position: absolute;
