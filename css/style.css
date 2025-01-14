@@ -7,8 +7,9 @@
     justify-content: center;
     align-items: center;
     margin: 0 auto; /* Center the image container */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
-    border: 2px solid #ccc; /* Optional: Add border */
+    border: 2px solid #ccc; /* Light gray outline for better visibility */
+    box-shadow: none; /* Remove any shadow */
+    background-color: #f9f9f9; /* Optional: Neutral background */
 }
 
 .image-container img {
@@ -17,6 +18,7 @@
     object-fit: cover; /* Ensures image fits and scales properly */
     border-radius: 15px; /* Match the container's radius */
 }
+
 
 #logo-container {
     text-align: center;
@@ -192,31 +194,33 @@ button {
 /* Remove container background and shadow */
 /* Adjust spacing between the image and the inputs */
 #name-inputs {
-    margin-top: 20px; /* Add spacing above the input fields */
-    background-color: transparent; /* Ensure no background color */
-    box-shadow: darkblue; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px; /* Maintain spacing between inputs */
-    width: 100%;
+    gap: 15px; /* Space between input fields */
+    margin-bottom: 20px; /* Space below inputs */
 }
 
-
-/* Styling for ALL inputs inside #name-inputs */
 #name-inputs input {
-    max-width: 300px;
+    max-width: 300px; /* Adjust to make input more prominent */
+    width: 100%; /* Responsive width */
     padding: 10px;
-    border-radius: 5px;
-    text-align: center;
+    border-radius: 5px; /* Rounded corners */
+    border: 2px solid #ccc; /* Light gray outline */
+    background-color: #fff; /* White background for contrast */
     font-family: 'Lexend', sans-serif;
     font-size: 16px;
-    border: 2px solid transparent;
+    text-align: center;
     outline: none;
-    background-color: #f9f9f9; /* Neutral light background */
-    box-shadow: darkblue; /* No shadow here */
     transition: border 0.3s ease, box-shadow 0.3s ease;
 }
+
+/* Focus state for inputs */
+#name-inputs input:focus {
+    border: 2px solid #007bff; /* Blue outline on focus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Subtle glow */
+}
+
 /* Material text field container */
 .material-textfield {
     position: relative;
@@ -268,9 +272,4 @@ button {
     box-shadow: none; /* Remove shadow from inputs */
     border-radius: 5px; /* Keep rounded corners */
     background-color: transparent; /* Match container background */
-}
-/* Input focus styles for better interaction feedback */
-#name-inputs input:focus {
-    border: 2px solid #007bff; /* Blue border on focus */
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Highlight shadow on focus */
 }
