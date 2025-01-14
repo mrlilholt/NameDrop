@@ -272,3 +272,71 @@ button {
     border-radius: 5px; /* Keep rounded corners */
     background-color: transparent; /* Match container background */
 }
+
+/*LEADERBOARD STYLES*/
+/* Leaderboard Container */
+#leaderboard-container {
+    text-align: center;
+    padding: 20px;
+    font-family: 'Lexend', sans-serif;
+}
+
+/* Top Leaders Section */
+#top-leaders {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+.leader {
+    text-align: center;
+}
+.leader-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+.leader-name {
+    font-weight: bold;
+    margin: 10px 0 5px;
+}
+.leader-score {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Top 100 Section */
+#top-100 {
+    margin-top: 20px;
+}
+#score-list {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.score-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+}
+.score-item .rank {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.score-item .list-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.score-item .name {
+    flex-grow: 1;
+    text-align: left;
+}
+.score-item .score {
+    font-weight: bold;
+}
