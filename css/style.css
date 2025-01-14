@@ -195,7 +195,8 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px; /* Space between input fields */
+    gap: 10px; /* Space between input fields */
+    margin-top: 20px; /* Add space between the image and the input fields */
     margin-bottom: 20px; /* Space below inputs */
 }
 
