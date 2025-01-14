@@ -7,7 +7,7 @@
     justify-content: center;
     align-items: center;
     margin: 0 auto; /* Center the image container */
-    border: 2px solid #ccc; /* Light gray outline for better visibility */
+    /*border: 2px solid #ccc;  Light gray outline for better visibility */
     box-shadow: none; /* Remove any shadow */
     background-color: #f9f9f9; /* Optional: Neutral background */
 }
@@ -197,7 +197,7 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px; /* Space between input fields */
+    gap: 20px; /* Space between input fields */
     margin-bottom: 20px; /* Space below inputs */
 }
 
