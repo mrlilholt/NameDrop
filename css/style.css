@@ -1,15 +1,14 @@
 .image-container {
-    width: 150px; /* Adjust size as needed */
-    height: 150px; /* Ensure square dimensions */
+    width: 200px; /* Adjust size as needed */
+    height: 200px; /* Ensure square dimensions */
     border-radius: 15px; /* For rounded corners */
     overflow: hidden; /* Ensure image doesn't exceed container */
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto; /* Center the image container */
-    /*border: 2px solid #ccc;  Light gray outline for better visibility */
-    box-shadow: none; /* Remove any shadow */
-    background-color: #f9f9f9; /* Optional: Neutral background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+    border: 2px solid #ccc; /* Optional: Add border */
 }
 
 .image-container img {
@@ -18,7 +17,6 @@
     object-fit: cover; /* Ensures image fits and scales properly */
     border-radius: 15px; /* Match the container's radius */
 }
-
 
 #logo-container {
     text-align: center;
