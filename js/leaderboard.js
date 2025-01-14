@@ -23,7 +23,10 @@ onSnapshot(leaderboardQuery, (snapshot) => {
         leaderboardData.push({ id: doc.id, ...doc.data() });
     });
     updateLeaderboard(leaderboardData);
+}, (error) => {
+    console.error("Error fetching leaderboard data:", error);
 });
+
 
 function updateLeaderboard(data) {
     const topThreeContainer = document.getElementById("top-three");
