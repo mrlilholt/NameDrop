@@ -269,3 +269,8 @@ button {
     border-radius: 5px; /* Keep rounded corners */
     background-color: transparent; /* Match container background */
 }
+/* Input focus styles for better interaction feedback */
+#name-inputs input:focus {
+    border: 2px solid #007bff; /* Blue border on focus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Highlight shadow on focus */
+}
