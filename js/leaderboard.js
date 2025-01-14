@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getFirestore, collection, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyDiHaU6ajRkeo-YFiErXsZ7pu3LuvtBGZ0",
     authDomain: "namedrop-16d4b.firebaseapp.com",
@@ -9,14 +10,13 @@ const firebaseConfig = {
     appId: "1:373402334408:web:1f1c36d48863eed50f21fd",
     measurementId: "G-5DN86C549G"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-// Get leaderboard collection and order by score (descending)
-const leaderboardRef = collection(db, "leaderboard"); // Assuming "leaderboard" is the Firestore collection name
-const leaderboardQuery = query(leaderboardRef, orderBy("score", "desc"), limit(100));
 
 // Real-time listener for the leaderboard
+const leaderboardRef = collection(db, "leaderboard");
+const leaderboardQuery = query(leaderboardRef, orderBy("score", "desc"), limit(100));
+
 onSnapshot(leaderboardQuery, (snapshot) => {
     const leaderboardData = [];
     snapshot.forEach((doc) => {
@@ -25,14 +25,6 @@ onSnapshot(leaderboardQuery, (snapshot) => {
     updateLeaderboard(leaderboardData);
 });
 
-// Example leaderboard data
-const leaderboardData = [
-    { name: "Name 1", score: 900, icon: "path-to-first-user-icon" },
-    { name: "Name 2", score: 850, icon: "path-to-second-user-icon" },
-    { name: "Name 3", score: 820, icon: "path-to-third-user-icon" },
-    // Add more users as needed
-];
-// Function to update the leaderboard UI
 function updateLeaderboard(data) {
     const topThreeContainer = document.getElementById("top-three");
     const leaderboardList = document.getElementById("leaderboard-list");
@@ -43,7 +35,7 @@ function updateLeaderboard(data) {
 
     // Display top three users
     data.slice(0, 3).forEach((user, index) => {
-        const position = ["🥇", "🥈", "🥉"][index]; // Emoji for top three positions
+        const position = ["🥇", "🥈", "🥉"][index];
         topThreeContainer.innerHTML += `
             <div class="top-user">
                 <img src="${user.icon || 'default-icon-url.png'}" alt="${user.name}" class="user-icon" />
@@ -66,11 +58,9 @@ function updateLeaderboard(data) {
     });
 }
 
-// Initialize Leaderboard
+// Initialize leaderboard
 function initializeLeaderboard() {
-    populateTopLeaders();
-    populateTop100();
+    console.log("Leaderboard initialized");
 }
 
-// Run the initialization
 initializeLeaderboard();
