@@ -27,7 +27,6 @@ onSnapshot(leaderboardQuery, (snapshot) => {
     console.error("Error fetching leaderboard data:", error);
 });
 
-
 function updateLeaderboard(data) {
     const topThreeContainer = document.getElementById("top-three");
     const leaderboardList = document.getElementById("leaderboard-list");
@@ -62,8 +61,7 @@ function updateLeaderboard(data) {
 }
 
 // Initialize leaderboard
+document.addEventListener("DOMContentLoaded", initializeLeaderboard);
 function initializeLeaderboard() {
     console.log("Leaderboard initialized");
 }
-
-initializeLeaderboard();
