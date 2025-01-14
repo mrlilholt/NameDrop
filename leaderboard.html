@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="leaderboard-container">
+        <!-- Title -->
+        <h1>Leaderboard 🏆</h1>
+        
+        <!-- Top 3 Leaders Section -->
+        <div id="top-leaders">
+            <div class="leader" id="second-place">
+                <img src="path-to-second-user-icon" alt="Second Place" class="leader-icon">
+                <p class="leader-name">Name 2</p>
+                <p class="leader-score">Score: 850</p>
+            </div>
+            <div class="leader" id="first-place">
+                <img src="path-to-first-user-icon" alt="First Place" class="leader-icon">
+                <p class="leader-name">Name 1</p>
+                <p class="leader-score">Score: 900</p>
+            </div>
+            <div class="leader" id="third-place">
+                <img src="path-to-third-user-icon" alt="Third Place" class="leader-icon">
+                <p class="leader-name">Name 3</p>
+                <p class="leader-score">Score: 820</p>
+            </div>
+        </div>
+
+        <!-- Top 100 List Section -->
+        <div id="top-100">
+            <h2>Top 100 Scores</h2>
+            <ul id="score-list"></ul>
+        </div>
+    </div>
+
+    <script src="./js/leaderboard.js"></script>
+</body>
+</html>
