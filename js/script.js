@@ -293,13 +293,14 @@ document.addEventListener("DOMContentLoaded", () => {
         transition: left 0.3s;
     `;
     sidebar.innerHTML = `
-        <h2 style="text-align: center;">Menu</h2>
-        <ul style="list-style: none; padding: 0; text-align: center;">
-            <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="view-profile">View Profile</li>
-            <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="upload-images">Upload Images</li>
-            <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="settings">Settings</li>
-            <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
-        </ul>`;
+    <h2 style="text-align: center;">Menu</h2>
+    <ul style="list-style: none; padding: 0; text-align: center;">
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="view-profile">View Profile</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="upload-images">Upload Images</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="settings">Settings</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="leaderboard">Leaderboard</li>
+        <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
+    </ul>`;
     document.body.appendChild(sidebar);
 // First/last name toggle
 const firstNameInput = document.getElementById("first-name-input");
@@ -341,7 +342,9 @@ const firstNameInput = document.getElementById("first-name-input");
     document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
     document.getElementById("settings").addEventListener("click", initializeSettingsModal);
     document.getElementById("upload-images").addEventListener("click", initializeUploadModal);
-
+    document.getElementById("leaderboard").addEventListener("click", () => {
+        window.location.href = "leaderboard.html"; // Redirect to leaderboard page
+    });
 // Toggle sidebar visibility
 userIcon.addEventListener("click", () => {
     sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
