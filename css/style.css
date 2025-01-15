@@ -1,27 +1,180 @@
-.image-container {
-    width: 200px; /* Adjust size as needed */
-    height: 200px; /* Ensure square dimensions */
-    border-radius: 15px; /* For rounded corners */
-    overflow: hidden; /* Ensure image doesn't exceed container */
+/* Logo Section */
+#logo-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto; /* Center the image container */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
-    border: 2px solid #ccc; /* Optional: Add border */
+    margin: 20px auto;
 }
 
-.image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures image fits and scales properly */
-    border-radius: 15px; /* Match the container's radius */
-}
-
-#logo-container {
+/* Title Section */
+#title-container {
     text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px auto;
+    font-family: 'Lexend', sans-serif;
+}
+/* Container for the random person section and input form */
+#main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; /* Space between the image and the input section */
     margin-top: 20px;
 }
+/* Random person (circle) styling remains the same */
+#random-person {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Lexend', sans-serif;
+}
+/* Scores Section */
+#scores-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Score Section Styling */
+#score-section {
+    display: flex;
+    justify-content: center; /* Center the scores */
+    align-items: center;
+    gap: 20px; /* Space between the two score containers */
+    margin-bottom: 20px; /* Space below the score section */
+}
+.score-container {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between the icon and the number */
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 5px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.score-container img {
+    width: 20px; /* Adjust icon size */
+    height: 20px;
+}
+
+.score-container span {
+    font-family: 'Lexend', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+/* Input container styling */
+#input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align inputs and radio buttons to the left */
+    gap: 15px; /* Space between input fields and submit button */
+}
+
+/* Input fields styling */
+#input-container input {
+    width: 250px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    text-align: center;
+    font-family: 'Lexend', sans-serif;
+    font-size: 14px;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+#input-container input:focus {
+    border: 2px solid #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+/* Submit button */
+#submit-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-family: 'Lexend', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#submit-button:hover {
+    background-color: #0056b3;
+}
+
+#toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.toggle-label {
+    font-family: 'Lexend', sans-serif;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #007bff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
 /* Apply Lexend font to the entire menu */
 #sidebar {
     font-family: 'Lexend', sans-serif;
