@@ -5,6 +5,14 @@
     align-items: center;
     margin: 20px auto;
 }
+#login-container {
+    text-align: center;
+    margin-top: 20%;
+}
+
+#main-content {
+    padding: 20px;
+}
 
 /* Title Section */
 #title-container {
