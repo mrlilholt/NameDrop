@@ -199,8 +199,16 @@ async function handleGuess() {
         return;
     }
 
-    const userGuess = document.getElementById("first-name-input").value.trim();
-    const lastNameGuess = document.getElementById("last-name-input").value.trim();
+    const firstNameInput = document.getElementById("first-name-input");
+    const lastNameInput = document.getElementById("last-name-input");
+
+    if (!firstNameInput) {
+        console.error("First name input field not found.");
+        return;
+    }
+
+    const userGuess = firstNameInput.value.trim();
+    const lastNameGuess = lastNameInput ? lastNameInput.value.trim() : "";
 
     let correctGuess = false;
 
@@ -245,6 +253,7 @@ async function handleGuess() {
 }
 
 
+
 // Initialize game data
 async function initializeGameData() {
     try {
@@ -256,132 +265,142 @@ async function initializeGameData() {
             ];
         }
         console.log("Game data initialized:", gameData);
+
+        // Validate data structure
+        gameData.forEach((item, index) => {
+            if (!item.image || !item.firstName || !item.lastName) {
+                console.warn(`Missing fields in gameData[${index}]:`, item);
+            }
+        });
+
         showRandomImage(); // Display the first random image
     } catch (error) {
         console.error("Error fetching image data:", error);
     }
 }
+
 // ---------------------------------------
 // 4. DOM Setup and Event Listeners
 // ---------------------------------------
-
 document.addEventListener("DOMContentLoaded", () => {
-    scoreDisplay = document.getElementById("score");
-    imageDisplay = document.getElementById("person-image");
-    nameInput = document.getElementById("name-guess");
-    gameArea = document.getElementById("game-area");
-    submitGuessButton = document.getElementById("submit-guess");
+    const scoreDisplay = document.getElementById("score");
+    const imageDisplay = document.getElementById("person-image");
+    const firstNameInput = document.getElementById("first-input");
+    const lastNameInput = document.getElementById("last-input");
+    const gameArea = document.getElementById("game-area");
+    const submitGuessButton = document.getElementById("submit-button");
+    const toggleSwitch = document.getElementById("name-toggle"); // Toggle switch for first/last mode
 
-     // Initialize top bar (handles user-icon creation)
-     setupTopBar();
+    // Initialize top bar (handles user-icon creation)
+    setupTopBar();
 
-     const loginButton = document.getElementById("google-login");
-     const userIcon = document.getElementById("user-icon"); // Reference the existing user icon
- 
-     // Sidebar Menu
-     let sidebar = document.createElement("div");
-     sidebar.id = "sidebar";
-     sidebar.style = `
-         position: fixed;
-         top: 0;
-         left: -250px;
-         width: 250px;
-         height: 100%;
-         background-color: #333;
-         color: #fff;
-         padding: 20px;
-         transition: left 0.3s;
-     `;
-     sidebar.innerHTML = `
-     <h2 style="text-align: center;">Menu</h2>
-     <ul style="list-style: none; padding: 0; text-align: center;">
-         <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="view-profile">View Profile</li>
-         <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="upload-images">Upload Images</li>
-         <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="settings">Settings</li>
-         <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="leaderboard">Leaderboard</li>
-         <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
-     </ul>`;
-     document.body.appendChild(sidebar);
- 
-     // First/last name toggle logic
-     toggleSwitch.addEventListener("change", () => {
-         if (toggleSwitch.checked) {
-             lastNameInput.style.display = "block"; // Show last name input
-         } else {
-             lastNameInput.style.display = "none"; // Hide last name input
-             lastNameInput.value = ""; // Clear value when switching back
-         }
-     });
- 
-     // Sidebar toggle functionality
-     document.getElementById("menu-button").addEventListener("click", () => {
-         sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
-     });
- 
-     // Event listeners for sidebar
-     document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
-     document.getElementById("settings").addEventListener("click", initializeSettingsModal);
-     document.getElementById("upload-images").addEventListener("click", initializeUploadModal);
-     document.getElementById("leaderboard").addEventListener("click", () => {
-         window.location.href = "leaderboard.html"; // Redirect to leaderboard page
-     });
- 
-     // Toggle sidebar visibility
-     userIcon.addEventListener("click", () => {
-         sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
-     });
- 
-     // Logout functionality
-     document.getElementById("logout").addEventListener("click", () => {
-         auth.signOut().then(() => {
-             alert("Logged out successfully");
-             location.reload();
-         });
-     });
- 
-     // Login event
-     loginButton.addEventListener("click", async () => {
-         try {
-             const result = await signInWithPopup(auth, provider);
-             const user = result.user;
- 
-             // Fetch user score and initialize game data
-             await fetchUserScore(user.uid);
-             await initializeGameData();
- 
-             // Update UI after login
-             gameArea.style.display = "block";
-             loginButton.style.display = "none"; // Hide login button
- 
-             userIcon.style.display = "flex"; // Show user icon
-             userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
-             userIcon.style.backgroundSize = "cover";
-             userIcon.textContent = user.photoURL ? "" : user.displayName[0]; // Fallback to initials if no photo
- 
-             // Hide or remove the header content after login
-             const logoContainer = document.getElementById("logo-container");
-             const headerText = document.querySelector("header p");
- 
-             if (logoContainer) logoContainer.style.display = "none"; // Hide the logo container
-             if (headerText) headerText.style.display = "none"; // Hide the header text
-         } catch (error) {
-             console.error("Error during login:", error);
-         }
-     });
- 
-     // Guess submission event
-     submitGuessButton.addEventListener("click", () => {
-         const firstName = firstNameInput.value.trim();
-         const lastName = toggleSwitch.checked ? lastNameInput.value.trim() : "";
- 
-         if (!firstName || (toggleSwitch.checked && !lastName)) {
-             alert("Please fill in the required fields!");
-             return;
-         }
- 
-         handleGuess(firstName, lastName);
-     });
- 
-     // Hide game area until login
-     gameArea.style.display = "none";
- });
+    const loginButton = document.getElementById("google-login");
+    const userIcon = document.getElementById("user-icon"); // Reference the existing user icon
+
+    // Sidebar Menu
+    let sidebar = document.createElement("div");
+    sidebar.id = "sidebar";
+    sidebar.style = `
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100%;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        transition: left 0.3s;
+    `;
+    sidebar.innerHTML = `
+    <h2 style="text-align: center;">Menu</h2>
+    <ul style="list-style: none; padding: 0; text-align: center;">
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="view-profile">View Profile</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="upload-images">Upload Images</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="settings">Settings</li>
+        <li style="margin: 20px 0; font-size: 18px; cursor: pointer;" id="leaderboard">Leaderboard</li>
+        <li id="logout" style="margin: 20px 0; font-size: 18px; cursor: pointer;">Logout</li>
+    </ul>`;
+    document.body.appendChild(sidebar);
+
+    // First/last name toggle logic
+    toggleSwitch.addEventListener("change", () => {
+        if (toggleSwitch.checked) {
+            lastNameInput.style.display = "block"; // Show last name input
+        } else {
+            lastNameInput.style.display = "none"; // Hide last name input
+            lastNameInput.value = ""; // Clear value when switching back
+        }
+    });
+
+    // Sidebar toggle functionality
+    document.getElementById("menu-button").addEventListener("click", () => {
+        sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
+    });
+
+    // Event listeners for sidebar
+    document.getElementById("view-profile").addEventListener("click", initializeProfileModal);
+    document.getElementById("settings").addEventListener("click", initializeSettingsModal);
+    document.getElementById("upload-images").addEventListener("click", initializeUploadModal);
+    document.getElementById("leaderboard").addEventListener("click", () => {
+        window.location.href = "leaderboard.html"; // Redirect to leaderboard page
+    });
+
+    // Toggle sidebar visibility
+    userIcon.addEventListener("click", () => {
+        sidebar.style.left = sidebar.style.left === "-250px" ? "0" : "-250px";
+    });
+
+    // Logout functionality
+    document.getElementById("logout").addEventListener("click", () => {
+        auth.signOut().then(() => {
+            alert("Logged out successfully");
+            location.reload();
+        });
+    });
+
+    // Login event
+    loginButton.addEventListener("click", async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            // Fetch user score and initialize game data
+            await fetchUserScore(user.uid);
+            await initializeGameData();
+
+            // Update UI after login
+            gameArea.style.display = "block";
+            loginButton.style.display = "none"; // Hide login button
+
+            userIcon.style.display = "flex"; // Show user icon
+            userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
+            userIcon.style.backgroundSize = "cover";
+            userIcon.textContent = user.photoURL ? "" : user.displayName[0]; // Fallback to initials if no photo
+
+            // Hide or remove the header content after login
+            const logoContainer = document.getElementById("logo-container");
+            const headerText = document.querySelector("header p");
+
+            if (logoContainer) logoContainer.style.display = "none"; // Hide the logo container
+            if (headerText) headerText.style.display = "none"; // Hide the header text
+        } catch (error) {
+            console.error("Error during login:", error);
+        }
+    });
+
+    // Guess submission event
+    submitGuessButton.addEventListener("click", () => {
+        const firstName = firstNameInput.value.trim();
+        const lastName = toggleSwitch.checked ? lastNameInput.value.trim() : "";
+
+        if (!firstName || (toggleSwitch.checked && !lastName)) {
+            alert("Please fill in the required fields!");
+            return;
+        }
+
+        handleGuess(firstName, lastName);
+    });
+
+    // Hide game area until login
+    gameArea.style.display = "none";
+});
