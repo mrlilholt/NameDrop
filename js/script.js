@@ -291,6 +291,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitGuessButton = document.getElementById("submit-button");
     const toggleSwitch = document.getElementById("name-toggle"); // Toggle switch for first/last mode
 
+      // Hide main content initially
+      mainContent.style.display = "none";
+
     // Initialize top bar (handles user-icon creation)
     setupTopBar();
 
@@ -357,36 +360,29 @@ document.addEventListener("DOMContentLoaded", () => {
             location.reload();
         });
     });
+// Google login functionality
+loginButton.addEventListener("click", async () => {
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
 
-    // Login event
-    loginButton.addEventListener("click", async () => {
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
+        // Fetch user data or initialize if new
+        await fetchUserScore(user.uid);
 
-            // Fetch user score and initialize game data
-            await fetchUserScore(user.uid);
-            await initializeGameData();
+        // Update UI for the logged-in user
+        loginContainer.style.display = "none"; // Hide login container
+        mainContent.style.display = "block"; // Show main content
+        userIcon.style.display = "flex"; // Show user icon
+        userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
+        userIcon.style.backgroundSize = "cover";
+        userIcon.textContent = user.photoURL ? "" : user.displayName[0]; // Show initial if no photo
 
-            // Update UI after login
-            gameArea.style.display = "block";
-            loginButton.style.display = "none"; // Hide login button
-
-            userIcon.style.display = "flex"; // Show user icon
-            userIcon.style.backgroundImage = user.photoURL ? `url(${user.photoURL})` : "none";
-            userIcon.style.backgroundSize = "cover";
-            userIcon.textContent = user.photoURL ? "" : user.displayName[0]; // Fallback to initials if no photo
-
-            // Hide or remove the header content after login
-            const logoContainer = document.getElementById("logo-container");
-            const headerText = document.querySelector("header p");
-
-            if (logoContainer) logoContainer.style.display = "none"; // Hide the logo container
-            if (headerText) headerText.style.display = "none"; // Hide the header text
-        } catch (error) {
-            console.error("Error during login:", error);
-        }
-    });
+        console.log("Login successful:", user);
+    } catch (error) {
+        console.error("Login failed:", error);
+        alert("Login failed. Please try again.");
+    }
+});
 
     // Guess submission event
     submitGuessButton.addEventListener("click", () => {
