@@ -360,6 +360,24 @@ document.addEventListener("DOMContentLoaded", () => {
             location.reload();
         });
     });
+    // Firebase Auth State Listener
+    auth.onAuthStateChanged(async (user) => {
+        if (user) {
+            // User is logged in, show the main content
+            loginContainer.style.display = "none";
+            mainContent.style.display = "block";
+
+            // Initialize game data and UI
+            await fetchUserScore(user.uid);
+            await initializeGameData();
+            updateTopBar();
+        } else {
+            // No user logged in, show the login container
+            loginContainer.style.display = "flex";
+            mainContent.style.display = "none";
+        }
+    });
+    
 // Google login functionality
 loginButton.addEventListener("click", async () => {
     try {
